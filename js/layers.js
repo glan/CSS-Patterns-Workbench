@@ -30,7 +30,7 @@ GW.stop = function(color,percentage,length) {
 
 GW.stop.prototype = {
 	toString : function() {
-		return '' + this.color + ((this.percentage || this.length) ? ' ' + ((this.percentage) ? this.percentage : this.length) : '');
+		return '' + this.color + ((this.percentage || this.length) ? ' ' + ((this.percentage) ? this.percentage + '%' : this.length + 'px') : '');
 	}
 }
 
@@ -39,6 +39,7 @@ GW.gradient = function() {
 
 GW.gradient.prototype = {
 	toString : function() {
+	   this.sortStops();
 		var i = this.stops.length, 
 			output = '-webkit-' + this.type + '(' 
 		+ ((this.orientation) ? this.orientation.toString() + ',' : '')
@@ -54,6 +55,13 @@ GW.gradient.prototype = {
 	addStop : function(stop) {
 		this.stops.push(stop);
 		return this;
+	},
+	
+	sortStops : function() {
+	   this.stops.sort(function(a,b) {
+	       return (a.percentage < b.percentage || a.length < b.length) ? 1 : -1;
+	   });
+	   return this;
 	}
 }
 
