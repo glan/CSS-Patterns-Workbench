@@ -81,7 +81,7 @@ GW.radialGradient = function(orientation, shape, size) {
 	this.stops = [];
 }
 
-GW.radialGradient.prototype = GW.gradient;
+GW.radialGradient.prototype = GW.gradient.prototype;
 
 
 
@@ -102,36 +102,36 @@ GW.layers = function() {
 
 }
 
-GW.layers.prototype = Array;
+GW.layers.prototype = Array.prototype;
 
 
 GW.layers.prototype.getPosition = function() {
 	var i = this.length,
-	output = 'background-position:';
+	output = '';
 	while(i--) {
-		output += this[i].position.toString() + (i>0) ? ',' : '';
+		output += this[i].position.toString() + ((i>0) ? ',' : '');
 	}
-	return output + ';';
+	return output;
 }
 
 GW.layers.prototype.getSize = function() {
 	var i = this.length,
-	output = 'background-size:';
+	output = '';
 	while(i--) {
-		output+=this[i].size.toString() + (i>0) ? ',' : '';
+		output+=this[i].size.toString() + ((i>0) ? ',' : '');
 	};
-	return output + ';';
+	return output;
 }
 
 GW.layers.prototype.getImage = function() {
 	var i = this.length,
-	output = 'background-image:';
+	output = '';
 	while(i--) {
-		output+=this[i].gradient.toString() + (i>0) ? ',' : '';
+		output+=this[i].gradient.toString() + ((i>0) ? ',' : '');
 	};
-	return output + ';';
+	return output;
 }
 
 GW.layers.prototype.convertToCSS = function() {
-	return this.getPosition() + this.getSize() + this.getImage();
+	return 'background-position:'+this.getPosition() + ';background-size:' + this.getSize() + ';background-image:'+this.getImage() +';';
 }
