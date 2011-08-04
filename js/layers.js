@@ -59,7 +59,7 @@ GW.gradient.prototype = {
 	
 	sortStops : function() {
 	   this.stops.sort(function(a,b) {
-	       return (a.percentage < b.percentage || a.length < b.length) ? 1 : -1;
+	       return (a.percentage == b.percentage && a.length == b.length) ? 0 : (a.percentage < b.percentage || a.length < b.length) ? 1 : -1;
 	   });
 	   return this;
 	}
@@ -89,12 +89,17 @@ GW.radialGradient.prototype = GW.gradient.prototype;
 
 GW.layer = function(gradient, size, position) {
 	this.gradient = gradient;
-	this.size = size;
-	this.position = position;
+	this.size = (size) ? size : new GW.point();
+	this.position = (position) ? position : new GW.point();
 }
 
 GW.layer.prototype = {
-	
+	setSize : function(x, y) {
+	   this.size = new GW.point(x, y);
+	},
+	setPosition : function(x, y) {
+	   this.position = new GW.point(x, y);
+	}
 }
 
 
