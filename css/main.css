@@ -15,3 +15,10 @@ html, body {
 	width: 400px;
 	border: 1px solid #ccc;
 }
+
+.gradientSample {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ccc;
+    margin: 10px;
+}
