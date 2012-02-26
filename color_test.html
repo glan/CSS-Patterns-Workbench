@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8"/>
+    <style>
+        body {
+            font-family: Helvetica;
+        }
+    
+        .group {
+            position: relative;
+            width: 260px;
+            height: 260px;
+        }
+        
+        .emboss {
+            border-left: 2px solid #999;
+            border-right: 2px solid #ccc;
+            border-top: 2px solid #999;
+            border-bottom: 2px solid #ccc;
+        }
+    
+        #selectSatBight {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-image: -webkit-linear-gradient(top, transparent, #000), -webkit-linear-gradient(left, #FFF, hsl(120,100%,50%));
+        }
+        
+        #selectHue {
+            position: absolute;
+            width: 20px;
+            top: 0;
+            bottom: 0;
+            right: -35px;
+            background-image: -webkit-linear-gradient(bottom,
+                hsl(0, 100%, 50%) 0%,
+                hsl(30, 100%, 50%) 8.363%,
+                hsl(60, 100%, 50%) 16.666%,
+                hsl(90, 100%, 50%) 25%,
+                hsl(120, 100%, 50%) 33.333%,
+                hsl(150, 100%, 50%) 41.333%,
+                hsl(180, 100%, 50%) 50%,
+                hsl(210, 100%, 50%) 58.333%,
+                hsl(240, 100%, 50%) 66.666%,
+                hsl(270, 100%, 50%) 75%,
+                hsl(300, 100%, 50%) 83.333%,
+                hsl(330, 100%, 50%) 91.666%,
+                hsl(360, 100%, 50%) 100%
+            );
+        }
+        
+        #selectSat {
+            position: absolute;
+            width: 20px;
+            top: 0;
+            bottom: 0;
+            right: -65px;
+            background-image: -webkit-linear-gradient(bottom,
+                hsl(0, 100%, 50%) 0%,
+                hsl(30, 100%, 50%) 8.363%,
+                hsl(60, 100%, 50%) 16.666%,
+                hsl(90, 100%, 50%) 25%,
+                hsl(120, 100%, 50%) 33.333%,
+                hsl(150, 100%, 50%) 41.333%,
+                hsl(180, 100%, 50%) 50%,
+                hsl(210, 100%, 50%) 58.333%,
+                hsl(240, 100%, 50%) 66.666%,
+                hsl(270, 100%, 50%) 75%,
+                hsl(300, 100%, 50%) 83.333%,
+                hsl(330, 100%, 50%) 91.666%,
+                hsl(360, 100%, 50%) 100%
+            );
+        }
+        
+        #rangeHue {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            right: -40px;
+            -webkit-appearance: slider-vertical;
+        }
+        
+        label {
+            font-size: 12px;
+            font-weight: bold;
+            width: 15px;
+            text-align: left;
+            margin-left: 5px;
+            display: inline-block;
+        }
+        
+        input.degrees::after {
+            content: '°';
+        }
+        
+        input.percent::after {
+            content: '%';
+        }
+        
+        label::after {
+            content: ':';
+        }
+        
+        input[type=number] {
+            width: 50px;
+            margin-left: 5px;
+        }
+    
+    </style>
+
+<body>
+    <div class="group">
+        <div id="selectSatBight" class="emboss"></div>
+        <div id="selectHue" class="emboss"></div>
+        <div id="selectSat" class="emboss"></div>
+        <input id="rangeHue" type="range" min="0" max="360" value="120"/>
+    </div>
+    
+    <form>
+        <p><input type="radio" name="selectMode"/><label for="">H</label><input type="number" class="degrees"/>°</p>
+        <p><input type="radio" name="selectMode"/><label for="">S</label><input type="number" class="percent"/>%</p>
+        <p><input type="radio" name="selectMode"/><label for="">B</label><input type="number" class="percent"/>%</p>
+        <p><input type="radio" name="selectMode"/><label for="">R</label><input type="number"/></p>
+        <p><input type="radio" name="selectMode"/><label for="">G</label><input type="number"/></p>
+        <p><input type="radio" name="selectMode"/><label for="">B</label><input type="number"/></p>
+    </form>
+    
+    <script>
+        document.getElementById('rangeHue').addEventListener('change', function(e) {
+             document.getElementById('selectSatBight').style.backgroundImage = '-webkit-linear-gradient(top, transparent, #000), -webkit-linear-gradient(left, #FFF, hsl(' + e.srcElement.value + ',100%,50%))';
+        });
+    </script>
+    
+</body>
+</html>
