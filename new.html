@@ -1,25 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="css/main.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="css/new.css"/>
     <script type="text/javascript"data-main="js/main" src="js/require-jquery.js"></script>
-    <style>
-        #data {
-            position: absolute;
-            left: 0; top: 0; right: 0;
-            height: 20px; 
-            background-color: rgba(255,255,255,0.9); 
-            padding: 10px; outline: none;
-            -webkit-transition: all 0.2s linear;
-            border-bottom: 2px solid #555;
-            font-family: monaco, monospace;
-        }
-        #data:focus {
-            height: 160px;
-        }
-    </style>
 </head>
 <body>
+<div id="layers">
+    </div>
         <!--background: 
 linear-gradient(315deg, #ECEDDC 25%, transparent 25%) -50px 0,
 linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -50px 0,
@@ -27,8 +15,8 @@ linear-gradient(135deg, #ECEDDC 25%, transparent 25%),
 linear-gradient(45deg, #ECEDDC 25%, transparent 25%);	
 background-size: 100px 100px;
 background-color: #EC173A;-->
-    <textarea id="data">
-background-color:#556;
+
+<!-- background-color:#556;
 background-image: linear-gradient(60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
     linear-gradient(-60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
     linear-gradient(60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
@@ -37,7 +25,58 @@ background-image: linear-gradient(60deg, #445 12%, transparent 12.5%, transparen
     linear-gradient(30deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
 background-size:80px 140px;
 background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
-    </textarea>
+ -->
+
+    <textarea id="data">
+background:
+radial-gradient(hsl(0, 100%, 27%) 4%, hsl(0, 100%, 18%) 9%, hsla(0, 100%, 20%, 0) 9%) 0 0,
+radial-gradient(hsl(0, 100%, 27%) 4%, hsl(0, 100%, 18%) 8%, hsla(0, 100%, 20%, 0) 10%) 50px 50px,
+radial-gradient(hsla(0, 100%, 30%, 0.8) 20%, hsla(0, 100%, 20%, 0)) 50px 0,
+radial-gradient(hsla(0, 100%, 30%, 0.8) 20%, hsla(0, 100%, 20%, 0)) 0 50px,
+radial-gradient(hsla(0, 100%, 20%, 1) 35%, hsla(0, 100%, 20%, 0) 60%) 50px 0,
+radial-gradient(hsla(0, 100%, 20%, 1) 35%, hsla(0, 100%, 20%, 0) 60%) 100px 50px,
+radial-gradient(hsla(0, 100%, 15%, 0.7), hsla(0, 100%, 20%, 0)) 0 0,
+radial-gradient(hsla(0, 100%, 15%, 0.7), hsla(0, 100%, 20%, 0)) 50px 50px,
+linear-gradient(45deg, hsla(0, 100%, 20%, 0) 49%, hsla(0, 100%, 0%, 1) 50%, hsla(0, 100%, 20%, 0) 70%) 0 0,
+linear-gradient(-45deg, hsla(0, 100%, 20%, 0) 49%, hsla(0, 100%, 0%, 1) 50%, hsla(0, 100%, 20%, 0) 70%) 0 0;
+background-color: #300; 
+background-size: 100px 100px;
+</textarea>
+    
+    
+    
+    
     <!--<textarea id="out" style="width:100%; height: 200px; background-color: rgba(255,255,255,0.9); padding: 10px; outline: none;"></textarea>-->
 </body>
+
+<div id="templates">
+    <div class="layer">
+        <div class="preview"></div>
+        <div class="name info">Layer Name</div>
+        <div class="type info">Layer Type</div>
+        <select class="composite info">
+            <option>clear</option>
+            <option>copy</option>
+            <option>destination-atop</option>
+            <option>destination-in</option>
+            <option>destination-out</option>
+            <option>destination-over</option>
+            <option>highlight</option>
+            <option>plus-darker</option>
+            <option>plus-lighter</option>
+            <option>source-atop</option>
+            <option>source-in</option>
+            <option>source-out</option>
+            <option>source-over</option>
+            <option>xor</option>
+        </select>
+        <div class="remove">✖</div>
+        <input type="checkbox" class="enabled"/>
+    </div>
+</div>
+
+<div id="size-helper">
+    <div id="resize-helper"></div>
+</div>
+
 </html>

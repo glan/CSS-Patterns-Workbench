@@ -3,6 +3,7 @@ define('cw/builder', ['cw/regexp', 'cw/GradientLinear', 'cw/GradientRadial','cw/
 
     return {
         parseCSS : function (cssString) {
+            var sizeOk = null;
             //console.log(regex.backgroundImage);
             //console.log(cssString.match(regex.backgroundImage));
             
@@ -25,6 +26,8 @@ define('cw/builder', ['cw/regexp', 'cw/GradientLinear', 'cw/GradientRadial','cw/
                 //console.log(x);
                 var colorStops = new ColorStops(),
                     gradient = new RegExp(regex.gradient).exec(x);
+                    
+                sizeOk = (sizes[i]) ? sizes[i] : sizeOk;
 
                 if (gradient[1] === 'repeating-linear-gradient' || gradient[1] === 'linear-gradient') {
 
@@ -42,21 +45,25 @@ define('cw/builder', ['cw/regexp', 'cw/GradientLinear', 'cw/GradientRadial','cw/
 
                     layers.push({
                         image : new GradientLinear(gradient[1], new Direction(gradient[2]), colorStops),
-                        size : (sizes[i]) ? sizes[i] : null,
+                        size : sizeOk,
                         position : (positions && positions[i]) ? positions[i] : ((gradient[4]) ? gradient[4] : null),
-                        composite : new Composite()
+                        composite : new Composite(),
+                        order : i,
+                        enabled : true
                     });
                     i++;
-                } else if (gradient[5] === 'repeating-redial-gradient' || gradient[5] === 'radial-gradient') {
+                } else if (gradient[5] === 'repeating-radial-gradient' || gradient[5] === 'radial-gradient') {
                     gradient[10].match(regex.colorStop).forEach(function (xx) {
                         colorStops.add(new ColorStop(xx));
                     });
 
                     layers.push({
                         image : new GradientRadial(gradient[5], gradient[6], gradient[7], gradient[8], gradient[9], colorStops),
-                        size : (sizes[i]) ? sizes[i] : null,
+                        size : sizeOk,
                         position : (positions && positions[i]) ? positions[i] : ((gradient[11]) ? gradient[11] : null),
-                        composite : new Composite()
+                        composite : new Composite(),
+                        order : i,
+                        enabled : true
                     });
                     i++;
                 }

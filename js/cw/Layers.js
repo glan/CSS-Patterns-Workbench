@@ -3,20 +3,22 @@ define('cw/Layers', ['backbone', 'cw/Layer', 'cw/builder' ,'cw/regexp'], functio
     var Layers = Backbone.Collection.extend({
         model: Layer,
         toString : function () {
-            var image     = 'background:' + this.first().getImage() + ((this.first().getPosition()) ? ' ' + this.first().getPosition() : ''),
-                position  = 'background-position:' + this.first().getPosition(),
-                size      = '-webkit-background-size:' + this.first().getSize(),
-                composite = '-webkit-background-composite:' + this.first().getComposite();
-            this.rest(1).forEach(function (x) {
-                image     += ',' + x.getImage() + ((x.getPosition()) ? ' ' + x.getPosition() : '');
-                position  += ',' + x.getPosition();
-                size      += (x.getSize()) ? ',' + x.getSize() : '';
-                composite += ',' + x.getComposite();
+            var image ='',    //=  this.first().getImage() + ((this.first().getPosition()) ? ' ' + this.first().getPosition() : ''),
+                position ='',  //=  this.first().getPosition(),
+                size = '',     //=  ((this.first().getSize()) ? this.first().getSize() : ''),
+                composite ='';//=  this.first().getComposite();
+            this.forEach(function (x) {
+                if (x.attributes.enabled) {
+                    image     += (x.getImage()) ? ((image !== '') ? ',' : '') + x.getImage() + ((x.getPosition()) ? ' ' + x.getPosition() : '') : '';
+                    position  += (x.getPosition()) ? ((position !== '') ? ',' : '') + x.getPosition() : '';
+                    size      += (x.getSize()) ? ((size !== '') ? ',' : '') + x.getSize() : '';
+                    composite += (x.getComposite()) ? ((composite !== '') ? ',' : '') + x.getComposite() : '';
+                }
             });
-            image     += ';\n';
-            //position  += ';';
-            size      += ';\n';
-            composite += ';\n';
+            image     = 'background:' + image+ ';\n';
+            position  = 'background-position:' + position + ';\n';
+            size      = '-webkit-background-size:' + size + ';\n';
+            composite = '-webkit-background-composite: ' + composite + ';\n';
             return image + size + composite + 'background-color: ' + this.backgroundColor;
         },
         parseCSS : function (css) {
@@ -28,6 +30,16 @@ define('cw/Layers', ['backbone', 'cw/Layer', 'cw/builder' ,'cw/regexp'], functio
             this.reset(builder.parseCSS(css));
             console.log(this);
             //this.trigger('update');
+        },
+        reorder : function (neworder) {
+            for(var i in neworder) {
+                this.getByCid(neworder[i]).attributes.order = i;
+            };
+            this.sort({silent: true});
+            this.trigger('update');
+        },
+        comparator : function (layer) {
+            return layer.attributes.order;
         }
         /*toCSS : function () {
             return JSON.stringify(this);
