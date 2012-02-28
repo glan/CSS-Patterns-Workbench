@@ -1,3 +1,7 @@
+body {
+    font-family: "Lucida Grande", sans-serif;
+}
+
 
 #data {
     position: absolute;
@@ -21,7 +25,7 @@
     position: absolute;
     top : 0px;
     right: 0px;
-    bottom: 0px;
+    bottom: 140px;
     left: 0px;
     padding: 10px;
     overflow-y: scroll;
@@ -148,9 +152,36 @@
 
 
 #info-panel {
+    font-size: 12px;
     position: absolute;
     right: 10px;
     bottom: 10px;
-    border: 1px solid green;
+    border: 1px solid #999;
     width: 240px;
+    background: #FFF;
+}
+
+#info-panel fieldset {
+    border: none;
+    border-bottom: 1px solid #EEE;
+    padding: 5px 20px;
+}
+
+#info-panel legend {
+    display: none;
+}
+
+#info-panel label {
+    width: 60px;
+    display: inline-block;
+    text-align: right;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+#info-panel label:after {
+    content: ':';
+}
+
+#info-panel input[type='number'] {
+    width: 50px;
 }

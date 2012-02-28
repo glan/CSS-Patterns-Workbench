@@ -107,7 +107,7 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
 
             // [TODO] Use proper code to get the px/% from the model
             document.getElementById('info_position_x').value = parseInt(position[0]);
-            document.getElementById('info_position_y').value = parseInt(position[0]);
+            document.getElementById('info_position_y').value = parseInt(position[1]);
             document.getElementById('info_position_x_unit').value = 'px';
             document.getElementById('info_position_y_unit').value = 'px';
             document.getElementById('info_size_width').value = parseInt(size[0]);
@@ -118,6 +118,29 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             $('#info-panel').unbind();
             $('#info-panel').bind('input', updateLayers);
             $('#info-panel').bind('change', updateLayers);
+            
+            $(document.body).unbind('keydown');
+            $(document.body).bind('keydown', function (e) {
+                var x = document.getElementById('info_position_x'),
+                    y = document.getElementById('info_position_y');
+                if (e.srcElement === document.body) {
+                    switch ('' + e.keyCode) {
+                    case '37':
+                        x.value -= ((e.shiftKey) ? 10 : 1);
+                    break;
+                    case '38':
+                        y.value -= ((e.shiftKey) ? 10 : 1);
+                        break;
+                    case '39':
+                        x.value = ((e.shiftKey) ? 10 : 1) + x.value * 1;
+                        break;
+                    case '40':
+                        y.value = ((e.shiftKey) ? 10 : 1) + y.value * 1;
+                        break;
+                    }
+                    updateLayers();
+                }
+            });
 
         } else if (event.type === 'click' && event.target.className === 'enabled') {
             layers.getByCid(layer.attr('data-id')).attributes.enabled = event.target.checked;
