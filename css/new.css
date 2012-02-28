@@ -86,7 +86,7 @@
 }
 
 #layers .layer .info {
-    font-family: "Lucida Grande";
+    font-family: "Lucida Grande", sans-serif;
     margin-left: 60px;
     font-size: 10px;
     line-height: 1.4em;
@@ -114,9 +114,10 @@
 #size-helper {
     position: absolute;
     border: 2px blue dotted;
-    left: -2px;
-    top: -2px;
+    left: 0;
+    top: 0;
     cursor: pointer;
+    -webkit-box-sizing: border-box;
 }
 
 .moving * {
@@ -145,3 +146,11 @@
     cursor: nw-resize;
 }
 
+
+#info-panel {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid green;
+    width: 240px;
+}
