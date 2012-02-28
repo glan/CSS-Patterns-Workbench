@@ -153,7 +153,16 @@ body {
     cursor: move;
 }
 
-#resize-helper {
+.resize-helper {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.7);
+    margin: -3px;
+}
+
+/*#resize-helper {
     position: absolute;
     width: 6px;
     height: 6px;
@@ -162,16 +171,82 @@ body {
     right: -4px;
     bottom: -4px;
     cursor: nw-resize;
-}
+}*/
 
-.resizing * {
-    cursor: nw-resize !important;
-}
-
-.resizing {
+#resize-helper-nw {
+    left: 0;
+    top: 0;
     cursor: nw-resize;
 }
 
+#resize-helper-ne {
+    top: 0;
+    right: 0;
+    cursor: ne-resize;
+}
+
+#resize-helper-sw {
+    bottom: 0;
+    left: 0;
+    cursor: sw-resize;
+}
+
+#resize-helper-se {
+    bottom: 0;
+    right: 0;
+    cursor: se-resize;
+}
+
+
+#resize-helper-n {
+    left: 50%;
+    top: 0;
+    cursor: n-resize;
+}
+
+#resize-helper-e {
+    top: 50%;
+    right: 0;
+    cursor: e-resize;
+}
+
+#resize-helper-s {
+    bottom: 0;
+    left: 50%;
+    cursor: s-resize;
+}
+
+#resize-helper-w {
+    top: 50%;
+    left: 0;
+    cursor: w-resize;
+}
+
+
+.resizing-nw-resize * {
+    cursor: nw-resize !important;
+}
+.resizing-ne-resize * {
+    cursor: ne-resize !important;
+}
+.resizing-sw-resize * {
+    cursor: sw-resize !important;
+}
+.resizing-se-resize * {
+    cursor: se-resize !important;
+}
+.resizing-n-resize * {
+    cursor: n-resize !important;
+}
+.resizing-w-resize * {
+    cursor: w-resize !important;
+}
+.resizing-s-resize * {
+    cursor: s-resize !important;
+}
+.resizing-e-resize * {
+    cursor: e-resize !important;
+}
 
 #info-panel {
     font-size: 12px;

@@ -1,6 +1,6 @@
 require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js'], function($, builder, Layers) {
  
-    var layers = new Layers(),
+    var layers = new Layers(), selectedLayer,
         drag = {}, resize = {};
 
     document.addEventListener('mousedown', function (event) {
@@ -9,11 +9,21 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             drag.offsetY = event.offsetY;
             drag.active = true;
             $(document.body).addClass('moving');
-        } else if ((event.type === 'mousedown') && (event.target.id === 'resize-helper')) {
-            resize.offsetX = event.offsetX + parseInt(event.target.parentNode.style.left) - 8;
-            resize.offsetY = event.offsetY + parseInt(event.target.parentNode.style.top) - 8;
+        } else if ((event.type === 'mousedown') && (event.target.className === 'resize-helper')) {
+            //[TODO] better var names
+            resize.x = event.x;
+            resize.y = event.y;
+            resize.px = 1 * document.getElementById('info_position_x').value;
+            resize.py = 1 * document.getElementById('info_position_y').value;
+            resize.w = 1 * document.getElementById('info_size_width').value;
+            resize.h = 1 * document.getElementById('info_size_height').value;
             resize.active = true;
-            $(document.body).addClass('resizing');
+            //[TODO] layer should have an assessor for getting the aspect
+            var size = selectedLayer.attributes.size.split(' ');
+            resize.aspect = parseInt(size[0]) / parseInt(size[1]);
+            //console.log(event.target.getAttribute('data-type'))
+            resize.type = event.target.getAttribute('data-type');
+            $(document.body).addClass('resizing-' + resize.type);
         }
     });
     
@@ -36,7 +46,7 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
 
     document.addEventListener('mousemove', function (event) {
        //console.log(drag.active);
-        var resizeHelper, sizeHelper, x, y;
+        var resizeHelper, sizeHelper, x, y, w, h, dx, dy, checkHeight = false, checkWidth = false;
         if ((event.type === 'mousemove' && drag.active) ) {
             //sizeHelper.style.webkitTransform = 'translate3d(' + (event.x - drag.offsetX) + 'px,' + (event.y - drag.offsetY) + 'px,0)';
             x = parseInt(event.x - drag.offsetX);
@@ -46,26 +56,137 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             document.getElementById('info_position_y').value = y;
             document.getElementById('info_position_x_unit').value = 'px';
             document.getElementById('info_position_y_unit').value = 'px';
-            
+
             //var layer = layers.getByCid(sizeHelper.getAttribute('data-layer'));
             //layer.attributes.position = (event.x - drag.offsetX) + 'px ' + (event.y - drag.offsetY) + 'px';
             //layers.trigger('update');
             updateLayers();
-            
+
         } else if ((event.type === 'mousemove' && resize.active) ) {
-            // [TODO] Holding the shift key should lock the aspect ratio
-            x = event.x - resize.offsetX;
-            y= event.y - resize.offsetY;
-            x = (x>1) ? x : 1;
-            y = (y>1) ? y : 1;
- 
-            document.getElementById('info_size_width').value = x;
-            document.getElementById('info_size_height').value = y;
-            document.getElementById('info_size_width_unit').value = 'px';
-            document.getElementById('info_size_height_unit').value = 'px';
-            //var layer = layers.getByCid(sizeHelper.getAttribute('data-layer'));
-            //layer.attributes.size = (event.x - resize.offsetX) + 'px ' + (event.y - resize.offsetY) + 'px';
-            //;
+            dx = event.x - resize.x;
+            dy = event.y - resize.y;
+
+            w = resize.w;
+            h = resize.h;
+
+            switch (resize.type) {
+                case 'se-resize' :
+                    w = resize.w + dx;
+                    h = resize.h + dy;
+                break;
+                case 'e-resize' :
+                    w = resize.w + dx
+                break;
+                case 's-resize' :
+                    h = resize.h + dy;
+                break;
+                case 'sw-resize' :
+                    h = resize.h + dy;
+                    checkWidth = true;
+                break;
+                case 'ne-resize' :
+                    w = resize.w + dx;
+                    checkHeight = true;
+                break;
+                case 'n-resize' :
+                    checkHeight = true;
+                break;
+                case 'w-resize' :
+                    checkWidth = true;
+                break;
+                case 'nw-resize' :
+                    checkHeight = true;
+                    checkWidth = true;
+                break;
+            }
+
+            if (checkHeight) {
+                h = resize.h - dy;
+                if (h<1) {
+                    y = event.y + h;
+                    h = 1;
+                } else {
+                    y = event.y;
+                }
+            }
+            if (checkWidth) {
+                w = resize.w - dx;
+                if (w<1) {
+                    x = event.x + w;
+                    w = 1;
+                } else {
+                    x = event.x;
+                }
+            }
+
+            if (event.shiftKey)
+            {
+                switch (resize.type) {
+                    case 'se-resize' :
+                        if (resize.aspect > 1) {
+                            h = w / resize.aspect;
+                        } else {
+                            w = h * resize.aspect;
+                        }
+                    break;
+                    case 'e-resize' :
+                        h = w / resize.aspect;
+                    break;
+                    case 's-resize' :
+                        w = h * resize.aspect;
+                    break;
+                    case 'n-resize' :
+                        w = h * resize.aspect;
+                    break;
+                    case 'w-resize' :
+                        h = w / resize.aspect;
+                    break;
+                    case 'ne-resize' :
+                        if (resize.aspect > 1) {
+                            y = y + (h - w / resize.aspect);
+                            h = w / resize.aspect;
+                        } else {
+                            w = h * resize.aspect;
+                        }
+                    break;
+                    case 'sw-resize' :
+                        if (resize.aspect > 1) {
+                             h = w / resize.aspect;
+                        } else {
+                            x = x + (w - h * resize.aspect);
+                            w = h * resize.aspect;
+                        }
+                    break;
+                    case 'nw-resize' :
+                        if (resize.aspect > 1) {
+                            y = y + (h - w / resize.aspect);
+                            h = w / resize.aspect;
+                        } else {
+                            x = x + (w - h * resize.aspect);
+                            w = h * resize.aspect;
+                        }
+                    break;
+                }
+            }
+
+            if (typeof w !== 'undefined') {
+                w = (w>1) ? w : 1;
+                document.getElementById('info_size_width').value = w;
+                document.getElementById('info_size_width_unit').value = 'px';
+            }
+            if (typeof h !== 'undefined') {
+                h = (h>1) ? h : 1;
+                document.getElementById('info_size_height').value = h;
+                document.getElementById('info_size_height_unit').value = 'px';
+            }
+            if (typeof x !== 'undefined') {
+                document.getElementById('info_position_x').value = x;
+                document.getElementById('info_position_x_unit').value = 'px';
+            }
+            if (typeof y !== 'undefined') {
+                document.getElementById('info_position_y').value = y;
+                document.getElementById('info_position_y_unit').value = 'px';
+            }
             updateLayers();
         }
     });
@@ -73,7 +194,8 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
      document.addEventListener('mouseup', function (event) {
         drag.active = false;
         resize.active = false;
-        $(document.body).removeClass('moving').removeClass('resizing');
+        $(document.body).removeClass('resizing-' + resize.type);
+        $(document.body).removeClass('moving');
      });
     
     function layerHandleEvent(event) {
@@ -89,12 +211,13 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             //alert(event.target.className);
             $('#layers .layer.selected').removeClass('selected');
             layer.addClass('selected');
+            selectedLayer = layers.getByCid(layer.attr('data-id'));
 
             //show size
             // [TODO] Replace with better core typing
             var sizeHelper = document.getElementById('size-helper'),
-                size = layers.getByCid(layer.attr('data-id')).attributes.size.split(' '),
-                position = (layers.getByCid(layer.attr('data-id')).attributes.position) ? layers.getByCid(layer.attr('data-id')).attributes.position.split(' ') : [0,0];
+                size = selectedLayer.attributes.size.split(' '),
+                position = (selectedLayer.attributes.position) ? selectedLayer.attributes.position.split(' ') : [0,0];
             sizeHelper.style.display = 'block';
             sizeHelper.style.width = size[0];
             sizeHelper.style.height = size[1];
