@@ -117,11 +117,32 @@ body {
 
 #size-helper {
     position: absolute;
-    border: 2px blue dotted;
     left: 0;
     top: 0;
     cursor: pointer;
-    -webkit-box-sizing: border-box;
+}
+
+#size-helper>#ants {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: -webkit-repeating-linear-gradient(45deg, black 0px, black 5px, rgba(255,255,255,0.7) 5px, rgba(255,255,255,0.7) 10px, black 10px);
+    -webkit-mask-image: -webkit-linear-gradient(0deg, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(90deg, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(180deg, #000 0, #000 1px, rgba(0,0,0,0) 1px),-webkit-linear-gradient(270deg, #000 0, #000 1px, rgba(0,0,0,0) 1px);
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-name: march;
+}
+
+@-webkit-keyframes march {
+    from {
+        background-position-x: 14px;
+    }
+    to {
+        background-position-x: 0;
+    }
 }
 
 .moving * {
@@ -134,11 +155,12 @@ body {
 
 #resize-helper {
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background: blue;
-    right: -6px;
-    bottom: -6px;
+    width: 6px;
+    height: 6px;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.7);
+    right: -4px;
+    bottom: -4px;
     cursor: nw-resize;
 }
 

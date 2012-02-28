@@ -4,7 +4,7 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
         drag = {}, resize = {};
 
     document.addEventListener('mousedown', function (event) {
-        if ((event.type === 'mousedown') && (event.target.id === 'size-helper')) {
+        if ((event.type === 'mousedown') && (event.target.id === 'size-helper' || event.target.id === 'ants' )) {
             drag.offsetX = event.offsetX;
             drag.offsetY = event.offsetY;
             drag.active = true;
@@ -56,8 +56,8 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             // [TODO] Holding the shift key should lock the aspect ratio
             x = event.x - resize.offsetX;
             y= event.y - resize.offsetY;
-            x = (x>0) ? x : 0;
-            y = (y>0) ? y : 0;
+            x = (x>1) ? x : 1;
+            y = (y>1) ? y : 1;
  
             document.getElementById('info_size_width').value = x;
             document.getElementById('info_size_height').value = y;
