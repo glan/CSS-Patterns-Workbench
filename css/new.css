@@ -128,7 +128,7 @@ body {
     top: 0;
     bottom: 0;
     right: 0;
-    background: -webkit-repeating-linear-gradient(45deg, black 0px, black 5px, rgba(255,255,255,0.7) 5px, rgba(255,255,255,0.7) 10px, black 10px);
+    background: -webkit-repeating-linear-gradient(45deg, black, black 5px, rgba(255,255,255,0.7) 5px, rgba(255,255,255,0.7) 10px);
     -webkit-mask-image: -webkit-linear-gradient(0deg, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(90deg, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(180deg, #000 0, #000 1px, rgba(0,0,0,0) 1px),-webkit-linear-gradient(270deg, #000 0, #000 1px, rgba(0,0,0,0) 1px);
     -webkit-animation-duration: 0.5s;
     -webkit-animation-iteration-count: infinite;
