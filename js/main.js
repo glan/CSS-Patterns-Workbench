@@ -14,11 +14,12 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             drag.offsetX = event.offsetX;
             drag.offsetY = event.offsetY;
             drag.active = true;
+            $(document.body).addClass('moving');
         } else if ((event.type === 'mousedown') && (event.target.id === 'resize-helper')) {
-            resize.offsetX = event.layerX;
-            resize.offsetY = event.layerY;
+            resize.offsetX = event.offsetX + parseInt(event.target.parentNode.style.left) - 4;
+            resize.offsetY = event.offsetY + parseInt(event.target.parentNode.style.top) - 4;
             resize.active = true;
-            console.log(event);
+            $(document.body).addClass('resizing');
         }
     });
     
@@ -27,15 +28,17 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
         var resizeHelper, sizeHelper;
         if ((event.type === 'mousemove' && drag.active) ) {
             sizeHelper = document.getElementById('size-helper');
-            sizeHelper.style.webkitTransform = 'translate3d(' + (event.x - drag.offsetX) + 'px,' + (event.y - drag.offsetY) + 'px,0)';
+            //sizeHelper.style.webkitTransform = 'translate3d(' + (event.x - drag.offsetX) + 'px,' + (event.y - drag.offsetY) + 'px,0)';
+            sizeHelper.style.left = parseInt(event.x - drag.offsetX) - 2 + 'px';
+            sizeHelper.style.top = parseInt(event.y - drag.offsetY) - 2 + 'px';
             var layer = layers.getByCid(sizeHelper.getAttribute('data-layer'));
             layer.attributes.position = (event.x - drag.offsetX) + 'px ' + (event.y - drag.offsetY) + 'px';
             layers.trigger('update');
         } else if ((event.type === 'mousemove' && resize.active) ) {
             // [TODO] Holding the shift key should lock the aspect ratio
             sizeHelper = document.getElementById('size-helper');
-            sizeHelper.style.width =  ( event.x - resize.offsetX) + 'px';
-            sizeHelper.style.height = ( event.y - resize.offsetY) + 'px';
+            sizeHelper.style.width = (event.x - resize.offsetX) + 'px';
+            sizeHelper.style.height = (event.y - resize.offsetY) + 'px';
             var layer = layers.getByCid(sizeHelper.getAttribute('data-layer'));
             layer.attributes.size = (event.x - resize.offsetX) + 'px ' + (event.y - resize.offsetY) + 'px';
             layers.trigger('update');
@@ -45,6 +48,7 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
      document.addEventListener('mouseup', function (event) {
         drag.active = false;
         resize.active = false;
+        $(document.body).removeClass('moving').removeClass('resizing');
      });
     
     function layerHandleEvent(event) {
@@ -70,9 +74,10 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             sizeHelper.style.width = size[0];
             sizeHelper.style.height = size[1];
             sizeHelper.setAttribute('data-layer',layer.attr('data-id'));
-            //sizeHelper.style.left = parseInt(position[0]) - 2 + 'px';
-            //sizeHelper.style.top = parseInt(position[1]) - 2 + 'px';
-            sizeHelper.style.webkitTransform = 'translate3d(' + parseInt(position[0]) + 'px, ' + parseInt(position[0]) + 'px, 0)';
+            sizeHelper.style.left = parseInt(position[0]) - 2 + 'px';
+            sizeHelper.style.top = parseInt(position[1]) - 2 + 'px';
+            sizeHelper.onselectstart = function () { return false; };
+            //sizeHelper.style.webkitTransform = 'translate3d(' + parseInt(position[0]) + 'px, ' + parseInt(position[0]) + 'px, 0)';
         } else if (event.type === 'click' && event.target.className === 'enabled') {
             layers.getByCid(layer.attr('data-id')).attributes.enabled = event.target.checked;
             layers.trigger('update');

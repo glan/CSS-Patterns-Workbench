@@ -119,6 +119,14 @@
     cursor: pointer;
 }
 
+.moving * {
+    cursor: move !important;
+}
+
+.moving {
+    cursor: move;
+}
+
 #resize-helper {
     position: absolute;
     width: 12px;
@@ -129,6 +137,11 @@
     cursor: nw-resize;
 }
 
-.move {
-    cursor: move;
+.resizing * {
+    cursor: nw-resize !important;
 }
+
+.resizing {
+    cursor: nw-resize;
+}
+
