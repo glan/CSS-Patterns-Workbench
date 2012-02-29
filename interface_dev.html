@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="js/mustache.js"></script>
+
+<!--//sizes = ['closest-side','closest-corner','farthest-side','farthest-corner','contain','cover'];
+//shapes = ['circle','ellipse'];
+//positions = ['center','top left','top','top right','right','bottom right','bottom','bottom left','left'];
+//composites = ['clear','copy','destination-atop','destination-in','destination-out','destination-over','highlight','plus-darker','plus-lighter','source-atop','source-in','source-out','source-over','xor'];
+//units = ['%','px','em'];
+
+{{^units}}
+    <select>
+        <option>%</option>
+        <option>px</option>
+        <option>em</option>
+    </select>
+{{/units}}-->
+
+<body>
+
+<script type="text/html" id="unitsTmp">
+    <option>%</option>
+    <option>px</option>
+    <option>em</option>
+</script>
+
+<script type="text/html" id="layerTmp">
+    
+    {{#layers}}
+        <div class="layer" data-id="{{id}}">
+            <header>Layer {{id}}</header>
+            <div class="gradientSample"></div>
+            <button>Edit Gradient</button>
+
+            <fieldset class="type">
+                <legend>Gradient Type</legend>
+                <select id="type_{{id}}" data-binding="type">
+                    <option value="linear">Linear</option>
+                    <option value="radial">Radial</option>
+                </select>
+                <label for="repeat_{{id}}">repeat</label><input id="repeat_{{id}}" data-binding="repeat" type="checkbox"/>
+            </fieldset>
+
+            <fieldset class="linear-options">
+                <legend>Linear Options</legend>
+
+                <label for="linear_angle_{{id}}">angle</label>
+                <input id="linear_angle_{{id}}" type="number" data-binding="linear.angle" />deg | 
+                <label for="linear_to_{{id}}">to</label>
+                <select id="linear_to_{{id}}" data-binding="linear.to">
+                    <option></option>
+                    <option>top left</option>
+                    <option>top</option>
+                    <option>top right</option>
+                    <option>right</option>
+                    <option>bottom right</option>
+                    <option>bottom</option>
+                    <option>bottom left</option>
+                    <option>left</option>
+                </select>
+            </fieldset>
+
+            <fieldset class="radial-options">
+                <legend>Radial Options</legend>
+                
+                <label for="radial_position_{{id}}">position</label>
+                <label for="radial_position_x_{{id}}">x</label>
+                <input id="radial_position_x_{{id}}" type="number"/>
+                <select id="radial_position_x_units_{{id}}">{{>units}}</select>
+                <label for="radial_position_y_{{id}}">y</label>
+                <input id="radial_position_y_{{id}}" type="number"/>
+                <select id="radial_position_y_units_{{id}}">{{>units}}</select> | 
+                <select id="radial_position_{{id}}">
+                    <option></option>
+                    <option>center</option>
+                    <option>top left</option>
+                    <option>top</option>
+                    <option>top right</option>
+                    <option>right</option>
+                    <option>bottom right</option>
+                    <option>bottom</option>
+                    <option>bottom left</option>
+                    <option>left</option>
+                </select>
+                <br/>
+                <label for="radial_shape_{{id}}">shape</label>
+                <select id="radial_shape_{{id}}">
+                    <option>circle</option>
+                    <option>ellipse</option>
+                </select>
+                <br/>
+                <label for="radial_size_{{id}}">size</label>
+                <label for="radial_size_width_{{id}}">width</label>
+                <input id="radial_size_width_{{id}}" type="number" />
+                <select id="radial_size_width_units_{{id}}">{{>units}}</select>
+                <label for="radial_size_height_{{id}}">height</label>
+                <input id="radial_size_height_{{id}}" type="number" />
+                <select id="radial_size_height_units_{{id}}">{{>units}}</select> |
+                <select id="radial_size_{{id}}">
+                    <option></option>
+                    <option>closest-side</option>
+                    <option>closest-corner</option>
+                    <option>farthest-side</option>
+                    <option>farthest-corner</option>
+                    <option>contain</option>
+                    <option>cover</option>
+                </select>
+            </fieldset>
+            
+            <fieldset class="size">
+                <legend>Size</legend>
+                <label for="size_width_{{id}}">width</label>
+                <input id="size_width_{{id}}" type="number" />
+                <select id="size_width_units_{{id}}">{{>units}}</select>
+                <label for="size_height_{{id}}">height</label>
+                <input id="size_height_{{id}}" type="number"/>
+                <select id="size_height_units{{id}}">{{>units}}</select>
+            </fieldset>
+            
+            <fieldset class="position">
+                <legend>Position</legend>
+                <label for="position_x_{{id}}">x</label>
+                <input id="position_x_{{id}}" type="number" />
+                <select id="position_x_units_{{id}}">{{>units}}</select>
+                <label for="position_y_{{id}}">y</label>
+                <input id="position_y_{{id}}" type="number" />
+                <select id="position_y_units_{{id}}">{{>units}}</select>
+            </fieldset>
+            
+            <fieldset class="composite">
+                <legend>Composite</legend>
+                <select id="composite_{{id}}" data-binding="composite">
+                    <option>clear</option>
+                    <option>copy</option>
+                    <option>destination-atop</option>
+                    <option>destination-in</option>
+                    <option>destination-out</option>
+                    <option>destination-over</option>
+                    <option>highlight</option>
+                    <option>plus-darker</option>
+                    <option>plus-lighter</option>
+                    <option>source-atop</option>
+                    <option>source-in</option>
+                    <option>source-out</option>
+                    <option>source-over</option>
+                    <option>xor</option>
+                </select>
+            </fieldset>
+        </div>
+    {{/layers}}
+</script>
+
+<div id="layers">
+
+</div>
+
+<script>
+
+    var layers = [
+        {
+            id : '0',
+            image : '',
+            position : '',
+            type : 'linear',
+            linear : {
+                angle : '90'
+            },
+            repeat : true,
+            composite : 'highlight'
+        },
+        {
+            id : '1',
+            image : '',
+            type : 'radial',
+            radial : {
+            
+            },
+            repeat : false,
+            composite : 'copy'
+        }
+    ]
+
+    //$('#layers').html(Mustache.to_html($('#layerTmp').html(),{'layers':layers},{'units':$('#unitsTmp').html()}));
+     
+    function DomLayers(layers) {
+        
+        function updateModel(element) {
+            var object = layers[$(element).closest('*[data-id]').attr('data-id')],
+                path = element.getAttribute('data-binding').split('.');
+            for(var i=0; i< path.length -1; i++) {
+                object = object[path[i]] || {};
+            }
+            console.log(object);
+            object[path[i]] = element.value || element.checked;
+        }
+        
+        function updateElement(element) {
+            var object = layers[$(element).closest('*[data-id]').attr('data-id')];
+            element.getAttribute('data-binding').split('.').forEach(function (e) {
+                if (typeof object[e] !== 'undefined') {
+                    object = object[e];
+                }
+            });
+            if (element.type === 'checkbox') {
+                element.checked = object;
+            } else {
+                element.value = object;
+            }
+        }
+        
+        this.layers = layers;
+        $('#layers').html(Mustache.to_html($('#layerTmp').html(),{'layers':this.layers},{'units':$('#unitsTmp').html()}));
+        
+        document.getElementById('layers').addEventListener('change', function(e) {
+            if (e.target.getAttribute('data-binding'))
+                updateModel(e.target);
+        });
+        
+        $('*[data-binding]').each(function (e, ee) {   
+            updateElement(ee);
+        });
+        
+        
+        /*this.layers.forEach(function (layer) {
+            var domlayer = new DomLayer(layer);
+            domlayer.bindInput('type');
+            domlayer.bindInput('repeat');
+            domlayer.bindInput('composite');
+        });*/
+    }
+
+    DomLayers.prototype = {
+    }
+    
+    function DomLayer(layer) {
+        this.layer = layer;
+        layers
+    }
+    
+    DomLayer.prototype = {
+        bindInput : function (name) {
+            var layer = this.layer,
+                element = document.getElementById(name + '_'+this.layer.id);
+            if (element.type === 'checkbox') {
+                element.checked = layer[name];
+            } else {
+                element.value = layer[name];
+            }
+            element.addEventListener('change', function(e) {
+                layer[name] = this.value || this.checked;
+            });
+        }
+    }
+    
+    /*function updateLayers(layers) {
+        layers.forEach(function (layer) {
+            //var parent = $('#layers>*[data-id='+layer.id+']');
+            var domlayer = new DomLayer(layer);
+            domlayer.bindInput('type');
+            domlayer.bindInput('repeat', layer.repeat);
+            domlayer.bindInput('composite', layer.composite);
+        });
+    }*/
+    //updateLayers(layers);
+    
+    window.domLayers = new DomLayers(layers);
+
+    
+</script>
+
+</body>
+</html>

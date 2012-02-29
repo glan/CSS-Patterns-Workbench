@@ -1,6 +1,7 @@
 html, body {
 	margin: 0;
 	padding: 0;
+	font-family: Helvetica;
 }
 
 #main {
@@ -14,6 +15,21 @@ html, body {
 	top: 0; right: 0; bottom: 0;
 	width: 400px;
 	border: 1px solid #ccc;
+	font-size: 12px;
+}
+
+#layers .layer {
+    background: #EEE;
+}
+
+#layers header {
+    padding: 5px;
+    background-image: -webkit-linear-gradient(top, rgb(255,255,255), rgba(255,255,255,0.2)), -webkit-linear-gradient(top, #444, #404040 50%, #333 50%, #222);
+    font-size: 14px;
+    font-weight: bold;
+    cursor: move;
+    color: transparent;
+    -webkit-background-clip: text, border;
 }
 
 .gradientSample {
@@ -21,4 +37,56 @@ html, body {
     height: 80px;
     border: 1px solid #ccc;
     margin: 10px;
+}
+
+#layers fieldset {
+    border: none;
+    padding: 25px 0 5px 0;
+    margin: 0;
+    position: relative;
+}
+
+#layers fieldset legend {
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 2px;
+    background: #DDD;
+    position: absolute;
+    text-shadow: 0 -1px 1px #FFF;
+    color: #333;
+    font-weight: bold;
+}
+
+#layers input {
+    margin-left: 5px;
+    margin-right: 5px;
+    -webkit-appearance: textfield;
+}
+
+#layers input[name=rotation] {
+    width: 4em;
+}
+
+#layers input[name=x],input[name=y],input[name=width],input[name=height] {
+    width: 5em;
+}
+
+#layers label {
+    width: 80px;
+    display: inline-block;
+    text-transform: capitalize;
+    text-align: right;
+    font-weight: bold;
+    text-shadow: 0 -1px 1px #FFF;
+    color: #333;
+}
+
+#layers label::after {
+    content: ':';
+}
+
+#layers .ui-sortable-helper {
+    opacity: 0.9;
+    -webkit-box-shadow: 10px 10px 10px rgba(0,0,0,0.6);
 }

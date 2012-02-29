@@ -103,12 +103,27 @@ GW.layer.prototype = {
 }
 
 
-GW.layers = function() {
-
+GW.layers = function(data) {
+    if (data) {
+        for(var i=0; i<data.length; i++) {
+            this.push(new GW.layer(
+                new GW.gradient(data[i].gradient),
+                new GW.point(data[i].size),
+                new GW.point(data[i].position)
+            ));
+        }
+    }
 }
 
 GW.layers.prototype = Array.prototype;
 
+/*GW.layers.prototype.sortLayers = function() {
+    this.sort(
+        function(a,b) {
+            return (a.order > b.order) ? -1 : 1;
+        }
+    );
+}*/
 
 GW.layers.prototype.getPosition = function() {
 	var i = this.length,
