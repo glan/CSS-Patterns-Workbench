@@ -1,91 +1,119 @@
 require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js'], function($, builder, Layers) {
  
     var layers = new Layers(), selectedLayer,
-        drag = {}, resize = {};
+        drag = {};
 
     document.addEventListener('mousedown', function (event) {
+        var size;
         if ((event.type === 'mousedown') && (event.target.id === 'size-helper' || event.target.id === 'ants' )) {
-            drag.offsetX = event.offsetX;
-            drag.offsetY = event.offsetY;
-            drag.active = true;
+            drag.startX = event.x;
+            drag.startY = event.y;
+            drag.initX = 1 * document.getElementById('info_position_x').value;
+            drag.initY = 1 * document.getElementById('info_position_y').value;
+            drag.action = 'move';
             $(document.body).addClass('moving');
         } else if ((event.type === 'mousedown') && (event.target.className === 'resize-helper')) {
             //[TODO] better var names
-            resize.x = event.x;
-            resize.y = event.y;
-            resize.px = 1 * document.getElementById('info_position_x').value;
-            resize.py = 1 * document.getElementById('info_position_y').value;
-            resize.w = 1 * document.getElementById('info_size_width').value;
-            resize.h = 1 * document.getElementById('info_size_height').value;
-            resize.active = true;
+            drag.startX = event.x;
+            drag.startY = event.y;
+            drag.initW = 1 * document.getElementById('info_size_width').value;
+            drag.initH = 1 * document.getElementById('info_size_height').value;
+            drag.initX = 1 * document.getElementById('info_position_x').value;
+            drag.initY = 1 * document.getElementById('info_position_y').value;
+            drag.action = 'resize';
+
             //[TODO] layer should have an assessor for getting the aspect
-            var size = selectedLayer.attributes.size.split(' ');
-            resize.aspect = parseInt(size[0]) / parseInt(size[1]);
-            //console.log(event.target.getAttribute('data-type'))
-            resize.type = event.target.getAttribute('data-type');
-            $(document.body).addClass('resizing-' + resize.type);
+            size = selectedLayer.attributes.size.split(' ');
+            drag.aspect = parseInt(size[0]) / parseInt(size[1]);
+            drag.type = event.target.getAttribute('data-type');
+
+            $(document.body).addClass('resizing-' + drag.type);
         }
     });
     
-    function updateLayers() {
-        var sizeHelper = document.getElementById('size-helper'),
-            layer = layers.getByCid(sizeHelper.getAttribute('data-layer')),
-            x = document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value,
-            y = document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value, 
-            w = document.getElementById('info_size_width').value + document.getElementById('info_size_width_unit').value, 
+    function updateLayers(data) {
+        var sizeHelper = document.getElementById('size-helper'), x, y, h, w;
+
+        data = data || {}
+
+        if (typeof data.w !== 'undefined') {
+            w = Math.round(data.w);
+            document.getElementById('info_size_width').value = w;
+            document.getElementById('info_size_width_unit').value = 'px';
+            w += 'px';
+        } else {
+            w = document.getElementById('info_size_width').value + document.getElementById('info_size_width_unit').value;
+        }
+
+        if (typeof data.h !== 'undefined') {
+            h = Math.round(data.h);
+            document.getElementById('info_size_height').value = h;
+            document.getElementById('info_size_height_unit').value = 'px';
+            h += 'px';
+        } else {
             h = document.getElementById('info_size_height').value + document.getElementById('info_size_height_unit').value;
+        }
+
+        if (typeof data.x !== 'undefined') {
+            x = Math.round(data.x);
+            document.getElementById('info_position_x').value = x;
+            document.getElementById('info_position_x_unit').value = 'px';
+            x += 'px';
+        } else {
+            x = document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value;
+        }
+
+        if (typeof data.y !== 'undefined') {
+            y = Math.round(data.y);
+            document.getElementById('info_position_y').value = y;
+            document.getElementById('info_position_y_unit').value = 'px';
+            y += 'px';
+        } else {
+            y = document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value;
+        }
+
         //[TODO] These should be setters
-        layer.attributes.position =  x + ' ' + y;
-        layer.attributes.size = w + ' ' + h;
-        sizeHelper.style.left = x ;
-        sizeHelper.style.top = y ;
+        selectedLayer.attributes.position =  x + ' ' + y;
+        selectedLayer.attributes.size = w + ' ' + h;
+
+        sizeHelper.style.left = x;
+        sizeHelper.style.top = y;
         sizeHelper.style.width = w;
         sizeHelper.style.height = h;
+
         layers.trigger('update');
     }
 
     document.addEventListener('mousemove', function (event) {
-       //console.log(drag.active);
         var resizeHelper, sizeHelper, x, y, w, h, dx, dy, checkHeight = false, checkWidth = false;
-        if ((event.type === 'mousemove' && drag.active) ) {
-            //sizeHelper.style.webkitTransform = 'translate3d(' + (event.x - drag.offsetX) + 'px,' + (event.y - drag.offsetY) + 'px,0)';
-            x = parseInt(event.x - drag.offsetX);
-            y = parseInt(event.y - drag.offsetY);
+        if (event.type === 'mousemove' && drag.action === 'move') {
+            dx = event.x - drag.startX;
+            dy = event.y - drag.startY;
+            x = drag.initX + dx;
+            y = drag.initY + dy;
+        } else if (event.type === 'mousemove' && drag.action === 'resize') {
+            dx = event.x - drag.startX;
+            dy = event.y - drag.startY;
+            w = drag.initW;
+            h = drag.initH;
 
-            document.getElementById('info_position_x').value = x;
-            document.getElementById('info_position_y').value = y;
-            document.getElementById('info_position_x_unit').value = 'px';
-            document.getElementById('info_position_y_unit').value = 'px';
-
-            //var layer = layers.getByCid(sizeHelper.getAttribute('data-layer'));
-            //layer.attributes.position = (event.x - drag.offsetX) + 'px ' + (event.y - drag.offsetY) + 'px';
-            //layers.trigger('update');
-            updateLayers();
-
-        } else if ((event.type === 'mousemove' && resize.active) ) {
-            dx = event.x - resize.x;
-            dy = event.y - resize.y;
-
-            w = resize.w;
-            h = resize.h;
-
-            switch (resize.type) {
+            switch (drag.type) {
                 case 'se-resize' :
-                    w = resize.w + dx;
-                    h = resize.h + dy;
+                    w = w + dx;
+                    h = h + dy;
                 break;
                 case 'e-resize' :
-                    w = resize.w + dx
+                    w = w + dx
                 break;
                 case 's-resize' :
-                    h = resize.h + dy;
+                    h = h + dy;
                 break;
                 case 'sw-resize' :
-                    h = resize.h + dy;
+                    h = h + dy;
                     checkWidth = true;
                 break;
                 case 'ne-resize' :
-                    w = resize.w + dx;
+                    w = w + dx;
                     checkHeight = true;
                 break;
                 case 'n-resize' :
@@ -101,100 +129,85 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             }
 
             if (checkHeight) {
-                h = resize.h - dy;
+                h = h - dy;
                 if (h<1) {
-                    y = event.y + h;
+                    y = drag.initY + dy + h;
                     h = 1;
                 } else {
-                    y = event.y;
+                    y = drag.initY + dy;
                 }
             }
             if (checkWidth) {
-                w = resize.w - dx;
+                w = w - dx;
                 if (w<1) {
-                    x = event.x + w;
+                    x = drag.initX + dx + w;
                     w = 1;
                 } else {
-                    x = event.x;
+                    x = drag.initX + dx;
                 }
             }
 
             if (event.shiftKey)
             {
-                switch (resize.type) {
+                switch (drag.type) {
                     case 'se-resize' :
-                        if (resize.aspect > 1) {
-                            h = w / resize.aspect;
+                        if (drag.aspect > 1) {
+                            h = w / drag.aspect;
                         } else {
-                            w = h * resize.aspect;
+                            w = h * drag.aspect;
                         }
                     break;
                     case 'e-resize' :
-                        h = w / resize.aspect;
+                        h = w / drag.aspect;
                     break;
                     case 's-resize' :
-                        w = h * resize.aspect;
+                        w = h * drag.aspect;
                     break;
                     case 'n-resize' :
-                        w = h * resize.aspect;
+                        w = h * drag.aspect;
                     break;
                     case 'w-resize' :
-                        h = w / resize.aspect;
+                        h = w / drag.aspect;
                     break;
                     case 'ne-resize' :
-                        if (resize.aspect > 1) {
-                            y = y + (h - w / resize.aspect);
-                            h = w / resize.aspect;
+                        if (drag.aspect > 1) {
+                            y = y + (h - w / drag.aspect);
+                            h = w / drag.aspect;
                         } else {
-                            w = h * resize.aspect;
+                            w = h * drag.aspect;
                         }
                     break;
                     case 'sw-resize' :
-                        if (resize.aspect > 1) {
-                             h = w / resize.aspect;
+                        if (drag.aspect > 1) {
+                             h = w / drag.aspect;
                         } else {
-                            x = x + (w - h * resize.aspect);
-                            w = h * resize.aspect;
+                            x = x + (w - h * drag.aspect);
+                            w = h * drag.aspect;
                         }
                     break;
                     case 'nw-resize' :
-                        if (resize.aspect > 1) {
-                            y = y + (h - w / resize.aspect);
-                            h = w / resize.aspect;
+                        if (drag.aspect > 1) {
+                            y = y + (h - w / drag.aspect);
+                            h = w / drag.aspect;
                         } else {
-                            x = x + (w - h * resize.aspect);
-                            w = h * resize.aspect;
+                            x = x + (w - h * drag.aspect);
+                            w = h * drag.aspect;
                         }
                     break;
                 }
             }
+            w = (w>1) ? w : 1;
+            h = (h>1) ? h : 1;
+        }
 
-            if (typeof w !== 'undefined') {
-                w = (w>1) ? w : 1;
-                document.getElementById('info_size_width').value = w;
-                document.getElementById('info_size_width_unit').value = 'px';
-            }
-            if (typeof h !== 'undefined') {
-                h = (h>1) ? h : 1;
-                document.getElementById('info_size_height').value = h;
-                document.getElementById('info_size_height_unit').value = 'px';
-            }
-            if (typeof x !== 'undefined') {
-                document.getElementById('info_position_x').value = x;
-                document.getElementById('info_position_x_unit').value = 'px';
-            }
-            if (typeof y !== 'undefined') {
-                document.getElementById('info_position_y').value = y;
-                document.getElementById('info_position_y_unit').value = 'px';
-            }
-            updateLayers();
+        if (event.type === 'mousemove' && drag.action) {
+            updateLayers({x:x,y:y,w:w,h:h});
         }
     });
     
      document.addEventListener('mouseup', function (event) {
-        drag.active = false;
-        resize.active = false;
-        $(document.body).removeClass('resizing-' + resize.type);
+        drag.action = false;
+        $(document.body).removeClass('resizing-' + drag.type);
         $(document.body).removeClass('moving');
      });
     
@@ -272,15 +285,14 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
     }
 
     layers.bind('update', function (e) {
-        document.body.setAttribute('style',this);
+        document.getElementById('canvas').setAttribute('style',this);
         document.getElementById('data').value = this;
     });
-    
+
     layers.bind('remove', function (e) {
-        document.body.setAttribute('style',this);
-        document.getElementById('data').value = this;
+        ayers.trigger('update');
     });
-    
+
     layers.bind('reset', function (e) {
         var template = document.querySelector('#templates>.layer'),
             domLayers = document.getElementById('layers');
@@ -307,7 +319,7 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             domLayers.appendChild(newLayer);
         });
 
-        $("#layers").sortable();
+        $("#layers").sortable({cursor:'-webkit-grabbing'});
         $("#layers").disableSelection();
         $("#layers").unbind("sortupdate");
         $("#layers").bind( "sortupdate", function(event, ui) {
@@ -319,11 +331,11 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             layers.reorder(newOrder);
         });
     });
-    
+
     document.getElementById('data').addEventListener('keyup', function (e) {
         layers.parseCSS(event.target.value);
     });
-    
+
     layers.parseCSS(document.getElementById('data').value);
 
 });

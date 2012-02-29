@@ -21,6 +21,34 @@ body {
     display: none;
 }
 
+#frame {
+    position: absolute;
+    left: 0; top: 30px;
+    right: 260px;
+    bottom: 60px;
+    background: #DDD;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    overflow: hidden;
+}
+
+#frame .back {
+    position: relative;
+    display: -webkit-box;
+    background-color : #FFF;
+    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-size : 10px 10px;
+    background-position : 0 0, 5px 5px;
+    -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
+}
+
+#frame #canvas {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+}
+
 #layers {
     position: absolute;
     top : 0px;
@@ -40,9 +68,13 @@ body {
     background: #FFF;
     margin-bottom: 5px;
     position: relative;
+    cursor: -webkit-grab;
     border: 1px solid #333;
-    cursor: move;
     -webkit-border-radius: 2px;
+}
+
+#layers .layer:active {
+    cursor: -webkit-grabbing;
 }
 
 #layers .layer.selected {
@@ -119,7 +151,7 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    cursor: pointer;
+    cursor: -webkit-grab;
 }
 
 #size-helper>#ants {
@@ -146,11 +178,11 @@ body {
 }
 
 .moving * {
-    cursor: move !important;
+    cursor: -webkit-grabbing !important;
 }
 
 .moving {
-    cursor: move;
+    cursor: -webkit-grabbing;
 }
 
 .resize-helper {
@@ -176,76 +208,76 @@ body {
 #resize-helper-nw {
     left: 0;
     top: 0;
-    cursor: nw-resize;
+    cursor: nwse-resize;
 }
 
 #resize-helper-ne {
     top: 0;
     right: 0;
-    cursor: ne-resize;
+    cursor: nesw-resize;
 }
 
 #resize-helper-sw {
     bottom: 0;
     left: 0;
-    cursor: sw-resize;
+    cursor: nesw-resize;
 }
 
 #resize-helper-se {
     bottom: 0;
     right: 0;
-    cursor: se-resize;
+    cursor: nwse-resize;
 }
 
 
 #resize-helper-n {
     left: 50%;
     top: 0;
-    cursor: n-resize;
+    cursor: ns-resize;
 }
 
 #resize-helper-e {
     top: 50%;
     right: 0;
-    cursor: e-resize;
+    cursor: ew-resize;
 }
 
 #resize-helper-s {
     bottom: 0;
     left: 50%;
-    cursor: s-resize;
+    cursor: ns-resize;
 }
 
 #resize-helper-w {
     top: 50%;
     left: 0;
-    cursor: w-resize;
+    cursor: ew-resize;
 }
 
 
 .resizing-nw-resize * {
-    cursor: nw-resize !important;
+    cursor: nwse-resize !important;
 }
 .resizing-ne-resize * {
-    cursor: ne-resize !important;
+    cursor: nesw-resize !important;
 }
 .resizing-sw-resize * {
-    cursor: sw-resize !important;
+    cursor: nesw-resize !important;
 }
 .resizing-se-resize * {
-    cursor: se-resize !important;
+    cursor: nwse-resize !important;
 }
 .resizing-n-resize * {
-    cursor: n-resize !important;
+    cursor: ns-resize !important;
 }
 .resizing-w-resize * {
-    cursor: w-resize !important;
+    cursor: ew-resize !important;
 }
 .resizing-s-resize * {
-    cursor: s-resize !important;
+    cursor: ns-resize !important;
 }
 .resizing-e-resize * {
-    cursor: e-resize !important;
+    cursor: ew-resize !important;
 }
 
 #info-panel {
