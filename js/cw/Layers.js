@@ -1,4 +1,4 @@
-define('cw/Layers', ['backbone', 'cw/Layer', 'cw/builder' ,'cw/regexp'], function(Backbone, Layer, builder, regex) {
+define('cw/Layers', ['backbone', 'underscore', 'cw/Layer', 'cw/builder' ,'cw/regexp'], function(Backbone, _, Layer, builder, regex) {
     "use strict";
     var Layers = Backbone.Collection.extend({
         model: Layer,
@@ -6,7 +6,8 @@ define('cw/Layers', ['backbone', 'cw/Layer', 'cw/builder' ,'cw/regexp'], functio
             var image ='',    //=  this.first().getImage() + ((this.first().getPosition()) ? ' ' + this.first().getPosition() : ''),
                 position ='',  //=  this.first().getPosition(),
                 size = '',     //=  ((this.first().getSize()) ? this.first().getSize() : ''),
-                composite ='';//=  this.first().getComposite();
+                composite ='',//=  this.first().getComposite();
+                bgColor = '';
             this.forEach(function (x) {
                 if (x.attributes.enabled) {
                     image     += (x.getImage()) ? ((image !== '') ? ',' : '') + x.getImage() + ((x.getPosition()) ? ' ' + x.getPosition() : '') : '';
@@ -18,14 +19,17 @@ define('cw/Layers', ['backbone', 'cw/Layer', 'cw/builder' ,'cw/regexp'], functio
             image     = 'background:' + image+ ';\n';
             position  = 'background-position:' + position + ';\n';
             size      = '-webkit-background-size:' + size + ';\n';
-            composite = '-webkit-background-composite: ' + composite + ';\n';
-            return image + size + composite + 'background-color: ' + this.backgroundColor;
+            if (composite !=='')
+                composite = '-webkit-background-composite: ' + composite + ';\n';
+            if (this.backgroundColor)
+                bgColor = 'background-color: ' + this.backgroundColor + ';\n';
+            return image + size + composite + bgColor;
         },
         parseCSS : function (css) {
             try {
                 this.backgroundColor = new RegExp(regex.backgroundColor).exec(css)[1];
             } catch (e) {
-                throw new Error('Bad background-color');
+                this.backgroundColor = 'transparent';
             }
             this.reset(builder.parseCSS(css));
             console.log(this);
@@ -40,6 +44,26 @@ define('cw/Layers', ['backbone', 'cw/Layer', 'cw/builder' ,'cw/regexp'], functio
         },
         comparator : function (layer) {
             return layer.attributes.order;
+        },
+        getGridData : function () {
+            var grid = [];
+            this.forEach(function (layer) {
+                var pos = layer.getPosition(),
+                    size = layer.getSize(),
+                    data = {};
+                if (pos) {
+                    pos = pos.split(' ');
+                    data.x = pos[0];
+                    data.y = pos[1];
+                }
+                if (size) {
+                    size = size.split(' ');
+                    data.w = size[0];
+                    data.h = size[1];
+                }
+                grid.push(data);
+            });
+            return grid;
         }
         /*toCSS : function () {
             return JSON.stringify(this);

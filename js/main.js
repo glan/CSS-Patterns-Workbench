@@ -1,4 +1,4 @@
-require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js'], function($, builder, Layers) {
+require(['jquery', 'cw/builder', 'cw/Layers','cw/GradientLinear','cw/ColorStops','cw/ColorStop', 'js/jquery-ui-1.8.14.custom.min.js'], function($, builder, Layers, GradientLinear, ColorStops, ColorStop) {
  
     var layers = new Layers(), selectedLayer,
         drag = {};
@@ -287,10 +287,40 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
     layers.bind('update', function (e) {
         document.getElementById('canvas').setAttribute('style',this);
         document.getElementById('data').value = this;
+        
+        if (document.getElementById('update-grid').checked) {
+            updateGrid();
+        }
     });
+    
+    function updateGrid () {
+        var grids, grid, color;
+        if (document.getElementById('show-grid').checked) {
+            grids = layers.getGridData();
+            grid = new Layers();
+            color = document.getElementById('grid-color').value;
+            grids.forEach(function (g) { 
+                var stops = new ColorStops().add(new ColorStop(color + ' -1px')).add(new ColorStop(color + ' 0px')).add(new ColorStop('transparent 1px'));
+                grid.add({
+                    image : new GradientLinear('linear-gradient','90deg',stops),
+                    size : g.w + ' ' + g.h,
+                    position : g.x + ' ' + g.y,
+                    enabled : true
+                });
+                grid.add({
+                    image : new GradientLinear('linear-gradient','180deg',stops),
+                    size : g.w + ' ' + g.h,
+                    position : g.x + ' ' + g.y,
+                    enabled : true
+                });
+            });
+            document.getElementById('grid').setAttribute('style', grid.toString());
+        } else
+            document.getElementById('grid').setAttribute('style','');
+    }
 
     layers.bind('remove', function (e) {
-        ayers.trigger('update');
+        layers.trigger('update');
     });
 
     layers.bind('reset', function (e) {
@@ -330,6 +360,18 @@ require(['jquery', 'cw/builder', 'cw/Layers', 'js/jquery-ui-1.8.14.custom.min.js
             });
             layers.reorder(newOrder);
         });
+
+        document.getElementById('background-color').value = layers.backgroundColor;
+        updateGrid();
+    });
+    
+    document.getElementById('grid-options').addEventListener('change', function (event) {
+        updateGrid();
+    });
+    
+    document.getElementById('background-color').addEventListener('change', function (event) {
+        layers.backgroundColor = document.getElementById('background-color').value;
+        layers.trigger('update');
     });
 
     document.getElementById('data').addEventListener('keyup', function (e) {

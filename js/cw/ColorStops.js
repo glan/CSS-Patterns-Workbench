@@ -14,6 +14,7 @@ define('cw/ColorStops', ['cw/ColorStop'], function (ColorStop) {
         },
         add : function (colorStop) {
             this.colorStops.push(colorStop);
+            return this;
         }
     }
 

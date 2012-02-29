@@ -27,20 +27,22 @@ background-image: linear-gradient(60deg, #445 12%, transparent 12.5%, transparen
 background-size:80px 140px;
 background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
  -->
-
+ 
 <div id="frame">
     <div class="back" style="width: 800px; height: 600px;">
         <div id="canvas">
-            <div id="size-helper">
-                <div id="ants"></div>
-                <div class="resize-helper" id="resize-helper-nw" data-type="nw-resize"></div>
-                <div class="resize-helper" id="resize-helper-ne" data-type="ne-resize"></div>
-                <div class="resize-helper" id="resize-helper-sw" data-type="sw-resize"></div>
-                <div class="resize-helper" id="resize-helper-se" data-type="se-resize"></div>
-                <div class="resize-helper" id="resize-helper-n" data-type="n-resize"></div>
-                <div class="resize-helper" id="resize-helper-e" data-type="e-resize"></div>
-                <div class="resize-helper" id="resize-helper-s" data-type="s-resize"></div>
-                <div class="resize-helper" id="resize-helper-w" data-type="w-resize"></div>
+            <div id="grid">
+                <div id="size-helper">
+                    <div id="ants"></div>
+                    <div class="resize-helper" id="resize-helper-nw" data-type="nw-resize"></div>
+                    <div class="resize-helper" id="resize-helper-ne" data-type="ne-resize"></div>
+                    <div class="resize-helper" id="resize-helper-sw" data-type="sw-resize"></div>
+                    <div class="resize-helper" id="resize-helper-se" data-type="se-resize"></div>
+                    <div class="resize-helper" id="resize-helper-n" data-type="n-resize"></div>
+                    <div class="resize-helper" id="resize-helper-e" data-type="e-resize"></div>
+                    <div class="resize-helper" id="resize-helper-s" data-type="s-resize"></div>
+                    <div class="resize-helper" id="resize-helper-w" data-type="w-resize"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -127,4 +129,17 @@ background-size: 100px 100px;
     </fieldset>
 </div>
 
-</html>
+<div id="top-bar">
+    <div id="grid-options">
+        <label for="show-grid">Show grid</label><input type="checkbox" id="show-grid" />
+        <label for="snap-to-grid">snap to</label><input type="checkbox" id="snap-to-grid" />
+        <label for="update-grid">auto update</label><input type="checkbox" id="update-grid" />
+        <label for="grid-color">color</label><input type="color" id="grid-color" value="rgba(200,200,255,0.6)"/>
+    </div>
+    
+    <div id="view-options">
+        <label for="background-color">Background color</label><input type="color" id="background-color"/>
+    </div>
+</div>
+    
+    </html>

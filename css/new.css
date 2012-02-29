@@ -49,6 +49,12 @@ body {
     left: 0; top: 0; right: 0; bottom: 0;
 }
 
+
+#frame #grid {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+}
+
 #layers {
     position: absolute;
     top : 0px;
@@ -313,4 +319,28 @@ body {
 
 #info-panel input[type='number'] {
     width: 50px;
+}
+
+#top-bar {
+    position: absolute;
+    top : 0;
+    left: 0;
+    font-size: 12px;
+    padding: 4px 20px;
+}
+
+#top-bar>* {
+    display: inline-block;
+}
+
+#top-bar label {
+    font-weight: bold;
+}
+
+#top-bar label:after {
+    content: ':';
+}
+
+#top-bar input {
+    margin-right: 20px;
 }
