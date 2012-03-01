@@ -1,6 +1,9 @@
 define('views/Grid', ['models/Layers', 'models/GradientLinear', 'models/ColorStops', 'models/ColorStop'], function (Layers, GradientLinear, ColorStops, ColorStop) {
-    
-    function Grid() {
+    'use strict';
+    var template = '<div id="grid"></div>';
+
+    function Grid(canvas) {
+        canvas.getDomElement().insertAdjacentHTML('afterbegin', template);
         this.domElement = document.getElementById('grid');
         this.color = 'rgba(200,200,255,0.6)';
         this.snapto = false;

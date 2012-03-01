@@ -17,12 +17,15 @@ define('views/LayerList', function () {
         document.getElementById('layers').addEventListener('click', this);
         document.getElementById('layers').addEventListener('mousedown', this);
         document.getElementById('layers').addEventListener('change', this);
-        document.getElementById('layers').addEventListener('sortupdate', this);
 
+        // capture layer deselection event
+        document.getElementById('frame').addEventListener('mousedown', this);
+
+        document.addEventListener('sortupdate', this, true);
         // Nasty jQuery events relay hack for catching sortupdate as a real UI event
         $(document).bind("sortupdate", function() {
             var spawnEvent = document.createEvent('UIEvents');
-            spawnEvent.initUIEvent("sortupdate", true, true, window, 1);
+            spawnEvent.initUIEvent("sortupdate", false, false, window, 1);
             document.getElementById('layers').dispatchEvent(spawnEvent);
         });
     }
@@ -41,7 +44,7 @@ define('views/LayerList', function () {
                 newLayer.querySelector('.preview').style.background = e.attributes.image.toString();
                 newLayer.querySelector('.info.name').innerHTML = 'Layer ' + e.cid;
                 newLayer.querySelector('.info.type').innerHTML = e.attributes.image.name;
-                newLayer.querySelector('.info.composite').value = e.attributes.composite;
+                //newLayer.querySelector('.info.composite').value = e.attributes.composite;
                 newLayer.querySelector('.enabled').checked = e.attributes.enabled;
                 domLayers.appendChild(newLayer);
             });
@@ -51,19 +54,23 @@ define('views/LayerList', function () {
             var domLayer = $(event.target).closest('.layer'), 
                 layer = this.layers.getByCid(domLayer.attr('data-id'));
             if (event.type === 'click' && event.target.className === 'remove' && confirm('Remove layer?')) {
+                if (this.selectedLayer === layer)
+                    this.selectedLayer = null;
                 domLayer.fadeOut(function() { 
-                    dmoLayer.remove();
+                    domLayer.remove();
                 });
                 layer.destroy();
                 this.layers.trigger('update');
+                this.dispacheEvent('selection');
             } else if (event.type === 'mousedown') {
                 $('#layers .layer.selected').removeClass('selected');
-                domLayer.addClass('selected');
-                this.selectedLayer = layer;
-
+                this.selectedLayer = null;
+                if (layer) {
+                    domLayer.addClass('selected');
+                    this.selectedLayer = layer;
+                }
                 // Fire layer selected event
                 this.dispacheEvent('selection');
-
             } else if (event.type === 'click' && event.target.className === 'enabled') {
                 layer.attributes.enabled = event.target.checked;
                 this.layers.trigger('update');
@@ -72,7 +79,6 @@ define('views/LayerList', function () {
                 $("#layers .layer").each(function(e, ee) {
                     newOrder.push(ee.getAttribute('data-id'));
                 });
-                console.log(this);
                 this.layers.reorder(newOrder);
             } else if (event.type === 'change') {   
                 layer.attributes.composite = event.target.value;

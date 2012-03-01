@@ -90,7 +90,7 @@ body {
 #layers .layer .preview {
     position: absolute;
     top: 9px;
-    left: 9px;
+    left: 30px;
     border: 1px solid #CCC;
     width: 40px;
     height: 40px;
@@ -104,7 +104,7 @@ body {
     width: 40px;
     height: 40px;
     top: 10px;
-    left: 10px;
+    left: 31px;
     background-color : #FFF;
     background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
                        -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
@@ -129,7 +129,7 @@ body {
 
 #layers .layer .info {
     font-family: "Lucida Grande", sans-serif;
-    margin-left: 60px;
+    margin-left: 80px;
     font-size: 10px;
     line-height: 1.4em;
 }
@@ -141,9 +141,27 @@ body {
 }
 
 #layers .layer .enabled {
+    cursor: pointer;
     position: absolute;
-    right: 8px;
-    bottom: 6px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    -webkit-appearance: none;
+    -webkit-background-size: 20px auto;
+    display: block;
+    width:24px;
+    background: url(../img/noun_project_421.svg) 50% 50% no-repeat;
+    opacity: 0.4;
+    border: 1px solid #000;
+}
+
+#layers .layer .enabled:checked {
+    opacity: 1;
+}
+
+#layers .layer .enabled:active {
+    -webkit-background-composite: xor;
+    background-color: #000;
 }
 
 #layers .ui-sortable-helper {
@@ -293,7 +311,16 @@ body {
     bottom: 10px;
     border: 1px solid #999;
     width: 240px;
+    height: 0;
     background: #FFF;
+    -webkit-transition: all 0.2s linear;
+    overflow: hidden;
+    opacity: 0;
+}
+
+#info-panel.show {
+    min-height: 110px;
+    opacity: 1;
 }
 
 #info-panel fieldset {

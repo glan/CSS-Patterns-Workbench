@@ -4,6 +4,9 @@ define('views/InfoPanel', ['models/Rect'], function (Rect) {
         //$('#info-panel').unbind();
         document.getElementById('info-panel').addEventListener('input', this);
         document.getElementById('info-panel').addEventListener('change', this);
+        document.getElementById('info-panel').addEventListener('mousedown', function (event) {
+             event.stopPropagation();
+        });
     }
 
     var infoPanel = {
@@ -33,6 +36,12 @@ define('views/InfoPanel', ['models/Rect'], function (Rect) {
             spawnEvent.initUIEvent('infopanel_update', true, true, this.domElement, 1);
             spawnEvent.rect = this.rect;
             document.dispatchEvent(spawnEvent);
+        },
+        show : function () {
+            $(document.getElementById('info-panel')).addClass('show');
+        },
+        hide : function () {
+            $(document.getElementById('info-panel')).removeClass('show');
         }
     }
 

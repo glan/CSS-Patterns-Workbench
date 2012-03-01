@@ -13,20 +13,26 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
         <div class="resize-helper" id="resize-helper-w" data-type="w-resize"></div>\
     </div>';
 
-    function Marquee(parentElement, grid) {
-        this.grid = grid;
-        parentElement.insertAdjacentHTML('beforeend', template);
+    function Marquee(canvas) {
+        canvas.getDomElement().insertAdjacentHTML('beforeend', template);
         this.domElement = document.getElementById('size-helper');
         this.domElement.onselectstart = function () { return false; };
         this.domElement.style.display = 'none';
         this.visible = false;
-        document.addEventListener('mousedown', this);
-        document.addEventListener('mouseup', this);
-        document.addEventListener('mousemove', this);
+        document.addEventListener('mousedown', this, true);
+        document.addEventListener('mouseup', this, true);
+        document.addEventListener('mousemove', this, true);
         document.addEventListener('keydown', this);
     }
 
     var marquee = {
+        // blank hit test function for overriding
+        hitTest : function (xy) {
+            return xy;
+        },
+        setHitTest : function (func) {
+            this.hitTest = func;
+        },
         setRect : function (rect) {
             this.rect = rect;
             this.drawRect();
@@ -135,12 +141,10 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
                 x = this.initRect.getLeft().getValue() + dx;
                 y = this.initRect.getTop().getValue() + dy;
                 
-                //[TODO] Grid should be a decorator
-                if (this.grid) {
-                    obj = this.grid.hitTest({x:x,y:y});
-                    x = obj.x;
-                    y = obj.y;
-                }
+                
+                obj = this.hitTest({x:x,y:y});
+                x = obj.x;
+                y = obj.y;
                 
                 this.rect.getLeft().setValue(x);
                 this.rect.getTop().setValue(y);
@@ -153,24 +157,24 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
                     case 'se-resize' :
                         w = w + dx;
                         h = h + dy;
-                        obj = this.grid.hitTest({x:w,y:h});
+                        obj = this.hitTest({x:w,y:h});
                         w = obj.x;
                         h = obj.y;
                     break;
                     case 'e-resize' :
                         w = w + dx
-                        obj = this.grid.hitTest({x:w,y:h});
+                        obj = this.hitTest({x:w,y:h});
                         w = obj.x;
                     break;
                     case 's-resize' :
                         h = h + dy;
-                        obj = this.grid.hitTest({x:w,y:h});
+                        obj = this.hitTest({x:w,y:h});
                         h = obj.y;
                     break;
                     case 'sw-resize' :
                         h = h + dy;
                         checkWidth = true;
-                        obj = this.grid.hitTest({x:w,y:h});
+                        obj = this.hitTest({x:w,y:h});
                         h = obj.y;
                     break;
                     case 'ne-resize' :
@@ -197,7 +201,7 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
                     } else {
                         y = this.initRect.getTop().getValue() + dy;
                     }
-                    obj = this.grid.hitTest({x:x,y:y});
+                    obj = this.hitTest({x:x,y:y});
                     h = h + y - obj.y;
                     y = obj.y;
                 }
@@ -209,7 +213,7 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
                     } else {
                         x = this.initRect.getLeft().getValue() + dx;
                     }
-                    obj = this.grid.hitTest({x:x,y:y});
+                    obj = this.hitTest({x:x,y:y});
                     w = w + x - obj.x;
                     x = obj.x;
                 }

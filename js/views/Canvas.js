@@ -1,12 +1,22 @@
 define('views/Canvas', function () {
 
-    function Canvas() {
+    var template = '<div class="back" style="width: 800px; height: 600px;"><div id="canvas"></div></div>';
 
+    function Canvas(frame) {
+        frame.insertAdjacentHTML('afterbegin', template);
+        this.domElement = document.getElementById('canvas');
+        // Prevent mouse down events propergating up to the document level.
+        document.getElementById('canvas').addEventListener('mousedown', function (event) {
+             event.stopPropagation();
+        });
     }
 
     var canvas = {
         render : function (css) {
-            document.getElementById('canvas').setAttribute('style',css);
+            this.domElement.setAttribute('style',css);
+        },
+        getDomElement : function () {
+            return this.domElement;
         }
     }
 

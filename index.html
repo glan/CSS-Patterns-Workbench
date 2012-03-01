@@ -7,37 +7,11 @@
 </head>
 <body>
 
-<div id="layers">
-    </div>
-        <!--background: 
-linear-gradient(315deg, #ECEDDC 25%, transparent 25%) -50px 0,
-linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -50px 0,
-linear-gradient(135deg, #ECEDDC 25%, transparent 25%),
-linear-gradient(45deg, #ECEDDC 25%, transparent 25%);	
-background-size: 100px 100px;
-background-color: #EC173A;-->
+<div id="layers"></div>
 
-<!-- background-color:#556;
-background-image: linear-gradient(60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-    linear-gradient(-60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-    linear-gradient(60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-    linear-gradient(-60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
-    linear-gradient(30deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a), 
-    linear-gradient(30deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
-background-size:80px 140px;
-background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
- -->
- 
-<div id="frame">
-    <div class="back" style="width: 800px; height: 600px;">
-        <div id="canvas">
-            <div id="grid">
-            </div>
-        </div>
-    </div>
-</div>
+<div id="frame"></div>
 
-    <textarea id="data">
+<textarea id="data">
 background:
 radial-gradient(hsl(0, 100%, 27%) 4%, hsl(0, 100%, 18%) 9%, hsla(0, 100%, 20%, 0) 9%) 0 0,
 radial-gradient(hsl(0, 100%, 27%) 4%, hsl(0, 100%, 18%) 8%, hsla(0, 100%, 20%, 0) 10%) 50px 50px,
@@ -57,14 +31,13 @@ background-size: 100px 100px;
     
     
     <!--<textarea id="out" style="width:100%; height: 200px; background-color: rgba(255,255,255,0.9); padding: 10px; outline: none;"></textarea>-->
-</body>
 
 <div id="templates">
     <div class="layer">
         <div class="preview"></div>
         <div class="name info">Layer Name</div>
         <div class="type info">Layer Type</div>
-        <select class="composite info">
+        <!--<select class="composite info">
             <option>clear</option>
             <option>copy</option>
             <option>destination-atop</option>
@@ -80,7 +53,7 @@ background-size: 100px 100px;
             <option>source-over</option>
             <option>xor</option>
         </select>
-        <div class="remove">✖</div>
+        <div class="remove">✖</div>-->
         <input type="checkbox" class="enabled"/>
     </div>
 </div>
@@ -130,5 +103,8 @@ background-size: 100px 100px;
         <label for="background-color">Background color</label><input type="color" id="background-color"/>
     </div>
 </div>
+
 <script type="text/javascript" data-main="js/main" src="js/vendor/require-jquery.js"></script>
-    </html>
+
+</body>
+</html>
