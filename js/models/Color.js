@@ -1,4 +1,4 @@
-define('cw/Color', function () {
+define('models/Color', function () {
 
     function Color(color) {
         this.value = color;

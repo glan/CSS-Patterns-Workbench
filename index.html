@@ -1,126 +1,134 @@
 <!DOCTYPE html>
 <html>
-    <link rel="stylesheet" href="css/main.css"/>
-    <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
-    <script type="text/javascript" src="js/mustache.js"></script>
-    <script type="text/javascript" src="js/layers.js"></script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Gradient Explorer</title>
+    <link rel="stylesheet" href="css/new.css"/>
+</head>
 <body>
-    <div id="main"></div>
-    <div id="layers">
-                
-    </div>
-    <textarea id="data" style="background-color: rgba(255,255,255,0.4);"></textarea>
 
-    
-    <div id="layersTmp" style="display:none;">
-        {{#layers}}
-            <div class="layer" data-id="{{id}}">
-                <header>Layer {{id}}</header>
-                <div class="gradientSample"></div>
-                {{#gradient}}{{#orientation}}
-                <fieldset class="orientation">
-                    <legend>Orientation</legend>
-                    <label>Rotation</label><input name="rotation" type="number" value="{{x}}"/>deg
-                </fieldset>
-                {{/orientation}}{{/gradient}}
-                <fieldset class="size">
-                    <legend>Size</legend>
-                    <label>Width</label><input name="width" type="number" value="{{width}}"/>px
-                    <label>Height</label><input name="height" type="number" value="{{height}}"/>px
-                </fieldset>
-                <fieldset class="position">
-                    <legend>Position</legend>
-                    <label>x</label><input name="x" type="number" value="{{x}}"/>px
-                    <label>y</label><input name="y" type="number" value="{{y}}"/>px
-                </fieldset>
-                <fieldset class="comp">
-                    <legend>Compositing</legend>
-                    <select>
-                        <option>clear</option>
-                        <option>copy</option>
-                        <option>destination-atop</option>
-                        <option>destination-in</option>
-                        <option>destination-out</option>
-                        <option>destination-over</option>
-                        <option>highlight</option>
-                        <option>plus-darker</option>
-                        <option>plus-lighter</option>
-                        <option>source-atop</option>
-                        <option>source-in</option>
-                        <option>source-out</option>
-                        <option>source-over</option>
-                        <option>xor</option>
-                    </select>
-                </fieldset>
+<div id="layers">
+    </div>
+        <!--background: 
+linear-gradient(315deg, #ECEDDC 25%, transparent 25%) -50px 0,
+linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -50px 0,
+linear-gradient(135deg, #ECEDDC 25%, transparent 25%),
+linear-gradient(45deg, #ECEDDC 25%, transparent 25%);	
+background-size: 100px 100px;
+background-color: #EC173A;-->
+
+<!-- background-color:#556;
+background-image: linear-gradient(60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+    linear-gradient(-60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+    linear-gradient(60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+    linear-gradient(-60deg, #445 12%, transparent 12.5%, transparent 87%, #445 87.5%, #445),
+    linear-gradient(30deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a), 
+    linear-gradient(30deg, #99a 25%, transparent 25.5%, transparent 75%, #99a 75%, #99a);
+background-size:80px 140px;
+background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+ -->
+ 
+<div id="frame">
+    <div class="back" style="width: 800px; height: 600px;">
+        <div id="canvas">
+            <div id="grid">
             </div>
-        {{/layers}}
+        </div>
+    </div>
+</div>
+
+    <textarea id="data">
+background:
+radial-gradient(hsl(0, 100%, 27%) 4%, hsl(0, 100%, 18%) 9%, hsla(0, 100%, 20%, 0) 9%) 0 0,
+radial-gradient(hsl(0, 100%, 27%) 4%, hsl(0, 100%, 18%) 8%, hsla(0, 100%, 20%, 0) 10%) 50px 50px,
+radial-gradient(hsla(0, 100%, 30%, 0.8) 20%, hsla(0, 100%, 20%, 0)) 50px 0,
+radial-gradient(hsla(0, 100%, 30%, 0.8) 20%, hsla(0, 100%, 20%, 0)) 0 50px,
+radial-gradient(hsla(0, 100%, 20%, 1) 35%, hsla(0, 100%, 20%, 0) 60%) 50px 0,
+radial-gradient(hsla(0, 100%, 20%, 1) 35%, hsla(0, 100%, 20%, 0) 60%) 100px 50px,
+radial-gradient(hsla(0, 100%, 15%, 0.7), hsla(0, 100%, 20%, 0)) 0 0,
+radial-gradient(hsla(0, 100%, 15%, 0.7), hsla(0, 100%, 20%, 0)) 50px 50px,
+linear-gradient(45deg, hsla(0, 100%, 20%, 0) 49%, hsla(0, 100%, 0%, 1) 50%, hsla(0, 100%, 20%, 0) 70%) 0 0,
+linear-gradient(-45deg, hsla(0, 100%, 20%, 0) 49%, hsla(0, 100%, 0%, 1) 50%, hsla(0, 100%, 20%, 0) 70%) 0 0;
+background-color: #300; 
+background-size: 100px 100px;
+</textarea>
+    
+    
+    
+    
+    <!--<textarea id="out" style="width:100%; height: 200px; background-color: rgba(255,255,255,0.9); padding: 10px; outline: none;"></textarea>-->
+</body>
+
+<div id="templates">
+    <div class="layer">
+        <div class="preview"></div>
+        <div class="name info">Layer Name</div>
+        <div class="type info">Layer Type</div>
+        <select class="composite info">
+            <option>clear</option>
+            <option>copy</option>
+            <option>destination-atop</option>
+            <option>destination-in</option>
+            <option>destination-out</option>
+            <option>destination-over</option>
+            <option>highlight</option>
+            <option>plus-darker</option>
+            <option>plus-lighter</option>
+            <option>source-atop</option>
+            <option>source-in</option>
+            <option>source-out</option>
+            <option>source-over</option>
+            <option>xor</option>
+        </select>
+        <div class="remove">✖</div>
+        <input type="checkbox" class="enabled"/>
+    </div>
+</div>
+
+<div id="info-panel">
+    <fieldset class="size">
+        <legend>Size</legend>
+        <label for="info_size_width">Width</label>
+        <input id="info_size_width" type="number" min="1" />
+        <select id="info_size_width_unit">
+            <option>%</option>
+            <option>px</option>
+        </select>
+        <label for="info_size_height">Height</label>
+        <input id="info_size_height" type="number" min="1" />
+        <select id="info_size_height_unit">
+            <option>%</option>
+            <option>px</option>
+        </select>
+    </fieldset>
+    <fieldset class="position">
+        <legend>Position</legend>
+        <label for="info_position_x">x</label>
+        <input id="info_position_x" type="number" />
+        <select id="info_position_x_unit">
+            <option>%</option>
+            <option>px</option>
+        </select>
+        <label for="info_position_y">y</label>
+        <input id="info_position_y" type="number" />
+        <select id="info_position_y_unit">
+            <option>%</option>
+            <option>px</option>
+        </select>
+    </fieldset>
+</div>
+
+<div id="top-bar">
+    <div id="grid-options">
+        <label for="show-grid">Show grid</label><input type="checkbox" id="show-grid" />
+        <label for="snap-to-grid">snap to</label><input type="checkbox" id="snap-to-grid" />
+        <label for="update-grid">auto update</label><input type="checkbox" id="update-grid" />
+        <label for="grid-color">color</label><input type="color" id="grid-color" value="rgba(200,200,255,0.6)"/>
     </div>
     
-    <script>
-    
-        var testGrad1 = new GW.linearGradient(new GW.point('0')).addStop(new GW.stop('rgba(255,0,0,1)')).addStop(new GW.stop('rgba(0,0,255,0)'));
-        var testGrad2 = new GW.radialGradient(new GW.point('center')).addStop(new GW.stop('rgba(0,255,0,1)')).addStop(new GW.stop('rgba(0,0,0,0)'));
-
-        var layers = new GW.layers();
-        layers.push(new GW.layer(testGrad1));
-        layers.push(new GW.layer(testGrad2));
-    
-        $('#layers').html(Mustache.to_html($('#layersTmp').html(),{'layers':layers}));
-
-       /* $('.layer .gradientSample').each(function() {
-            var id = $(this).parents('.layer').attr('data-id');
-            $(this).css('background-image',layers[id].gradient);
-        });*/
-
-        $('#layers .orientation input').live('change', function(e) {
-            var id = $(this).parents('.layer').attr('data-id');
-            layers[id].gradient.orientation = new GW.angle(this.value); 
-        });
-
-        $('#layers .size input').live('change', function(e) {
-            var id = $(this).parents('.layer').attr('data-id');
-            layers[id].size = new GW.point($(this).parent().find('input[name=width]').val() + 'px', $(this).parent().find('input[name=height]').val() + 'px'); 
-        });
-
-         $('#layers .position input').live('change', function(e) {
-            var id = $(this).parents('.layer').attr('data-id');
-            layers[id].position = new GW.point($(this).parent().find('input[name=x]').val() + 'px', $(this).parent().find('input[name=y]').val() + 'px'); 
-        });
-
-        $('#layers input').live('change', function(e) {
-            var id = $(this).parents('.layer').attr('data-id');
-            $(parent).find('.gradientSample').css('background-image',layers[id].gradient);
-            $('#main').css('background-image',layers.getImage());
-            $('#main').css('background-size',layers.getSize());
-            $('#main').css('background-position',layers.getPosition());
-            $('#data').html(JSON.stringify(layers));
-        });
-
-         $('textarea#data').live('change', function(e) {
-            layers = GW.layers(JSON.parse(this.value));
-         });
-
-         $(function() {
-            $( "#layers" ).sortable();
-            $( "#layers" ).disableSelection();
-            $( "#layers" ).bind( "sortupdate", function(event, ui) {
-                var newLayers = new GW.layers();
-                /*$( "#layers .layer" ).each(function(i,ii) {
-                    newLayers.push(layers[ii.getAttribute('data-id')]);
-                    ii.setAttribute('data-id',i);
-                });*/
-                //layers = newLayers;
-                
-                
-                $('#main').css('background-image',layers.getImage());
-                $('#main').css('background-size',layers.getSize());
-                $('#main').css('background-position',layers.getPosition());
-                $('#data').html(JSON.stringify(layers));
-            })
-        });
-
-    </script>
-    
-</body>
-</html>
+    <div id="view-options">
+        <label for="background-color">Background color</label><input type="color" id="background-color"/>
+    </div>
+</div>
+<script type="text/javascript" data-main="js/main" src="js/vendor/require-jquery.js"></script>
+    </html>

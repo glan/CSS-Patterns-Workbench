@@ -1,4 +1,4 @@
-define('cw/GradientLinear', ['cw/Direction'], function (Direction) {
+define('models/GradientLinear', ['models/Direction'], function (Direction) {
 
     function GradientLinear(name, direction, colorStops) {
         this.name = name;

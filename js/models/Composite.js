@@ -1,4 +1,4 @@
-define('cw/Composite', function () {
+define('models/Composite', function () {
 
     function Composite(value) {
         this.value = (typeof value !== 'undefined') ? value : 'source-over';

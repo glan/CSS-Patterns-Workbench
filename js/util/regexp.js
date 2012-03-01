@@ -1,4 +1,4 @@
-define('cw/regexp', function () {
+define('util/regexp', function () {
     "use strict";
     /**
      * Create complex regexps in an easy to read way

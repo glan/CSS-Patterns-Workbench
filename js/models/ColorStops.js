@@ -1,4 +1,4 @@
-define('cw/ColorStops', ['cw/ColorStop'], function (ColorStop) {
+define('models/ColorStops', ['models/ColorStop'], function (ColorStop) {
 
     function ColorStops() {
         this.colorStops = [];

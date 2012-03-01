@@ -6,7 +6,7 @@
 //     For all details and documentation:
 //     http://documentcloud.github.com/underscore
 
-define('underscore', function () {
+define('vendor/underscore', function () {
 
   // Baseline setup
   // --------------

@@ -1,4 +1,4 @@
-define('cw/builder', ['cw/regexp', 'cw/GradientLinear', 'cw/GradientRadial','cw/ColorStops', 'cw/ColorStop','cw/Direction', 'cw/Composite'], function(regex, GradientLinear, GradientRadial, ColorStops, ColorStop, Direction, Composite) {
+define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/GradientRadial','models/ColorStops', 'models/ColorStop','models/Direction', 'models/Composite'], function(regex, GradientLinear, GradientRadial, ColorStops, ColorStop, Direction, Composite) {
     "use strict";
 
     return {

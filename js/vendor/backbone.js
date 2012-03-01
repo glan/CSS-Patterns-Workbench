@@ -4,7 +4,7 @@
 //     For all details and documentation:
 //     http://documentcloud.github.com/backbone
 
-define('backbone', ['underscore'], function (_) {
+define('vendor/backbone', ['vendor/underscore'], function (_) {
 
   // Initial Setup
   // -------------

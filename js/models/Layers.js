@@ -1,4 +1,4 @@
-define('cw/Layers', ['backbone', 'underscore', 'cw/Layer', 'cw/builder' ,'cw/regexp'], function(Backbone, _, Layer, builder, regex) {
+define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer', 'util/builder' ,'util/regexp'], function(Backbone, _, Layer, builder, regex) {
     "use strict";
     var Layers = Backbone.Collection.extend({
         model: Layer,
@@ -32,7 +32,6 @@ define('cw/Layers', ['backbone', 'underscore', 'cw/Layer', 'cw/builder' ,'cw/reg
                 this.backgroundColor = 'transparent';
             }
             this.reset(builder.parseCSS(css));
-            console.log(this);
             //this.trigger('update');
         },
         reorder : function (neworder) {
@@ -44,26 +43,6 @@ define('cw/Layers', ['backbone', 'underscore', 'cw/Layer', 'cw/builder' ,'cw/reg
         },
         comparator : function (layer) {
             return layer.attributes.order;
-        },
-        getGridData : function () {
-            var grid = [];
-            this.forEach(function (layer) {
-                var pos = layer.getPosition(),
-                    size = layer.getSize(),
-                    data = {};
-                if (pos) {
-                    pos = pos.split(' ');
-                    data.x = pos[0];
-                    data.y = pos[1];
-                }
-                if (size) {
-                    size = size.split(' ');
-                    data.w = size[0];
-                    data.h = size[1];
-                }
-                grid.push(data);
-            });
-            return grid;
         }
         /*toCSS : function () {
             return JSON.stringify(this);

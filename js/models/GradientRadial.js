@@ -1,4 +1,4 @@
-define('cw/GradientRadial', function () {
+define('models/GradientRadial', function () {
 
     function GradientRadial(name, position, direction, shape, size, colorStops) {
         this.name = name;

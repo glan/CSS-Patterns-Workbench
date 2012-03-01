@@ -1,4 +1,4 @@
-define('cw/Direction', function () {
+define('models/Direction', function () {
 
     function Direction(value) {
         this.value = (typeof value !== 'undefined') ? value : '90deg';

@@ -1,4 +1,4 @@
-define('cw/ColorStop', ['cw/regexp', 'cw/Color', 'cw/Length'], function (regex, Color, Length) {
+define('models/ColorStop', ['util/regexp', 'models/Color', 'models/Length'], function (regex, Color, Length) {
 
     var colorStopSelect = RegExp.create('({{color}})\\s*({{length}})?', {
         color: regex.color,
