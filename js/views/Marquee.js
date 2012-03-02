@@ -16,7 +16,6 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
     function Marquee(canvas) {
         canvas.getDomElement().insertAdjacentHTML('beforeend', template);
         this.domElement = document.getElementById('size-helper');
-        this.domElement.onselectstart = function () { return false; };
         this.domElement.style.display = 'none';
         this.visible = false;
         document.addEventListener('mousedown', this, true);

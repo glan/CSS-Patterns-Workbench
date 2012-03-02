@@ -10,20 +10,21 @@ define('views/InfoPanel', ['models/Rect'], function (Rect) {
     }
 
     var infoPanel = {
-        setRect : function (rect) {
-            this.rect = rect;
-            document.getElementById('info_size_width').value = rect.getWidth().getValue();
-            document.getElementById('info_size_width_unit').value = rect.getWidth().getUnit();
-            document.getElementById('info_size_height').value = rect.getHeight().getValue();
-            document.getElementById('info_size_height_unit').value = rect.getHeight().getUnit();
-            document.getElementById('info_position_x').value = rect.getLeft().getValue();
-            document.getElementById('info_position_x_unit').value = rect.getLeft().getUnit();
-            document.getElementById('info_position_y').value = rect.getTop().getValue();
-            document.getElementById('info_position_y_unit').value = rect.getTop().getUnit();
+        setData : function (layer) {
+            this.rect = layer.getRect();
+            document.getElementById('info_size_width').value = this.rect.getWidth().getValue();
+            document.getElementById('info_size_width_unit').value = this.rect.getWidth().getUnit();
+            document.getElementById('info_size_height').value = this.rect.getHeight().getValue();
+            document.getElementById('info_size_height_unit').value = this.rect.getHeight().getUnit();
+            document.getElementById('info_position_x').value =this. rect.getLeft().getValue();
+            document.getElementById('info_position_x_unit').value = this.rect.getLeft().getUnit();
+            document.getElementById('info_position_y').value = this.rect.getTop().getValue();
+            document.getElementById('info_position_y_unit').value = this.rect.getTop().getUnit();
+            document.getElementById('info_repeating').checked = layer.getRepeating();
         },
         handleEvent : function (event) {
             var spawnEvent = document.createEvent('UIEvents');
-
+        
             this.rect.getWidth().setValue(document.getElementById('info_size_width').value);
             this.rect.getWidth().setUnit(document.getElementById('info_size_width_unit').value);
             this.rect.getHeight().setValue(document.getElementById('info_size_height').value);
@@ -35,6 +36,7 @@ define('views/InfoPanel', ['models/Rect'], function (Rect) {
             
             spawnEvent.initUIEvent('infopanel_update', true, true, this.domElement, 1);
             spawnEvent.rect = this.rect;
+            spawnEvent.repeating = document.getElementById('info_repeating').checked;
             document.dispatchEvent(spawnEvent);
         },
         show : function () {

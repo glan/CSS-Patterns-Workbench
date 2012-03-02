@@ -1,0 +1,132 @@
+#size-helper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: -webkit-grab;
+}
+
+#size-helper>#ants {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: -webkit-repeating-linear-gradient(45deg, black, black 5px, rgba(255,255,255,0.7) 5px, rgba(255,255,255,0.7) 10px);
+    -webkit-mask-image: -webkit-linear-gradient(0deg, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(90deg, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(180deg, #000 0, #000 1px, rgba(0,0,0,0) 1px),-webkit-linear-gradient(270deg, #000 0, #000 1px, rgba(0,0,0,0) 1px);
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-name: march;
+}
+
+@-webkit-keyframes march {
+    from {
+        background-position-x: 14px;
+    }
+    to {
+        background-position-x: 0;
+    }
+}
+
+.moving * {
+    cursor: -webkit-grabbing !important;
+}
+
+.moving {
+    cursor: -webkit-grabbing;
+}
+
+.resize-helper {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.7);
+    margin: -3px;
+}
+
+/*#resize-helper {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.7);
+    right: -4px;
+    bottom: -4px;
+    cursor: nw-resize;
+}*/
+
+#resize-helper-nw {
+    left: 0;
+    top: 0;
+    cursor: nwse-resize;
+}
+
+#resize-helper-ne {
+    top: 0;
+    right: 0;
+    cursor: nesw-resize;
+}
+
+#resize-helper-sw {
+    bottom: 0;
+    left: 0;
+    cursor: nesw-resize;
+}
+
+#resize-helper-se {
+    bottom: 0;
+    right: 0;
+    cursor: nwse-resize;
+}
+
+
+#resize-helper-n {
+    left: 50%;
+    top: 0;
+    cursor: ns-resize;
+}
+
+#resize-helper-e {
+    top: 50%;
+    right: 0;
+    cursor: ew-resize;
+}
+
+#resize-helper-s {
+    bottom: 0;
+    left: 50%;
+    cursor: ns-resize;
+}
+
+#resize-helper-w {
+    top: 50%;
+    left: 0;
+    cursor: ew-resize;
+}
+
+
+.resizing-nw-resize * {
+    cursor: nwse-resize !important;
+}
+.resizing-ne-resize * {
+    cursor: nesw-resize !important;
+}
+.resizing-sw-resize * {
+    cursor: nesw-resize !important;
+}
+.resizing-se-resize * {
+    cursor: nwse-resize !important;
+}
+.resizing-n-resize * {
+    cursor: ns-resize !important;
+}
+.resizing-w-resize * {
+    cursor: ew-resize !important;
+}
+.resizing-s-resize * {
+    cursor: ns-resize !important;
+}
+.resizing-e-resize * {
+    cursor: ew-resize !important;
+}

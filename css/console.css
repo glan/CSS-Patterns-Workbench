@@ -1,0 +1,13 @@
+#data {
+    position: absolute;
+    left: 0; bottom: 0; right: 260px;
+    height: 20px; 
+    background-color: rgba(255,255,255,0.9); 
+    padding: 10px; outline: none;
+    -webkit-transition: all 0.2s linear;
+    border-bottom: 2px solid #555;
+    font-family: monaco, monospace;
+}
+#data:focus {
+    height: 160px;
+}

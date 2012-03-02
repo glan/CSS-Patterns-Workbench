@@ -5,25 +5,35 @@ require(['jquery',
 'views/Canvas',
 'views/Grid',
 'views/LayerList',
-'js/vendor/jquery-ui-1.8.14.custom.min.js'], function($, Layers, Marquee, InfoPanel, Canvas, Grid, LayerList) {
+'views/LayerPanel',
+'js/vendor/jquery-ui-1.8.14.custom.min.js'], function($, Layers, Marquee, InfoPanel, Canvas, Grid, LayerList, LayerPanel) {
     'use strict';
     var layerList = new LayerList(new Layers()),
-        grid = new Grid(),
-        marquee = new Marquee(document.getElementById('grid'), grid),
+        canvas = new Canvas(document.getElementById('frame')),
+        grid = new Grid(canvas),
+        marquee = new Marquee(canvas),
         infoPanel = new InfoPanel(),
-        canvas = new Canvas();
+        layerPanel = new LayerPanel();
+        
+    layerPanel.disable();
 
     document.addEventListener('marquee_move', updateView);
     document.addEventListener('marquee_resize', updateView);
     document.addEventListener('infopanel_update', updateView);
+    document.addEventListener('layerpanel_update', updateView);
 
     function updateView(event) {
         if (event.type === 'infopanel_update') {
+            layerList.selectedLayer.setRect(event.rect);
             marquee.setRect(event.rect);
+            layerList.selectedLayer.setRepeating(event.repeating);
+        } else if (event.type === 'layerpanel_update') {
+            layerList.selectedLayer.attributes.opacity = event.opacity;
+            layerList.selectedLayer.attributes.composite = event.composite;
         } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
-            infoPanel.setRect(event.rect);
+            layerList.selectedLayer.setRect(event.rect);
+            infoPanel.setData(layerList.selectedLayer);
         }
-        layerList.selectedLayer.setRect(event.rect);
         layerList.layers.trigger('update');
     }
 
@@ -38,14 +48,25 @@ require(['jquery',
     });
 
     document.addEventListener('layerlist_selection', function(event) {
-        marquee.setRect(event.layer.getRect());
-        marquee.showRect();
-        infoPanel.setRect(event.layer.getRect());
+        if (event.layer) {
+            marquee.setRect(event.layer.getRect());
+            marquee.showRect();
+            infoPanel.setData(event.layer);
+            infoPanel.show();
+            layerPanel.setData(event.layer);
+            layerPanel.enable();
+        } else {
+            marquee.hideRect();
+            infoPanel.hide();
+            layerPanel.disable();
+            // [TODO] disable/hide info panel;
+        }
     });
 
     document.getElementById('grid-options').addEventListener('change', function (event) {
         grid.setColor(document.getElementById('grid-color').value);
         grid.snapto = (document.getElementById('snap-to-grid').checked);
+        marquee.setHitTest(function (xy) { return grid.hitTest(xy); });
         if (document.getElementById('show-grid').checked)
             grid.showGrid();
         else
@@ -64,4 +85,6 @@ require(['jquery',
     });
     
     layerList.layers.parseCSS(document.getElementById('data').value);
+    
+    
 });

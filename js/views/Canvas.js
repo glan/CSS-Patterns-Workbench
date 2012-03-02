@@ -9,6 +9,9 @@ define('views/Canvas', function () {
         document.getElementById('canvas').addEventListener('mousedown', function (event) {
              event.stopPropagation();
         });
+        
+        frame.onselectstart = function () { return false; };
+
     }
 
     var canvas = {

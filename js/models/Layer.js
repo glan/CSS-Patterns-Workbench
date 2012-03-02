@@ -2,7 +2,7 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
     "use strict";
     var Layer = {
         getImage : function () {
-            return this.attributes.image;
+            return this.attributes.image.toString(this.attributes.opacity);
         },
         getSize : function () {
             return (this.attributes.size) ? this.attributes.size : null;
@@ -30,6 +30,13 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
             // [TODO] These should be setters
             this.attributes.position =  rect.getLeft() + ' ' + rect.getTop();
             this.attributes.size = rect.getWidth() + ' ' + rect.getHeight();
+        },
+        setRepeating : function (repeating) {
+            this.attributes.image.repeating = repeating;
+            this.trigger('update');
+        },
+        getRepeating : function () {
+            return this.attributes.image.repeating;
         }
     };
     return Backbone.Model.extend(Layer);

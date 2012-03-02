@@ -15,8 +15,8 @@ define('models/ColorStop', ['util/regexp', 'models/Color', 'models/Length'], fun
     }
 
     ColorStop.prototype = {
-        toString : function () {
-            return this.color + ((this.length) ? ' ' + this.length : '');
+        toString : function (alpha) {
+            return this.color.toString(alpha) + ((this.length) ? ' ' + this.length : '');
         }
     }
 

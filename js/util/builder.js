@@ -25,30 +25,26 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
             images.forEach(function (x) {
                 //console.log(x);
                 var colorStops = new ColorStops(),
-                    gradient = new RegExp(regex.gradient).exec(x);
+                    gradient = new RegExp(regex.gradient).exec(x),
+                    repeating;
                     
                 sizeOk = (sizes[i]) ? sizes[i] : sizeOk;
 
                 if (gradient[1] === 'repeating-linear-gradient' || gradient[1] === 'linear-gradient') {
 
                     gradient[3].match(regex.colorStop).forEach(function (xx) {
-                        //console.log(xx);
-                        //var colorStop = new RegExp(regex.colorStop).exec(xx);
                         colorStops.add(new ColorStop(xx));
-                        //console.log('' + new ColorStop(colorStop[1], colorStop[2]));
-                        //colorStop = regex.colorStop.exec(xx);
-                        //console.log("'" + xx + "' --> " + colorStop);
-                        //console.log('color: ' + colorStop[1]);
-                        //if (colorStop[2])
-                        //   console.log('length: ' + colorStop[2]);
                     });
+                    
+                    repeating = (gradient[1] === 'repeating-linear-gradient');
 
                     layers.push({
-                        image : new GradientLinear(gradient[1], new Direction(gradient[2]), colorStops),
+                        image : new GradientLinear('linear-gradient', repeating, new Direction(gradient[2]), colorStops),
                         size : sizeOk,
                         position : (positions && positions[i]) ? positions[i] : ((gradient[4]) ? gradient[4] : null),
                         composite : new Composite(),
                         order : i,
+                        opacity : 1,
                         enabled : true
                     });
                     i++;
@@ -57,12 +53,15 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
                         colorStops.add(new ColorStop(xx));
                     });
 
+                    repeating = (gradient[5] === 'repeating-radial-gradient');
+
                     layers.push({
-                        image : new GradientRadial(gradient[5], gradient[6], gradient[7], gradient[8], gradient[9], colorStops),
+                        image : new GradientRadial('radial-gradient', repeating, gradient[6], gradient[7], gradient[8], gradient[9], colorStops),
                         size : sizeOk,
                         position : (positions && positions[i]) ? positions[i] : ((gradient[11]) ? gradient[11] : null),
                         composite : new Composite(),
                         order : i,
+                        opacity : 1,
                         enabled : true
                     });
                     i++;

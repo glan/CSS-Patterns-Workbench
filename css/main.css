@@ -1,0 +1,71 @@
+body {
+    font-family: "Lucida Grande", sans-serif;
+}
+
+#templates {
+    display: none;
+}
+
+#frame {
+    position: absolute;
+    left: 0; top: 30px;
+    right: 260px;
+    bottom: 60px;
+    background: #DDD;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    overflow: hidden;
+}
+
+#frame .back {
+    position: relative;
+    display: -webkit-box;
+    background-color : #FFF;
+    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-size : 10px 10px;
+    background-position : 0 0, 5px 5px;
+    -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
+}
+
+#frame #canvas {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+}
+
+#frame #grid {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+}
+
+
+
+
+
+
+
+
+#top-bar {
+    position: absolute;
+    top : 0;
+    left: 0;
+    font-size: 12px;
+    padding: 4px 20px;
+}
+
+#top-bar>* {
+    display: inline-block;
+}
+
+#top-bar label {
+    font-weight: bold;
+}
+
+#top-bar label:after {
+    content: ':';
+}
+
+#top-bar input {
+    margin-right: 20px;
+}

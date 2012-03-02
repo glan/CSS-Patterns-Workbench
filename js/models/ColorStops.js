@@ -5,10 +5,10 @@ define('models/ColorStops', ['models/ColorStop'], function (ColorStop) {
     }
 
     ColorStops.prototype = {
-        toString : function () {
+        toString : function (alpha) {
             var i = 0, out = '';
             for (i; i<this.colorStops.length; i++) {
-                out += ((i!==0) ? ',' : '') + this.colorStops[i].toString();
+                out += ((i!==0) ? ',' : '') + this.colorStops[i].toString(alpha);
             }
             return out;
         },

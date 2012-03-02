@@ -16,8 +16,7 @@ define('views/LayerList', function () {
 
         document.getElementById('layers').addEventListener('click', this);
         document.getElementById('layers').addEventListener('mousedown', this);
-        document.getElementById('layers').addEventListener('change', this);
-
+        
         // capture layer deselection event
         document.getElementById('frame').addEventListener('mousedown', this);
 
@@ -39,17 +38,20 @@ define('views/LayerList', function () {
 
             domLayers.innerHTML = '';
             this.layers.forEach(function(e) {
+                var cid = e.cid;
                 var newLayer = template.cloneNode(true);
-                newLayer.setAttribute('data-id',e.cid);
+                newLayer.setAttribute('data-id',cid);
                 newLayer.querySelector('.preview').style.background = e.attributes.image.toString();
-                newLayer.querySelector('.info.name').innerHTML = 'Layer ' + e.cid;
+                newLayer.querySelector('.info.name').innerHTML = 'Layer ' + cid;
                 newLayer.querySelector('.info.type').innerHTML = e.attributes.image.name;
-                //newLayer.querySelector('.info.composite').value = e.attributes.composite;
                 newLayer.querySelector('.enabled').checked = e.attributes.enabled;
+                e.bind('update', function() {
+                    document.querySelector('.layer[data-id='+cid+'] .preview').style.background = this.getImage();
+                });
                 domLayers.appendChild(newLayer);
             });
         },
-
+        
         handleEvent : function(event) {
             var domLayer = $(event.target).closest('.layer'), 
                 layer = this.layers.getByCid(domLayer.attr('data-id'));
@@ -80,9 +82,6 @@ define('views/LayerList', function () {
                     newOrder.push(ee.getAttribute('data-id'));
                 });
                 this.layers.reorder(newOrder);
-            } else if (event.type === 'change') {   
-                layer.attributes.composite = event.target.value;
-                this.layers.trigger('update');
             }
         },
 

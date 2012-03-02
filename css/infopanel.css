@@ -1,0 +1,92 @@
+#info-panel {
+    font-size: 12px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid #999;
+    width: 240px;
+    height: 0;
+    background: #FFF;
+    -webkit-transition: all 0.2s linear;
+    overflow: hidden;
+    opacity: 0;
+}
+
+#info-panel.show {
+    min-height: 110px;
+    opacity: 1;
+}
+
+#info-panel fieldset {
+    border: none;
+    border-bottom: 1px solid #EEE;
+    padding: 5px 20px;
+}
+
+#info-panel legend {
+    display: none;
+}
+
+#info-panel label {
+    width: 60px;
+    display: inline-block;
+    text-align: right;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+#info-panel label:after {
+    content: ':';
+}
+#info-panel input[type='number'] {
+    width: 50px;
+}
+
+
+
+
+
+
+
+#info-panel2 {
+    font-size: 10px;
+    top: 0;
+    right: 0;
+    position: absolute;
+    padding: 5px 10px;
+    overflow: hidden;
+    height: 50px;
+    -webkit-transition: all 0.2s linear;
+}
+#info-panel2.disabled {
+    height: 20px;
+}
+
+#info-panel2 label {
+    width: 50px;
+    display: inline-block;
+    text-align: right;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+#info-panel2 label:after {
+    content: ':';
+}
+#info-panel2 input[type='number'] {
+    width: 40px;
+}
+
+#info-panel2 div.opacity {
+    position: relative;
+    display: inline-block;
+}
+
+#info-panel2 input[type=range] {
+    position: absolute;
+    display: block;
+    right: 0;
+    opacity: 1;
+}
+
+#info-panel2.disabled input[type=range] {
+    opacity: 0;
+}
