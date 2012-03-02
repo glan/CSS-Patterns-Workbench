@@ -69,6 +69,14 @@ require(['jquery',
         layerList.layers.trigger('update');
     });
 
+    document.getElementById('canvas-width').addEventListener('input', function (event) {
+        canvas.setWidth(this.value);
+    });
+
+    document.getElementById('canvas-height').addEventListener('input', function (event) {
+        canvas.setHeight(this.value);
+    });
+
     document.getElementById('data').addEventListener('keyup', function (e) {
         layerList.layers.parseCSS(event.target.value);
         document.getElementById('background-color').value = layerList.layers.backgroundColor;

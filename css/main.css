@@ -60,6 +60,7 @@ body {
 
 #top-bar label {
     font-weight: bold;
+    margin-left: 20px;
 }
 
 #top-bar label:after {
@@ -67,5 +68,10 @@ body {
 }
 
 #top-bar input {
-    margin-right: 20px;
+    margin-left: 2px;
+}
+
+#top-bar input[type='number'] {
+    width: 50px;
+    margin-right: 0;
 }

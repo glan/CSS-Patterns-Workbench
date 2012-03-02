@@ -20,6 +20,12 @@ define('views/Canvas', function () {
         },
         getDomElement : function () {
             return this.domElement;
+        },
+        setWidth : function (w) {
+            this.domElement.parentNode.style.width = w + 'px';
+        },
+        setHeight : function (h) {
+            this.domElement.parentNode.style.height = h + 'px';
         }
     }
 
