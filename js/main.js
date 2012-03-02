@@ -1,33 +1,28 @@
 require(['jquery', 
 'models/Layers',
+'models/Color',
 'views/Marquee',
-'views/InfoPanel',
+'views/LayerAttributesPanel',
 'views/Canvas',
 'views/Grid',
 'views/LayerList',
-'views/LayerPanel',
-'js/vendor/jquery-ui-1.8.14.custom.min.js'], function($, Layers, Marquee, InfoPanel, Canvas, Grid, LayerList, LayerPanel) {
+'js/vendor/jquery-ui-1.8.14.custom.min.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList) {
     'use strict';
     var layerList = new LayerList(new Layers()),
         canvas = new Canvas(document.getElementById('frame')),
         grid = new Grid(canvas),
         marquee = new Marquee(canvas),
-        infoPanel = new InfoPanel(),
-        layerPanel = new LayerPanel();
-        
-    layerPanel.disable();
+        infoPanel = new LayerAttributesPanel();
 
     document.addEventListener('marquee_move', updateView);
     document.addEventListener('marquee_resize', updateView);
     document.addEventListener('infopanel_update', updateView);
-    document.addEventListener('layerpanel_update', updateView);
 
     function updateView(event) {
         if (event.type === 'infopanel_update') {
             layerList.selectedLayer.setRect(event.rect);
             marquee.setRect(event.rect);
             layerList.selectedLayer.setRepeating(event.repeating);
-        } else if (event.type === 'layerpanel_update') {
             layerList.selectedLayer.attributes.opacity = event.opacity;
             layerList.selectedLayer.attributes.composite = event.composite;
         } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
@@ -53,18 +48,14 @@ require(['jquery',
             marquee.showRect();
             infoPanel.setData(event.layer);
             infoPanel.show();
-            layerPanel.setData(event.layer);
-            layerPanel.enable();
         } else {
             marquee.hideRect();
             infoPanel.hide();
-            layerPanel.disable();
-            // [TODO] disable/hide info panel;
         }
     });
 
     document.getElementById('grid-options').addEventListener('change', function (event) {
-        grid.setColor(document.getElementById('grid-color').value);
+        grid.setColor(new Color(document.getElementById('grid-color').value));
         grid.snapto = (document.getElementById('snap-to-grid').checked);
         marquee.setHitTest(function (xy) { return grid.hitTest(xy); });
         if (document.getElementById('show-grid').checked)
@@ -85,6 +76,5 @@ require(['jquery',
     });
     
     layerList.layers.parseCSS(document.getElementById('data').value);
-    
-    
+
 });

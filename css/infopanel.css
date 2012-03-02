@@ -13,14 +13,14 @@
 }
 
 #info-panel.show {
-    min-height: 110px;
+    min-height: 210px;
     opacity: 1;
 }
 
 #info-panel fieldset {
     border: none;
     border-bottom: 1px solid #EEE;
-    padding: 5px 20px;
+    padding: 5px 0 5px 20px;
 }
 
 #info-panel legend {
@@ -28,7 +28,7 @@
 }
 
 #info-panel label {
-    width: 60px;
+    width: 68px;
     display: inline-block;
     text-align: right;
     font-weight: bold;
@@ -41,52 +41,25 @@
     width: 50px;
 }
 
-
-
-
-
-
-
-#info-panel2 {
-    font-size: 10px;
-    top: 0;
-    right: 0;
-    position: absolute;
-    padding: 5px 10px;
-    overflow: hidden;
-    height: 50px;
-    -webkit-transition: all 0.2s linear;
-}
-#info-panel2.disabled {
-    height: 20px;
-}
-
-#info-panel2 label {
-    width: 50px;
-    display: inline-block;
-    text-align: right;
-    font-weight: bold;
-    text-transform: capitalize;
-}
-#info-panel2 label:after {
-    content: ':';
-}
-#info-panel2 input[type='number'] {
-    width: 40px;
-}
-
-#info-panel2 div.opacity {
-    position: relative;
-    display: inline-block;
-}
-
-#info-panel2 input[type=range] {
-    position: absolute;
+#info_layer_opacity_range_helper.active {
     display: block;
-    right: 0;
-    opacity: 1;
 }
 
-#info-panel2.disabled input[type=range] {
-    opacity: 0;
+#info_layer_opacity_range_helper {
+    display: none;
+    height: 80px;
+    position: absolute;
+    left: 100px;
+    margin-top: -2px; 
+    padding: 5px;
+    width: 20px;
+    background: rgba(255,255,255,0.9);
+    -webkit-box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+}
+
+#info-panel #info_layer_opacity_range {
+    -webkit-appearance: slider-vertical; 
+    height: 80px;
+    width: 20px;
+    cursor: pointer;
 }

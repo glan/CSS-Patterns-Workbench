@@ -47,31 +47,31 @@ background-size: 100px 100px;
     </div>
 </div>
 
-<div id="info-panel2" class="disabled">
-    <select id="info_layer_composite" class="composite info">
-        <option>clear</option>
-        <option>copy</option>
-        <option>destination-atop</option>
-        <option>destination-in</option>
-        <option>destination-out</option>
-        <option>destination-over</option>
-        <option>highlight</option>
-        <option>plus-darker</option>
-        <option>plus-lighter</option>
-        <option>source-atop</option>
-        <option>source-in</option>
-        <option>source-out</option>
-        <option>source-over</option>
-        <option>xor</option>
-    </select>
-    <div class="opacity">
-        <label for="info_layer_opacity">Opacity</label>
-        <input id="info_layer_opacity_range" type="range" min="0" max="100"/>
-        <input id="info_layer_opacity" type="number" min="0" max="100"/>%
-    </div>
-</div>
-
 <div id="info-panel">
+    <fieldset>
+        <label for="info_layer_composite">Composite</label>
+        <select id="info_layer_composite" class="composite info">
+            <option>clear</option>
+            <option>copy</option>
+            <option>destination-atop</option>
+            <option>destination-in</option>
+            <option>destination-out</option>
+            <option>destination-over</option>
+            <option>highlight</option>
+            <option>plus-darker</option>
+            <option>plus-lighter</option>
+            <option>source-atop</option>
+            <option>source-in</option>
+            <option>source-out</option>
+            <option>source-over</option>
+            <option>xor</option>
+        </select>
+    </fieldset>
+    <fieldset>
+        <label for="info_layer_opacity">Opacity</label>
+        <input id="info_layer_opacity" type="number" min="0" max="100"/>%
+        <div id="info_layer_opacity_range_helper"><input id="info_layer_opacity_range" type="range" min="0" max="100"/></div>
+    </fieldset>
     <fieldset>
         <label for="info_repeating">Repeat</label><input id="info_repeating" type="checkbox"/>
     </fieldset>
@@ -112,7 +112,7 @@ background-size: 100px 100px;
         <label for="show-grid">Show grid</label><input type="checkbox" id="show-grid" />
         <label for="snap-to-grid">snap to</label><input type="checkbox" id="snap-to-grid" />
         <label for="update-grid">auto update</label><input type="checkbox" id="update-grid" />
-        <label for="grid-color">color</label><input type="color" id="grid-color" value="rgba(200,200,255,0.6)"/>
+        <label for="grid-color">color</label><input type="color" id="grid-color" value="lightblue"/>
     </div>
     
     <div id="view-options">
