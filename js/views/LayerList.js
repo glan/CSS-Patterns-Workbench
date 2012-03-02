@@ -43,10 +43,11 @@ define('views/LayerList', function () {
                 newLayer.setAttribute('data-id',cid);
                 newLayer.querySelector('.preview').style.background = e.attributes.image.toString();
                 newLayer.querySelector('.info.name').innerHTML = 'Layer ' + cid;
-                newLayer.querySelector('.info.type').innerHTML = e.attributes.image.name;
+                newLayer.querySelector('.info.type').innerHTML = ((e.attributes.image.repeating) ? 'repeating-' : '' ) + e.attributes.image.name;
                 newLayer.querySelector('.enabled').checked = e.attributes.enabled;
                 e.bind('update', function() {
                     document.querySelector('.layer[data-id='+cid+'] .preview').style.background = this.getImage();
+                    document.querySelector('.layer[data-id='+cid+'] .info.type').innerHTML = ((this.attributes.image.repeating) ? 'repeating-' : '' ) + this.attributes.image.name;
                 });
                 domLayers.appendChild(newLayer);
             });
