@@ -5,7 +5,7 @@ define('views/Grid', ['models/Layers', 'models/GradientLinear', 'models/ColorSto
     function Grid(canvas) {
         canvas.getDomElement().insertAdjacentHTML('afterbegin', template);
         this.domElement = document.getElementById('grid');
-        this.color = 'rgba(200,200,255,0.6)';
+        this.color = 'lightblue';
         this.snapto = false;
     }
     
@@ -20,13 +20,13 @@ define('views/Grid', ['models/Layers', 'models/GradientLinear', 'models/ColorSto
             var grid = new Layers(), self = this;
             this.layers.forEach(function (g) { 
                 grid.add({
-                    image : new GradientLinear('linear-gradient','90deg', self.getStops()),
+                    image : new GradientLinear('linear-gradient',false,'90deg', self.getStops()),
                     size : g.getRect().getWidth() + ' ' + g.getRect().getHeight(),
                     position : g.getRect().getLeft() + ' ' + g.getRect().getTop(),
                     enabled : true
                 });
                 grid.add({
-                    image : new GradientLinear('linear-gradient','180deg', self.getStops()),
+                    image : new GradientLinear('linear-gradient',false,'180deg', self.getStops()),
                     size : g.getRect().getWidth() + ' ' + g.getRect().getHeight(),
                     position : g.getRect().getLeft() + ' ' + g.getRect().getTop(),
                     enabled : true
