@@ -2,7 +2,7 @@
     position: absolute;
     top : 40px;
     right: 0px;
-    bottom: 140px;
+    bottom: 240px;
     left: 0px;
     padding: 10px;
     overflow-y: scroll;
@@ -77,22 +77,31 @@
     margin: 0 0 0 6px;
     height: 24px;
     -webkit-appearance: none;
-    -webkit-background-size: 16px auto;
     width:24px;
     opacity: 1;
     border: 1px solid #333;
 }
 
-#layers .layer .enabled:checked {
+#layers .layer .enabled:after {
+    opacity: 0.15;
+    content : '';
+    display: block;
+    width:22px;
+    height: 22px;
+    -webkit-background-size: 18px auto;
     background: url(../img/noun_project_421.svg) 50% 50% no-repeat;
 }
 
-#layers .layer .enabled:active {
-    background: url(../img/noun_project_421.svg) 50% 50% no-repeat;
+#layers .layer .enabled:checked:after {
+    opacity: 1;
 }
 
-#layers .layer .enabled:checked:active {
-    background: none;
+#layers .layer .enabled:active:after {
+    opacity: 1;
+}
+
+#layers .layer .enabled:checked:active:after {
+    opacity: 0.15;
 }
 
 #layers .ui-sortable-helper {
