@@ -18,7 +18,7 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
             try {
                 sizes = cssString.match(regex.backgroundSize)[0].match(regex.size);
             } catch (e) {
-                throw new Error('Bad background-size');
+                sizes = ['100% 100%'];
             }
             positions = (cssString.match(regex.backgroundPosition)) ? cssString.match(regex.backgroundPosition)[0].match(regex.position) : null;
 
