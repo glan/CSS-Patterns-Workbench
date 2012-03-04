@@ -2,6 +2,12 @@ body {
     font-family: "Lucida Grande", sans-serif;
 }
 
+* { 
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
 #templates {
     display: none;
 }
@@ -16,7 +22,6 @@ body {
     -webkit-box-align: center;
     -webkit-box-pack: center;
     overflow: hidden;
-    border-right: 1px solid #999;
 }
 
 #frame .back {
@@ -42,6 +47,68 @@ body {
 
 
 
+#right-bar {
+    position: absolute;
+    top : 0;
+    right: 0;
+    width: 260px;
+    bottom: 0px;
+    border-left: 1px solid #999;
+    background: #EEE;
+}
+
+#right-bar>.top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -webkit-transition: all 0.2s linear;
+}
+
+#right-bar>.bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0;
+    overflow: hidden;
+    -webkit-transition: all 0.2s linear;
+    opacity: 0;
+}
+
+#right-bar.show-lower>.top {
+    bottom: 400px;
+}
+
+#right-bar.show-lower>.bottom {
+    height: 400px;
+    opacity: 1;
+}
+
+#right-bar heading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 4px;
+    background-color: #999;
+    color: #EEE;
+}
+
+
+
+.man_tools {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: aqua;
+    padding: 5px;
+    border-top: 1px solid #777;
+    border-bottom: 1px solid #777;
+}
 
 
 
@@ -54,7 +121,7 @@ body {
     right: 0;
     height: 22px;
     font-size: 12px;
-    padding: 4px 20px;
+    padding: 6px 20px 1px;
     border-bottom: 1px solid #999;
     background: -webkit-linear-gradient(#333, #000);
     color: #EEE;

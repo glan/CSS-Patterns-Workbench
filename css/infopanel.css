@@ -1,34 +1,30 @@
 #info-panel {
     font-size: 12px;
     position: absolute;
-    right: 10px;
-    bottom: 10px;
-    border: 1px solid #999;
-    width: 240px;
+    right: 0;
+    bottom: 0;
+    left: 0;
     height: 0;
     background: #FFF;
-    -webkit-transition: all 0.2s linear;
     overflow: hidden;
-    opacity: 0;
-}
-
-#info-panel.show {
-    min-height: 210px;
+    min-height: 372px;
     opacity: 1;
 }
 
 #info-panel fieldset {
     border: none;
-    border-bottom: 1px solid #EEE;
-    padding: 5px 0 5px 20px;
+    position: relative;
 }
 
 #info-panel legend {
-    display: none;
+    background: #333;
+    padding: 5px;
+    color: #FFF;
+    width: 100%;
 }
 
 #info-panel label {
-    width: 68px;
+    width: 90px;
     display: inline-block;
     text-align: right;
     font-weight: bold;
@@ -39,7 +35,23 @@
 }
 #info-panel input[type='number'] {
     width: 50px;
+    margin: 2px;
 }
+
+#info-panel input[type='checkbox'] {
+    margin: 4px;
+}
+
+#info-panel input.color {
+    width: 80px;
+}
+
+#info-panel ul {
+    padding: 3px 0 3px 0;
+    border-bottom: 1px solid #EEE;
+}
+
+
 
 #info_layer_opacity_range_helper.active {
     display: block;
@@ -62,4 +74,41 @@
     height: 80px;
     width: 20px;
     cursor: pointer;
+}
+
+#info-panel fieldset.colorstops {
+    padding-bottom: 30px;
+}
+
+#info-panel #info_layer_stops {
+    height: 138px;
+    overflow-y: scroll;
+    padding: 4px;
+}
+
+#info-panel .colorstop {
+    padding: 2px 5px;
+    border: 1px solid #ccc;
+    border-left: 8px solid #ccc;
+    margin-bottom: 2px;
+    cursor: move;
+}
+
+#info-panel .colorstop .color {
+    margin-right: 5px;
+}
+
+#info-panel input[type=number] {
+    margin-left: 5px;
+}
+
+#info-panel .colorstop .remove {
+    -webkit-appearance: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+#info-panel .colorstop .remove:after {
+    content: '❌';
 }

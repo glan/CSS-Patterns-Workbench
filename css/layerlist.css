@@ -1,9 +1,9 @@
 #layers {
     position: absolute;
-    top : 30px;
-    right: 0px;
-    bottom: 240px;
-    left: 0px;
+    top : 26px;
+    right: 0;
+    bottom: 32px;
+    left: 0;
     padding: 10px;
     overflow-y: scroll;
 }

@@ -11,9 +11,119 @@
 </head>
 <body>
 
-<div id="layers"></div>
-
 <div id="frame"></div>
+
+<div id="top-bar">
+    <div id="grid-options">
+        <label for="show-grid">Show grid</label><input type="checkbox" id="show-grid" />
+        <label for="snap-to-grid">snap to</label><input type="checkbox" id="snap-to-grid" />
+        <label for="update-grid">auto update</label><input type="checkbox" id="update-grid" />
+        <label for="grid-color">color</label><input type="color" id="grid-color" value="lightblue"/>
+    </div>
+    <div id="view-options">
+        <label for="background-color">Background color</label><input type="color" id="background-color"/>
+        <label for="canvas-width">Width</label><input type="number" id="canvas-width" value="800" min="1" />px
+        <label for="canvas-height">Height</label><input type="number" id="canvas-height" value="600" min="1" />px
+    </div>
+</div>
+
+<div id="right-bar">
+    <div class="top">
+        <heading>Layers</heading>
+        <div id="layers"></div>
+        <div id="layer-man-tools" class="man_tools">
+            <button>Add Layer</button>
+            <button class="duplicate">Duplicate Layer</button>
+            <button class="remove">Remove Layer</button>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <heading>Layer Options</heading>
+        <div id="info-panel">
+            <fieldset>
+                <ul>
+                    <li>
+                        <label for="info_layer_composite">Composite</label>
+                        <select id="info_layer_composite" class="composite info">
+                            <option>clear</option>
+                            <option>copy</option>
+                            <option>destination-atop</option>
+                            <option>destination-in</option>
+                            <option>destination-out</option>
+                            <option>destination-over</option>
+                            <option>highlight</option>
+                            <option>plus-darker</option>
+                            <option>plus-lighter</option>
+                            <option>source-atop</option>
+                            <option>source-in</option>
+                            <option>source-out</option>
+                            <option>source-over</option>
+                            <option>xor</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <label for="info_layer_opacity">Opacity</label>
+                        <input id="info_layer_opacity" type="number" min="0" max="100"/>%
+                        <div id="info_layer_opacity_range_helper"><input id="info_layer_opacity_range" type="range" min="0" max="100"/></div>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <label for="info_repeating">Repeat</label><input id="info_repeating" type="checkbox"/>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <label for="info_size_width">Width</label>
+                        <input id="info_size_width" type="number" min="1" />
+                        <select id="info_size_width_unit">
+                            <option>%</option>
+                            <option>px</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="info_size_height">Height</label>
+                        <input id="info_size_height" type="number" min="1" />
+                        <select id="info_size_height_unit">
+                            <option>%</option>
+                            <option>px</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <label for="info_position_x">x</label>
+                        <input id="info_position_x" type="number" />
+                        <select id="info_position_x_unit">
+                            <option>%</option>
+                            <option>px</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="info_position_y">y</label>
+                        <input id="info_position_y" type="number" />
+                        <select id="info_position_y_unit">
+                            <option>%</option>
+                            <option>px</option>
+                        </select>
+            
+                    </li>
+                </li>
+            </fieldset>
+            <fieldset class="colorstops">
+                <legend>Color Stops</legend>
+                <ul id="info_layer_stops">
+                </ul>
+                <div class="man_tools">
+                    <button id="info_add_colorstop">Add Color Stop</button>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
 
 <textarea id="data">
 background:
@@ -40,82 +150,18 @@ background-size: 100px 100px;
             <div class="info type">Layer Type</div>
         </div>
     </div>
+    <li class="colorstop">
+        <input class="color" />@<input class="stop" type="number" min="0"/>
+        <select class="unit">
+            <option>%</option>
+            <option>px</option>
+        </select>
+        <button class="remove"></button>
+    </li>
 </div>
 
-<div id="info-panel">
-    <fieldset>
-        <label for="info_layer_composite">Composite</label>
-        <select id="info_layer_composite" class="composite info">
-            <option>clear</option>
-            <option>copy</option>
-            <option>destination-atop</option>
-            <option>destination-in</option>
-            <option>destination-out</option>
-            <option>destination-over</option>
-            <option>highlight</option>
-            <option>plus-darker</option>
-            <option>plus-lighter</option>
-            <option>source-atop</option>
-            <option>source-in</option>
-            <option>source-out</option>
-            <option>source-over</option>
-            <option>xor</option>
-        </select>
-    </fieldset>
-    <fieldset>
-        <label for="info_layer_opacity">Opacity</label>
-        <input id="info_layer_opacity" type="number" min="0" max="100"/>%
-        <div id="info_layer_opacity_range_helper"><input id="info_layer_opacity_range" type="range" min="0" max="100"/></div>
-    </fieldset>
-    <fieldset>
-        <label for="info_repeating">Repeat</label><input id="info_repeating" type="checkbox"/>
-    </fieldset>
-    <fieldset class="size">
-        <legend>Size</legend>
-        <label for="info_size_width">Width</label>
-        <input id="info_size_width" type="number" min="1" />
-        <select id="info_size_width_unit">
-            <option>%</option>
-            <option>px</option>
-        </select>
-        <label for="info_size_height">Height</label>
-        <input id="info_size_height" type="number" min="1" />
-        <select id="info_size_height_unit">
-            <option>%</option>
-            <option>px</option>
-        </select>
-    </fieldset>
-    <fieldset class="position">
-        <legend>Position</legend>
-        <label for="info_position_x">x</label>
-        <input id="info_position_x" type="number" />
-        <select id="info_position_x_unit">
-            <option>%</option>
-            <option>px</option>
-        </select>
-        <label for="info_position_y">y</label>
-        <input id="info_position_y" type="number" />
-        <select id="info_position_y_unit">
-            <option>%</option>
-            <option>px</option>
-        </select>
-    </fieldset>
-</div>
 
-<div id="top-bar">
-    <div id="grid-options">
-        <label for="show-grid">Show grid</label><input type="checkbox" id="show-grid" />
-        <label for="snap-to-grid">snap to</label><input type="checkbox" id="snap-to-grid" />
-        <label for="update-grid">auto update</label><input type="checkbox" id="update-grid" />
-        <label for="grid-color">color</label><input type="color" id="grid-color" value="lightblue"/>
-    </div>
-    
-    <div id="view-options">
-        <label for="background-color">Background color</label><input type="color" id="background-color"/>
-        <label for="canvas-width">Width</label><input type="number" id="canvas-width" value="800" min="1" />px
-        <label for="canvas-height">Height</label><input type="number" id="canvas-height" value="600" min="1" />px
-    </div>
-</div>
+
 
 <script type="text/javascript" data-main="js/main" src="js/vendor/require-jquery.js"></script>
 
