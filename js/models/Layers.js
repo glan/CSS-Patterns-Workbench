@@ -42,7 +42,7 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
             this.trigger('update');
         },
         comparator : function (layer) {
-            return layer.attributes.order;
+            return 1 * layer.attributes.order;
         }
         /*toCSS : function () {
             return JSON.stringify(this);
