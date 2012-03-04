@@ -68,13 +68,13 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
 
             var template = document.querySelector('#templates>.colorstop');
             document.getElementById('info_layer_stops').innerHTML = '';
-            //console.log(layer);
-            var i=0;
             layer.attributes.image.colorStops.getColorStops().forEach(function(colorStop) {
                 var newStop = template.cloneNode(true);
                 newStop.querySelector('.color').value = colorStop.color;
-                newStop.querySelector('.stop').value = colorStop.length.getValue();
-                newStop.querySelector('.unit').value = colorStop.length.getUnit();
+                if (colorStop.length) {
+                    newStop.querySelector('.stop').value = colorStop.length.getValue();
+                    newStop.querySelector('.unit').value = colorStop.length.getUnit();
+                }
                 document.getElementById('info_layer_stops').appendChild(newStop);
             });
         },
@@ -94,7 +94,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
 
             spawnEvent.colorStops = new ColorStops();
             $('#info-panel .colorstops .colorstop').each(function(e, el) {
-                spawnEvent.colorStops.add(new ColorStop(el.querySelector('.color').value + ' ' + el.querySelector('.stop').value + el.querySelector('.unit').value));
+                spawnEvent.colorStops.add(new ColorStop(el.querySelector('.color').value + ((el.querySelector('.stop').value != '') ? + ' ' + el.querySelector('.stop').value + el.querySelector('.unit').value : '')));
             });
             document.dispatchEvent(spawnEvent);
         },

@@ -26,8 +26,8 @@ define('models/Length', function () {
             this.value = 1 * result[1];
             this.unit = result[2];
         } else {
-            this.value = 0;
-            this.unit = 'px';
+            this.value = '';
+            this.unit = '';
         }
     }
 
