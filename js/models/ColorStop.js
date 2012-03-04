@@ -9,9 +9,11 @@ define('models/ColorStop', ['util/regexp', 'models/Color', 'models/Length'], fun
         var colorStop = new RegExp(colorStopSelect).exec(xx);
         //colorStops.add(new ColorStop(xx));
         //console.log('' + new ColorStop(colorStop[1], colorStop[2]));
-        
-        this.color = new Color(colorStop[1]);
-        this.length = (typeof colorStop[2] !== 'undefined') ? new Length(colorStop[2]) : null;
+        //console.log(colorStop);
+        if (colorStop[0] !== 'undefined') {
+            this.color = new Color(colorStop[1]);
+            this.length = (typeof colorStop[2] !== 'undefined') ? new Length(colorStop[2]) : null;
+        }
     }
 
     ColorStop.prototype = {
