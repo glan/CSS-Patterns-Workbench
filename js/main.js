@@ -26,6 +26,7 @@ require(['jquery',
             layerList.selectedLayer.attributes.opacity = event.opacity;
             layerList.selectedLayer.attributes.composite = event.composite;
             layerList.selectedLayer.attributes.image.colorStops = event.colorStops;
+            layerList.selectedLayer.trigger('update');
         } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
             layerList.selectedLayer.setRect(event.rect);
             infoPanel.setData(layerList.selectedLayer);

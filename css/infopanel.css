@@ -92,6 +92,7 @@
     border-left: 8px solid #ccc;
     margin-bottom: 2px;
     cursor: move;
+    background: #EEE;
 }
 
 #info-panel .colorstop .color {
