@@ -29,14 +29,20 @@ define('models/Rect',['models/Length'], function (Length) {
         },
         getAspect : function () {
             return this.aspect = this.aspect || this.getWidth().getValue() / this.getHeight().getValue();
+        },
+        getPosition : function () {
+            return ((this.getLeft().getValue() === null && this.getTop().getValue() !== null) ? 0 : this.getLeft()) +  ' ' + this.getTop();
+        },
+        getSize : function () {
+            return ((this.getWidth().getValue() === null && this.getHeight().getValue() !== null) ? 0 : this.getWidth()) + ' ' + this.getHeight();
         }
     };
 
     function Rect(data) {
-        this.setLeft(new Length(''+data.left));
-        this.setTop(new Length(''+data.top));
-        this.setWidth(new Length(''+data.width));
-        this.setHeight(new Length(''+data.height));
+        this.setLeft(new Length('px').parseLength(data.left));
+        this.setTop(new Length('px').parseLength(data.top));
+        this.setWidth(new Length('px').parseLength(data.width));
+        this.setHeight(new Length('px').parseLength(data.height));
     }
 
     Rect.prototype = rect;

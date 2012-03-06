@@ -4,7 +4,7 @@ define('models/Length', function () {
     var length = {
         regexp : /(-?[0-9]*\.?[0-9]+)(%|px|mm|cm|in|em|rem|en|ex|ch|vm|vw|vh)|(0)/,
         toString : function () {
-            return this.value + ((this.value !== 0 ) ? this.unit : '');
+            return  ((this.getValue() !== null) ? ((this.getValue() !== 0) ? this.getValue() + this.getUnit() : '0') : '');
         },
         setValue : function (v) {
             this.value = 1 * v;
@@ -17,18 +17,20 @@ define('models/Length', function () {
         },
         getUnit : function () {
             return this.unit;
+        },
+        parseLength : function (str) {
+            var result = (''+str).match(this.regexp);
+            if (result && result[1] && result[2]) {
+                this.value = 1 * result[1];
+                this.unit = result[2];
+            }
+            return this;
         }
     };
 
-    function Length(str) {
-        var result = (typeof str === 'string') ? str.match(this.regexp) : false;
-        if (result && result[1] && result[2]) {
-            this.value = 1 * result[1];
-            this.unit = result[2];
-        } else {
-            this.value = '';
-            this.unit = '';
-        }
+    function Length(units) {
+        this.unit =  units;
+        this.value = null;
     }
 
     Length.prototype = length;

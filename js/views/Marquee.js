@@ -81,16 +81,16 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
             if (event.srcElement === document.body) {
                 switch ('' + event.keyCode) {
                 case '37':
-                    this.rect.getLeft().setValue(this.rect.getLeft().getValue() - inc);
+                    this.rect.getLeft().setValue(1 * this.rect.getLeft().getValue() - inc);
                 break;
                 case '38':
-                    this.rect.getTop().setValue(this.rect.getTop().getValue() - inc);
+                    this.rect.getTop().setValue(1 * this.rect.getTop().getValue() - inc);
                     break;
                 case '39':
-                    this.rect.getLeft().setValue(this.rect.getLeft().getValue() + inc);
+                    this.rect.getLeft().setValue(1 * this.rect.getLeft().getValue() + inc);
                     break;
                 case '40':
-                    this.rect.getTop().setValue(this.rect.getTop().getValue() + inc);
+                    this.rect.getTop().setValue(1 * this.rect.getTop().getValue() + inc);
                     break;
                 }
                 this.dispacheEvent('move');

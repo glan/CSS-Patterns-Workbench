@@ -12,7 +12,7 @@ define('models/ColorStop', ['util/regexp', 'models/Color', 'models/Length'], fun
         //console.log(colorStop);
         if (colorStop[0] !== 'undefined') {
             this.color = new Color(colorStop[1]);
-            this.length = (typeof colorStop[2] !== 'undefined') ? new Length(colorStop[2]) : null;
+            this.length = (typeof colorStop[2] !== 'undefined') ? new Length('%').parseLength(colorStop[2]) : null;
         }
     }
 

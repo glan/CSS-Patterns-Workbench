@@ -1,4 +1,4 @@
-define('views/LayerList', function () {
+define('views/LayerList', ['jquery'], function ($) {
 
     function LayerList (layers) {
         this.layers = layers;
@@ -69,6 +69,7 @@ define('views/LayerList', function () {
             } else if (this.selectedLayer && event.type === 'click' && event.target.className === 'duplicate') {
                 orignalId = this.selectedLayer.cid;
                 this.selectedLayer = this.selectedLayer.clone();
+                this.selectedLayer.attributes.image = $.extend({}, this.selectedLayer.attributes.image);
                 this.selectedLayer.attributes.order = 1 * this.selectedLayer.attributes.order + 0.01;
                 this.layers.add(this.selectedLayer);
                 this.layers.sort();

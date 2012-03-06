@@ -1,4 +1,4 @@
-define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'models/ColorStop'], function (Rect, ColorStops, ColorStop) {
+define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'models/ColorStop', 'models/Length'], function (Rect, ColorStops, ColorStop, Length) {
 
     function LayerAttributesPanel() {
         //$('#info-panel').unbind();
@@ -41,23 +41,25 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
         $("#info_layer_stops").sortable({cursor:'-webkit-grabbing', containment:'document', items: 'li' });
         $("#info_layer_stops").disableSelection();
 
+        document.getElementById('info-panel').addEventListener('sortupdate', this, true);
         // Nasty jQuery events relay hack for catching sortupdate as a real UI event
-        var self = this;
-        $('#info-panel').bind("sortupdate", function () {
-            self.handleEvent();
+        $('#info-panel').parent().bind("sortupdate", function() {
+            var spawnEvent = document.createEvent('UIEvents');
+            spawnEvent.initUIEvent("sortupdate", false, false, window, 1);
+            document.getElementById('info-panel').dispatchEvent(spawnEvent);
         });
     }
 
     var layerAttributesPanel = {
         setData : function (layer) {
             var rect = layer.getRect();
-            document.getElementById('info_size_width').value = rect.getWidth().getValue();
+            document.getElementById('info_size_width').value = 1 * rect.getWidth().getValue();
             document.getElementById('info_size_width_unit').value = rect.getWidth().getUnit();
-            document.getElementById('info_size_height').value = rect.getHeight().getValue();
+            document.getElementById('info_size_height').value = 1 * rect.getHeight().getValue();
             document.getElementById('info_size_height_unit').value = rect.getHeight().getUnit();
-            document.getElementById('info_position_x').value = rect.getLeft().getValue();
+            document.getElementById('info_position_x').value = 1 * rect.getLeft().getValue();
             document.getElementById('info_position_x_unit').value = rect.getLeft().getUnit();
-            document.getElementById('info_position_y').value = rect.getTop().getValue();
+            document.getElementById('info_position_y').value = 1 * rect.getTop().getValue();
             document.getElementById('info_position_y_unit').value = rect.getTop().getUnit();
 
             document.getElementById('info_repeating').checked = layer.getRepeating();
@@ -79,24 +81,28 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             });
         },
         handleEvent : function (event) {
-            var spawnEvent = document.createEvent('UIEvents'), rect = new Rect({
-                width: document.getElementById('info_size_width').value + document.getElementById('info_size_width_unit').value,
-                height: document.getElementById('info_size_height').value + document.getElementById('info_size_height_unit').value,
-                left: document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value,
-                top: document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value
-            });
+            // We need to suppress change events for the colorstop field since these should only use input
+            if ((event.type !== 'change') || (event.target.className !== 'color' && event.target.className !== 'stop')) {
+                var spawnEvent = document.createEvent('UIEvents'),
+                    rect = new Rect({
+                        width: new Length().parseLength(document.getElementById('info_size_width').value + document.getElementById('info_size_width_unit').value),
+                        height: new Length().parseLength(document.getElementById('info_size_height').value + document.getElementById('info_size_height_unit').value),
+                        left: new Length().parseLength(document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value),
+                        top: new Length().parseLength(document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value)
+                    });
 
-            spawnEvent.initUIEvent('infopanel_update', true, true, window, 1);
-            spawnEvent.rect = rect;
-            spawnEvent.repeating = document.getElementById('info_repeating').checked;
-            spawnEvent.composite = document.getElementById('info_layer_composite').value;
-            spawnEvent.opacity = document.getElementById('info_layer_opacity').value / 100;
+                spawnEvent.initUIEvent('infopanel_update', true, true, window, 1);
+                spawnEvent.rect = rect;
+                spawnEvent.repeating = document.getElementById('info_repeating').checked;
+                spawnEvent.composite = document.getElementById('info_layer_composite').value;
+                spawnEvent.opacity = document.getElementById('info_layer_opacity').value / 100;
 
-            spawnEvent.colorStops = new ColorStops();
-            $('#info-panel .colorstops .colorstop').each(function(e, el) {
-                spawnEvent.colorStops.add(new ColorStop(el.querySelector('.color').value + ((el.querySelector('.stop').value != '') ? + ' ' + el.querySelector('.stop').value + el.querySelector('.unit').value : '')));
-            });
-            document.dispatchEvent(spawnEvent);
+                spawnEvent.colorStops = new ColorStops();
+                $('#info-panel .colorstops .colorstop').each(function(e, el) {
+                    spawnEvent.colorStops.add(new ColorStop(el.querySelector('.color').value + ((el.querySelector('.stop').value != '') ? + ' ' + el.querySelector('.stop').value + el.querySelector('.unit').value : '')));
+                });
+                document.dispatchEvent(spawnEvent);
+            }
         },
         show : function () {
             $(document.getElementById('right-bar')).addClass('show-lower');
