@@ -1,3 +1,7 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 require(['jquery', 
 'models/Layers',
 'models/Color',
@@ -31,6 +35,9 @@ require(['jquery',
             layerList.selectedLayer.attributes.image.size = event.image.size;
             layerList.selectedLayer.attributes.image.width = event.image.width;
             layerList.selectedLayer.attributes.image.height = event.image.height;
+            if (layerList.selectedLayer.attributes.image.name === 'linear-gradient') {
+                layerList.selectedLayer.attributes.image.direction = event.image.direction;
+            }
             layerList.selectedLayer.trigger('update');
         } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
             layerList.selectedLayer.setRect(event.rect);

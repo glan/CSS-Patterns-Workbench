@@ -165,16 +165,32 @@
                     </li>
                 </ul>
             </fieldset>
+            <fieldset class="linear-options">
+                <legend>Linear Options</legend>
+                <ul>
+                    <li>
+                        <label for="info_linear_direction">direction</label>
+                        <input id="info_linear_direction" type="number"/>deg
+                    </li>
+                    <li>
+                        <select id="info_linear_direction_set">
+                            <option value="">…</option>
+                            <option>top left</option>
+                            <option>top</option>
+                            <option>top right</option>
+                            <option>right</option>
+                            <option>bottom right</option>
+                            <option>bottom</option>
+                            <option>bottom left</option>
+                            <option>left</option>
+                        </select>
+                    </li>
+                </ul>
+            </fieldset>
             <fieldset class="colorstops">
-                <legend>Color Stops</legend>
+                <legend>Color Stops <button id="info_add_colorstop">Add Color Stop</button></legend>
                 <ul id="info_layer_stops">
                 </ul>
-                <div class="man_tools">
-                    <button id="info_add_colorstop">Add Color Stop</button>
-                </div>
-            </fieldset>
-                        <fieldset class="linear-options">
-                <legend>Linear Options</legend>
             </fieldset>
         </div>
     </div>

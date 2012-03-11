@@ -12,6 +12,9 @@ define('models/Direction', function () {
     Direction.prototype = {
         toString : function () {
             return this.value;
+        },
+        getValue : function () {
+            return parseInt(this.value);
         }
     }
 

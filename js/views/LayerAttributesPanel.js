@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'models/ColorStop', 'models/Length'], function (Rect, ColorStops, ColorStop, Length) {
+define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'models/ColorStop', 'models/Length', 'models/Direction'], function (Rect, ColorStops, ColorStop, Length, Direction) {
     'use strict';
 
     function LayerAttributesPanel() {
@@ -21,7 +21,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
         });
 
         document.getElementById('info_add_colorstop').addEventListener('click', function (event) {
-            template = document.querySelector('#templates>.colorstop');
+            var template = document.querySelector('#templates>.colorstop');
             document.getElementById('info_layer_stops').appendChild(template.cloneNode(true));
         });
 
@@ -73,21 +73,31 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info_layer_opacity').value = Math.round(layer.attributes.opacity * 100);
             document.getElementById('info_layer_opacity_range').value = Math.round(layer.attributes.opacity * 100);
 
-            document.getElementById('info_radial_shape').value = layer.attributes.image.shape;
-            document.getElementById('info_radial_size').value = layer.attributes.image.size;
+            if (layer.attributes.image.name === 'radial-gradient') {
+                document.getElementById('info_radial_shape').value = layer.attributes.image.shape;
+                document.getElementById('info_radial_size').value = layer.attributes.image.size;
 
-            document.getElementById('info_radial_position_x').value = layer.attributes.image.getPosition().x.getValue();
-            document.getElementById('info_radial_position_x_units').value =layer.attributes.image.getPosition().x.getUnit();
+                document.getElementById('info_radial_position_x').value = layer.attributes.image.getPosition().x.getValue();
+                document.getElementById('info_radial_position_x_units').value =layer.attributes.image.getPosition().x.getUnit();
 
-            document.getElementById('info_radial_position_y').value = layer.attributes.image.getPosition().y.getValue();
-            document.getElementById('info_radial_position_y_units').value = layer.attributes.image.getPosition().y.getUnit();
+                document.getElementById('info_radial_position_y').value = layer.attributes.image.getPosition().y.getValue();
+                document.getElementById('info_radial_position_y_units').value = layer.attributes.image.getPosition().y.getUnit();
 
-            document.getElementById('info_radial_size_width').value = layer.attributes.image.width.getValue();
-            document.getElementById('info_radial_size_width_units').value =layer.attributes.image.width.getUnit();
+                document.getElementById('info_radial_size_width').value = layer.attributes.image.width.getValue();
+                document.getElementById('info_radial_size_width_units').value =layer.attributes.image.width.getUnit();
 
-            document.getElementById('info_radial_size_height').value = layer.attributes.image.height.getValue();
-            document.getElementById('info_radial_size_height_units').value = layer.attributes.image.height.getUnit();
+                document.getElementById('info_radial_size_height').value = layer.attributes.image.height.getValue();
+                document.getElementById('info_radial_size_height_units').value = layer.attributes.image.height.getUnit();
 
+                document.querySelector('#info-panel .radial-options').style.display = 'block';
+                document.querySelector('#info-panel .linear-options').style.display = 'none';
+            } else if (layer.attributes.image.name === 'linear-gradient') {
+                document.getElementById('info_linear_direction_set').value = layer.attributes.image.direction.toString();
+                document.getElementById('info_linear_direction').value = layer.attributes.image.direction.getValue();
+
+                document.querySelector('#info-panel .radial-options').style.display = 'none';
+                document.querySelector('#info-panel .linear-options').style.display = 'block';
+            }
 
             var template = document.querySelector('#templates>.colorstop');
             document.getElementById('info_layer_stops').innerHTML = '';
@@ -126,6 +136,12 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 spawnEvent.image.size = document.getElementById('info_radial_size').value;
                 spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
                 spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
+
+                if (document.getElementById('info_linear_direction_set').value) {
+                    spawnEvent.image.direction = new Direction(document.getElementById('info_linear_direction_set').value);
+                } else {
+                    spawnEvent.image.direction = new Direction(document.getElementById('info_linear_direction').value + 'deg');
+                }
 
                 spawnEvent.colorStops = new ColorStops();
                 $('#info-panel .colorstops .colorstop').each(function(e, el) {

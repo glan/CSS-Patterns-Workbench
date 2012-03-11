@@ -75,14 +75,15 @@ body {
     overflow: hidden;
     -webkit-transition: all 0.2s linear;
     opacity: 0;
+    background: #FFF;
 }
 
 #right-bar.show-lower>.top {
-    bottom: 400px;
+    bottom: 500px;
 }
 
 #right-bar.show-lower>.bottom {
-    height: 400px;
+    height: 500px;
     opacity: 1;
 }
 
