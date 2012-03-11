@@ -1,3 +1,7 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/GradientRadial','models/ColorStops', 'models/ColorStop','models/Direction', 'models/Composite'], function(regex, GradientLinear, GradientRadial, ColorStops, ColorStop, Direction, Composite) {
     "use strict";
 

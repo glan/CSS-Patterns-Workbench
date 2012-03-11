@@ -1,5 +1,10 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('views/Marquee', ['models/Rect'], function (Rect) {
     'use strict';
+
     var template = '\
     <div id="size-helper">\
         <div id="ants"></div>\

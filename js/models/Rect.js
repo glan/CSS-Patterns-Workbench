@@ -1,4 +1,9 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('models/Rect',['models/Length'], function (Length) {
+    'use strict';
 
     var rect = {
         setLeft : function (left) {

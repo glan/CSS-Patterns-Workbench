@@ -1,4 +1,9 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'models/ColorStop', 'models/Length'], function (Rect, ColorStops, ColorStop, Length) {
+    'use strict';
 
     function LayerAttributesPanel() {
         //$('#info-panel').unbind();

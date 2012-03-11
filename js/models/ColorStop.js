@@ -1,4 +1,9 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('models/ColorStop', ['util/regexp', 'models/Color', 'models/Length'], function (regex, Color, Length) {
+    'use strict';
 
     var colorStopSelect = RegExp.create('({{color}})\\s*({{length}})?', {
         color: regex.color,

@@ -1,4 +1,9 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('models/Length', function () {
+    'use strict';
 
     //[TODO] Regexp filter setValue and setUnit input
     var length = {

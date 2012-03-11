@@ -1,4 +1,9 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('models/ColorStops', ['models/ColorStop', 'models/Length'], function (ColorStop, Length) {
+    'use strict';
 
     function ColorStops() {
         this.colorStops = [];

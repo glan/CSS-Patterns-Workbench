@@ -1,5 +1,10 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer', 'util/builder' ,'util/regexp'], function(Backbone, _, Layer, builder, regex) {
     "use strict";
+
     var Layers = Backbone.Collection.extend({
         model: Layer,
         toString : function () {

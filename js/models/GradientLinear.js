@@ -1,4 +1,9 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('models/GradientLinear', ['models/Direction'], function (Direction) {
+    'use strict';
 
     function GradientLinear(name, repeating, direction, colorStops) {
         this.name = name;

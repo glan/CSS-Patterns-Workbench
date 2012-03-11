@@ -1,4 +1,9 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('views/Canvas', function () {
+    'use strict';
 
     var template = '<div class="back" style="width: 800px; height: 600px;"><div id="canvas"></div></div>';
 

@@ -1,4 +1,9 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('models/GradientRadial', ['models/Length'], function (Length) {
+    'use strict';
 
     function GradientRadial(name, repeating, position, direction, shape, size, colorStops) {
         this.name = name;

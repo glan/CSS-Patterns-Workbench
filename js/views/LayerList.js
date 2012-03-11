@@ -1,4 +1,9 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('views/LayerList', ['jquery'], function ($) {
+    'use strict';
 
     function LayerList (layers) {
         this.layers = layers;
@@ -55,7 +60,7 @@ define('views/LayerList', ['jquery'], function ($) {
         },
         
         handleEvent : function(event) {
-            var domLayer = $(event.target).closest('.layer'), orignalId
+            var domLayer = $(event.target).closest('.layer'), orignalId,
                 layer = this.layers.getByCid(domLayer.attr('data-id'));
             if (this.selectedLayer && event.type === 'click' && event.target.className === 'remove' && confirm('Remove selected layer?')) {
                 domLayer = $('#layers .layer[data-id='+this.selectedLayer.cid+']');

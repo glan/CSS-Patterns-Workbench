@@ -1,3 +1,7 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('views/Grid', ['models/Layers', 'models/GradientLinear', 'models/ColorStops', 'models/ColorStop'], function (Layers, GradientLinear, ColorStops, ColorStop) {
     'use strict';
     var template = '<div id="grid"></div>';

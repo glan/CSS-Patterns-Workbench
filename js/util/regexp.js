@@ -1,3 +1,7 @@
+/**
+ * © Glan Thomas 2012
+ */
+
 define('util/regexp', function () {
     "use strict";
     /**
