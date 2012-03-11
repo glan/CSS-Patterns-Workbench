@@ -77,6 +77,24 @@
                 </ul>
                 <ul>
                     <li>
+                        <label for="info_position_x">x</label>
+                        <input id="info_position_x" type="number" />
+                        <select id="info_position_x_unit">
+                            <option>%</option>
+                            <option>px</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="info_position_y">y</label>
+                        <input id="info_position_y" type="number" />
+                        <select id="info_position_y_unit">
+                            <option>%</option>
+                            <option>px</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
                         <label for="info_size_width">Width</label>
                         <input id="info_size_width" type="number" min="1" />
                         <select id="info_size_width_unit">
@@ -93,25 +111,59 @@
                         </select>
                     </li>
                 </ul>
+            </fieldset>
+            <fieldset class="radial-options">
+                <legend>Radial Options</legend>
                 <ul>
                     <li>
-                        <label for="info_position_x">x</label>
-                        <input id="info_position_x" type="number" />
-                        <select id="info_position_x_unit">
+                        <label for="info_radial_position_x">x</label>
+                        <input id="info_radial_position_x" type="number"/>
+                        <select id="info_radial_position_x_units">
                             <option>%</option>
                             <option>px</option>
                         </select>
                     </li>
                     <li>
-                        <label for="info_position_y">y</label>
-                        <input id="info_position_y" type="number" />
-                        <select id="info_position_y_unit">
+                        <label for="info_radial_position_y">y</label>
+                        <input id="info_radial_position_y" type="number"/>
+                        <select id="info_radial_position_y_units">
                             <option>%</option>
                             <option>px</option>
                         </select>
-            
                     </li>
-                </li>
+                </ul>
+                <ul>
+                    <li>
+                        <label for="info_radial_shape">shape</label>
+                        <select id="info_radial_shape">
+                            <option value="circle">circle</option>
+                            <option value="ellipse">ellipse</option>
+                            <option value="">…</option>
+                        </select>
+                        <select id="info_radial_size">
+                            <option>closest-side</option>
+                            <option>closest-corner</option>
+                            <option>farthest-side</option>
+                            <option>farthest-corner</option>
+                        </select>
+                    </li>
+                     <li>
+                        <label for="info_radial_size_width">width</label>
+                        <input id="info_radial_size_width" type="number"/>
+                        <select id="info_radial_size_width_units">
+                            <option>%</option>
+                            <option>px</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="info_radial_size_height">height</label>
+                        <input id="info_radial_size_height" type="number"/>
+                        <select id="info_radial_size_height_units">
+                            <option>%</option>
+                            <option>px</option>
+                        </select>
+                    </li>
+                </ul>
             </fieldset>
             <fieldset class="colorstops">
                 <legend>Color Stops</legend>
@@ -120,6 +172,9 @@
                 <div class="man_tools">
                     <button id="info_add_colorstop">Add Color Stop</button>
                 </div>
+            </fieldset>
+                        <fieldset class="linear-options">
+                <legend>Linear Options</legend>
             </fieldset>
         </div>
     </div>

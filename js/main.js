@@ -26,6 +26,11 @@ require(['jquery',
             layerList.selectedLayer.attributes.opacity = event.opacity;
             layerList.selectedLayer.attributes.composite = event.composite;
             layerList.selectedLayer.attributes.image.colorStops = event.colorStops;
+            layerList.selectedLayer.attributes.image.position = event.image.position.x + ' ' + event.image.position.y;
+            layerList.selectedLayer.attributes.image.shape = event.image.shape ;
+            layerList.selectedLayer.attributes.image.size = event.image.size;
+            layerList.selectedLayer.attributes.image.width = event.image.width;
+            layerList.selectedLayer.attributes.image.height = event.image.height;
             layerList.selectedLayer.trigger('update');
         } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
             layerList.selectedLayer.setRect(event.rect);

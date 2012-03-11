@@ -20,7 +20,9 @@ define('models/Length', function () {
         },
         parseLength : function (str) {
             var result = (''+str).match(this.regexp);
-            if (result && result[1] && result[2]) {
+            if (result && result[0] === '0') {
+                this.value = 0;
+            } else if (result && result[1] && result[2]) {
                 this.value = 1 * result[1];
                 this.unit = result[2];
             }

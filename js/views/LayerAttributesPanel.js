@@ -68,6 +68,22 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info_layer_opacity').value = Math.round(layer.attributes.opacity * 100);
             document.getElementById('info_layer_opacity_range').value = Math.round(layer.attributes.opacity * 100);
 
+            document.getElementById('info_radial_shape').value = layer.attributes.image.shape;
+            document.getElementById('info_radial_size').value = layer.attributes.image.size;
+
+            document.getElementById('info_radial_position_x').value = layer.attributes.image.getPosition().x.getValue();
+            document.getElementById('info_radial_position_x_units').value =layer.attributes.image.getPosition().x.getUnit();
+
+            document.getElementById('info_radial_position_y').value = layer.attributes.image.getPosition().y.getValue();
+            document.getElementById('info_radial_position_y_units').value = layer.attributes.image.getPosition().y.getUnit();
+
+            document.getElementById('info_radial_size_width').value = layer.attributes.image.width.getValue();
+            document.getElementById('info_radial_size_width_units').value =layer.attributes.image.width.getUnit();
+
+            document.getElementById('info_radial_size_height').value = layer.attributes.image.height.getValue();
+            document.getElementById('info_radial_size_height_units').value = layer.attributes.image.height.getUnit();
+
+
             var template = document.querySelector('#templates>.colorstop');
             document.getElementById('info_layer_stops').innerHTML = '';
             layer.attributes.image.colorStops.getColorStops().forEach(function(colorStop) {
@@ -85,10 +101,10 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             if ((event.type !== 'change') || (event.target.className !== 'color' && event.target.className !== 'stop')) {
                 var spawnEvent = document.createEvent('UIEvents'),
                     rect = new Rect({
-                        width: new Length().parseLength(document.getElementById('info_size_width').value + document.getElementById('info_size_width_unit').value),
-                        height: new Length().parseLength(document.getElementById('info_size_height').value + document.getElementById('info_size_height_unit').value),
-                        left: new Length().parseLength(document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value),
-                        top: new Length().parseLength(document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value)
+                        width: document.getElementById('info_size_width').value + document.getElementById('info_size_width_unit').value,
+                        height: document.getElementById('info_size_height').value + document.getElementById('info_size_height_unit').value,
+                        left: document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value,
+                        top: document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value
                     });
 
                 spawnEvent.initUIEvent('infopanel_update', true, true, window, 1);
@@ -96,6 +112,15 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 spawnEvent.repeating = document.getElementById('info_repeating').checked;
                 spawnEvent.composite = document.getElementById('info_layer_composite').value;
                 spawnEvent.opacity = document.getElementById('info_layer_opacity').value / 100;
+
+                spawnEvent.image = {};
+                spawnEvent.image.position = {};
+                spawnEvent.image.position.x = new Length().parseLength(document.getElementById('info_radial_position_x').value + document.getElementById('info_radial_position_x_units').value);
+                spawnEvent.image.position.y = new Length().parseLength(document.getElementById('info_radial_position_y').value + document.getElementById('info_radial_position_y_units').value);
+                spawnEvent.image.shape = document.getElementById('info_radial_shape').value;
+                spawnEvent.image.size = document.getElementById('info_radial_size').value;
+                spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
+                spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
 
                 spawnEvent.colorStops = new ColorStops();
                 $('#info-panel .colorstops .colorstop').each(function(e, el) {

@@ -59,7 +59,7 @@ define('util/regexp', function () {
         keyword: regex.keyword,
         length: regex.length
     }, 'g');
-    
+
     regex.colorStop = RegExp.create('(?:{{color}})\\s*(?:{{length}})?', {
         color: regex.color,
         length: regex.length
@@ -74,15 +74,16 @@ define('util/regexp', function () {
         linearGradient : /repeating-linear-gradient|linear-gradient/
     }, 'g');
 
-    regex.radialGradient = RegExp.create('(?:-webkit-)?({{radialGradient}})\\(\\s*(?:({{position}})?\\s*({{direction}})?\\s*,)?\\s*(?:({{size}}|{{shape})?\\s*({{size}}|{{shape}})?\\s*,)?\\s*({{colorstop}}\\s*(?:,\\s*{{colorstop}}\\s*)+)\\)\\s*({{position}})?', {
+    regex.radialGradient = RegExp.create('(?:-webkit-)?({{radialGradient}})\\(\\s*(?:({{position}})?\\s*({{direction}})?\\s*,)?\\s*(?:({{size}}|{{shape}}|{{length}})?\\s*({{size}}|{{shape}}|{{length}})?\\s*,)?\\s*({{colorstop}}\\s*(?:,\\s*{{colorstop}}\\s*)+)\\)\\s*({{position}})?', {
         direction: regex.direction,
         colorStop: regex.colorStop,
         position : regex.position,
+        length : regex.length,
         size : /closest-side|closest-corner|farthest-side|farthest-corner|contain|cover/,
         shape: /ellipse|circle/,
         radialGradient : /repeating-radial-gradient|radial-gradient/
     }, 'g');
-    
+
     regex.gradient = RegExp.create('{{linearGradient}}|{{radialGradient}}', {
         linearGradient : regex.linearGradient,
         radialGradient : regex.radialGradient
