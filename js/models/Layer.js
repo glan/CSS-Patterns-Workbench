@@ -6,8 +6,8 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
     "use strict";
 
     var Layer = {
-        getImage : function () {
-            return this.attributes.image.toString(this.attributes.opacity);
+        getImage : function (prefix) {
+            return this.attributes.image.toString(this.attributes.opacity, prefix);
         },
         getSize : function () {
             return (this.attributes.size) ? this.attributes.size : null;

@@ -7,28 +7,39 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
 
     var Layers = Backbone.Collection.extend({
         model: Layer,
-        toString : function () {
-            var image ='',    //=  this.first().getImage() + ((this.first().getPosition()) ? ' ' + this.first().getPosition() : ''),
-                position ='',  //=  this.first().getPosition(),
-                size = '',     //=  ((this.first().getSize()) ? this.first().getSize() : ''),
-                composite ='',//=  this.first().getComposite();
-                bgColor = '';
-            this.forEach(function (x) {
-                if (x.attributes.enabled) {
-                    image     += (x.getImage()) ? ((image !== '') ? ',' : '') + x.getImage() + ((x.getPosition()) ? ' ' + x.getPosition() : '') : '';
-                    position  += (x.getPosition()) ? ((position !== '') ? ',' : '') + x.getPosition() : '';
-                    size      += (x.getSize()) ? ((size !== '') ? ',' : '') + x.getSize() : '';
-                    composite += (x.getComposite()) ? ((composite !== '') ? ',' : '') + x.getComposite() : '';
-                }
-            });
-            image     = 'background:' + image+ ';\n';
-            position  = 'background-position:' + position + ';\n';
-            size      = '-webkit-background-size:' + size + ';\n';
-            if (composite !=='')
-                composite = '-webkit-background-composite: ' + composite + ';\n';
+        toString : function (prefixes) {
+            prefixes = (prefixes) ? prefixes : [];
+            prefixes.push(0);
+            var image,    //=  this.first().getImage() + ((this.first().getPosition()) ? ' ' + this.first().getPosition() : ''),
+                position,  //=  this.first().getPosition(),
+                size,     //=  ((this.first().getSize()) ? this.first().getSize() : ''),
+                composite,//=  this.first().getComposite();
+                bgColor = '',
+                i, css = [];
+
+            for(i=0; i<prefixes.length; i++) {
+                image = '';
+                position = '';
+                size = '';
+                composite = '';
+                this.forEach(function (x) {
+                    if (x.attributes.enabled) {
+                        image     += (x.getImage(prefixes[i])) ? ((image !== '') ? ',' : '') + x.getImage(prefixes[i]) + ((x.getPosition()) ? ' ' + x.getPosition() : '') : '';
+                        position  += (x.getPosition()) ? ((position !== '') ? ',' : '') + x.getPosition() : '';
+                        size      += (x.getSize()) ? ((size !== '') ? ',' : '') + x.getSize() : '';
+                        composite += (x.getComposite()) ? ((composite !== '') ? ',' : '') + x.getComposite() : '';
+                    }
+                });
+                image     = 'background:' + image+ ';\n';
+                size      = ((prefixes[i]) ? prefixes[i] + '-' : '') + 'background-size:' + size + ';\n';
+                if (composite !=='')
+                    composite = ((prefixes[i]) ? prefixes[i] + '-' : '') + 'background-composite: ' + composite + ';\n';
+                css.push(image + size + composite);
+            }
             if (this.backgroundColor)
                 bgColor = 'background-color: ' + this.backgroundColor + ';\n';
-            return image + size + composite + bgColor;
+            css.push(bgColor);
+            return css.join('');
         },
         parseCSS : function (css) {
             try {

@@ -47,7 +47,7 @@ require(['jquery',
     }
 
     layerList.layers.bind('update', function() {
-        canvas.render(layerList.layers);
+        canvas.render(layerList.layers.toString(['-webkit','-moz']));
         grid.setData(layerList.layers);
         if (document.getElementById('update-grid').checked) {
             grid.showGrid();
@@ -91,7 +91,7 @@ require(['jquery',
         canvas.setHeight(this.value);
     });
 
-    document.getElementById('data').addEventListener('keyup', function (e) {
+    document.getElementById('data').addEventListener('keyup', function (event) {
         layerList.layers.parseCSS(event.target.value);
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
         marquee.hideRect();

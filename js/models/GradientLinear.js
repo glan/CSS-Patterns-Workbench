@@ -13,8 +13,8 @@ define('models/GradientLinear', ['models/Direction'], function (Direction) {
     }
 
     GradientLinear.prototype = {
-        toString : function (alpha) {
-            return '-webkit-' + ((this.repeating) ? 'repeating-' : '') + this.name + '(' + this.direction + ',' + this.colorStops.toString(alpha) + ')';
+        toString : function (alpha, prefix) {
+            return ((prefix) ? prefix + '-' : '') + ((this.repeating) ? 'repeating-' : '') + this.name + '(' + this.direction + ',' + this.colorStops.toString(alpha) + ')';
         }
     }
 

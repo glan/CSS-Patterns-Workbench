@@ -30,6 +30,8 @@ body {
     background-color : #FFF;
     background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
                        -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-image : -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
     background-size : 10px 10px;
     background-position : 0 0, 5px 5px;
     -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
@@ -125,6 +127,7 @@ body {
     padding: 6px 20px 1px;
     border-bottom: 1px solid #999;
     background: -webkit-linear-gradient(#333, #000);
+    background: -moz-linear-gradient(#333, #000);
     color: #EEE;
 }
 
