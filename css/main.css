@@ -21,12 +21,16 @@ body {
     display: -webkit-box;
     -webkit-box-align: center;
     -webkit-box-pack: center;
+    display: -moz-box;
+    -moz-box-align: center;
+    -moz-box-pack: center;
     overflow: hidden;
 }
 
 #frame .back {
     position: relative;
     display: -webkit-box;
+    display: -moz-box;
     background-color : #FFF;
     background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
                        -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
@@ -35,6 +39,7 @@ body {
     background-size : 10px 10px;
     background-position : 0 0, 5px 5px;
     -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
+    -moz-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
 }
 
 #frame #canvas {
@@ -154,6 +159,7 @@ body {
 
 #top-bar input:focus {
     -webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+    -moz-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
     outline: none;
 }
 

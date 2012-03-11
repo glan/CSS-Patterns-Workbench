@@ -36,6 +36,15 @@ define('views/LayerList', ['jquery'], function ($) {
         });
     }
 
+     function updatePreview(layer) {
+        var prefixes = ['-webkit', '-moz'],
+            css = '';
+        prefixes.forEach(function(prefix) {
+            css += 'background:'+layer.getImage(prefix) + ';';
+        });
+        document.querySelector('.layer[data-id='+layer.cid+'] .preview').setAttribute('style', css);
+    }
+
     var layerList = {
         reset : function() {
             document.getElementById('layers').innerHTML = '';
@@ -48,15 +57,15 @@ define('views/LayerList', ['jquery'], function ($) {
                 cid = e.cid,
                 newLayer = template.cloneNode(true);
             newLayer.setAttribute('data-id',cid);
-            newLayer.querySelector('.preview').style.background = e.attributes.image.toString();
             newLayer.querySelector('.info.name').innerHTML = 'Layer ' + cid;
             newLayer.querySelector('.info.type').innerHTML = ((e.attributes.image.repeating) ? 'repeating-' : '' ) + e.attributes.image.name;
             newLayer.querySelector('.enabled').checked = e.attributes.enabled;
             e.bind('update', function() {
-                document.querySelector('.layer[data-id='+cid+'] .preview').style.background = this.getImage();
+                updatePreview(e);
                 document.querySelector('.layer[data-id='+cid+'] .info.type').innerHTML = ((this.attributes.image.repeating) ? 'repeating-' : '' ) + this.attributes.image.name;
             });
             document.getElementById('layers').appendChild(newLayer);
+            updatePreview(e);
         },
         
         handleEvent : function(event) {
