@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-define('views/LayerList', ['jquery', 'models/Layer', 'models/Direction', 'models/ColorStops', 'models/GradientLinear', 'models/GradientRadial'], function ($, Layer, Direction, ColorStops, GradientLinear, GradientRadial) {
+define('views/LayerList', ['jquery', 'models/Layer', 'models/Direction', 'models/ColorStop', 'models/ColorStops', 'models/GradientLinear', 'models/GradientRadial'], function ($, Layer, Direction, ColorStop, ColorStops, GradientLinear, GradientRadial) {
     'use strict';
 
     function LayerList (layers) {
@@ -16,7 +16,7 @@ define('views/LayerList', ['jquery', 'models/Layer', 'models/Direction', 'models
            self.reset();
         });
 
-        $("#layers").sortable({cursor:'-webkit-grabbing', containment:'document'});
+        $("#layers").sortable({cursor:'-webkit-grabbing', containment:'document', axis: 'y' });
         $("#layers").disableSelection();
 
         document.getElementById('layers').addEventListener('click', this);
@@ -71,7 +71,7 @@ define('views/LayerList', ['jquery', 'models/Layer', 'models/Direction', 'models
         handleEvent : function(event) {
             var domLayer = $(event.target).closest('.layer'), orignalId,
                 layer = this.layers.getByCid(domLayer.attr('data-id'));
-            if (this.selectedLayer && event.type === 'click' && event.target.className === 'remove' && confirm('Remove selected layer?')) {
+            if (this.selectedLayer && event.type === 'click' && event.target.className === 'remove' && confirm('Delete selected layer?')) {
                 domLayer = $('#layers .layer[data-id='+this.selectedLayer.cid+']');
                 domLayer.fadeOut(function() { 
                     domLayer.remove();
@@ -94,7 +94,7 @@ define('views/LayerList', ['jquery', 'models/Layer', 'models/Direction', 'models
                 switch(event.target.value) {
                 case 'linear-gradient':
                     layer = new Layer();
-                    layer.attributes.image = new GradientLinear('linear-gradient', false, new Direction(), new ColorStops());
+                    layer.attributes.image = new GradientLinear('linear-gradient', false, new Direction(), new ColorStops().add(new ColorStop('transparent')).add(new ColorStop('transparent')));
                     layer.attributes.order = 0;
                     layer.attributes.size = '100px 100px';
                     layer.attributes.enabled = true;
@@ -108,7 +108,7 @@ define('views/LayerList', ['jquery', 'models/Layer', 'models/Direction', 'models
                     break;
                 case 'radial-gradient':
                     layer = new Layer();
-                    layer.attributes.image = new GradientRadial('radial-gradient', false, '', '', '', '', new ColorStops());
+                    layer.attributes.image = new GradientRadial('radial-gradient', false, '', '', '', '', new ColorStops().add(new ColorStop('transparent')).add(new ColorStop('transparent')));
                     layer.attributes.order = 0;
                     layer.attributes.size = '100px 100px';
                     layer.attributes.enabled = true;
@@ -122,6 +122,7 @@ define('views/LayerList', ['jquery', 'models/Layer', 'models/Direction', 'models
                     break;
                 }
                 this.dispacheEvent('selection');
+                event.target.value = '';
             } else if (domLayer && event.type === 'mousedown') {
                 $('#layers .layer.selected').removeClass('selected');
                 this.selectedLayer = null;
