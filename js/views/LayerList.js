@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-define('views/LayerList', ['jquery'], function ($) {
+define('views/LayerList', ['jquery', 'models/Layer', 'models/Direction', 'models/ColorStops', 'models/GradientLinear', 'models/GradientRadial'], function ($, Layer, Direction, ColorStops, GradientLinear, GradientRadial) {
     'use strict';
 
     function LayerList (layers) {
@@ -89,6 +89,38 @@ define('views/LayerList', ['jquery'], function ($) {
                 this.layers.sort();
                 $('#layers .layer.selected').removeClass('selected');
                 $('.layer[data-id='+this.selectedLayer.cid+']').addClass('selected');
+                this.dispacheEvent('selection');
+            } else if (event.type === 'click' && event.target.className === 'add') {
+                switch(event.target.value) {
+                case 'linear-gradient':
+                    layer = new Layer();
+                    layer.attributes.image = new GradientLinear('linear-gradient', false, new Direction(), new ColorStops());
+                    layer.attributes.order = 0;
+                    layer.attributes.size = '100px 100px';
+                    layer.attributes.enabled = true;
+                    layer.attributes.opacity = 1;
+                    layer.attributes.composite = 'source-over';
+                    this.layers.add(layer);
+                    this.layers.sort();
+                    this.selectedLayer = layer;
+                    $('#layers .layer.selected').removeClass('selected');
+                    $('.layer[data-id='+layer.cid+']').addClass('selected');
+                    break;
+                case 'radial-gradient':
+                    layer = new Layer();
+                    layer.attributes.image = new GradientRadial('radial-gradient', false, '', '', '', '', new ColorStops());
+                    layer.attributes.order = 0;
+                    layer.attributes.size = '100px 100px';
+                    layer.attributes.enabled = true;
+                    layer.attributes.opacity = 1;
+                    layer.attributes.composite = 'source-over';
+                    this.layers.add(layer);
+                    this.layers.sort();
+                    this.selectedLayer = layer;
+                    $('#layers .layer.selected').removeClass('selected');
+                    $('.layer[data-id='+layer.cid+']').addClass('selected');
+                    break;
+                }
                 this.dispacheEvent('selection');
             } else if (domLayer && event.type === 'mousedown') {
                 $('#layers .layer.selected').removeClass('selected');

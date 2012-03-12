@@ -110,6 +110,10 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 }
                 document.getElementById('info_layer_stops').appendChild(newStop);
             });
+            document.getElementById('info_gradient_preview').setAttribute('style',
+                'background: -webkit-linear-gradient(0deg,'+layer.attributes.image.colorStops.getColorStops().toString()+');' +
+                'background: -moz-linear-gradient(0deg,'+layer.attributes.image.colorStops.getColorStops().toString()+');'
+            );
         },
         handleEvent : function (event) {
             // We need to suppress change events for the colorstop field since these should only use input
@@ -147,6 +151,11 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 $('#info-panel .colorstops .colorstop').each(function(e, el) {
                     spawnEvent.colorStops.add(new ColorStop(el.querySelector('.color').value + ((el.querySelector('.stop').value != '') ? + ' ' + el.querySelector('.stop').value + el.querySelector('.unit').value : '')));
                 });
+
+                document.getElementById('info_gradient_preview').setAttribute('style',
+                    'background: -webkit-linear-gradient(0deg,'+spawnEvent.colorStops.toString()+');' +
+                    'background: -moz-linear-gradient(0deg,'+spawnEvent.colorStops.toString()+');'
+                );
                 document.dispatchEvent(spawnEvent);
             }
         },

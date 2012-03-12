@@ -40,10 +40,6 @@
     margin: 4px;
 }
 
-#info-panel input.color {
-    width: 80px;
-}
-
 #info-panel ul {
     padding: 3px 0 3px 0;
     border-bottom: 1px solid #EEE;
@@ -79,10 +75,34 @@
     padding-bottom: 30px;
 }
 
+#info_gradient_preview {
+    height: 30px;
+    left: 0; right: 0;
+    position: absolute;
+    background: green;
+    -webkit-transform: translateZ(1px);
+}
+
+#info-panel .colorstops .preview {
+    content : '';
+    display: block;
+    position: absolute;
+    height: 30px;
+    left: 0; right: 0;
+    background-color : #FFF;
+    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-image : -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-size : 8px 8px;
+    background-position : 0 0, 4px 4px;
+}
+
 #info-panel #info_layer_stops {
     height: 138px;
     overflow-y: scroll;
     padding: 4px;
+    padding-top: 32px;
 }
 
 #info-panel .colorstop {
@@ -112,3 +132,4 @@
 #info-panel .colorstop .remove:after {
     content: '❌';
 }
+

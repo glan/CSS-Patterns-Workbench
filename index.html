@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/infopanel.css"/>
     <link rel="stylesheet" href="css/layerlist.css"/>
     <link rel="stylesheet" href="css/marquee.css"/>
+    <link rel="stylesheet" href="css/jPicker-1.1.6.css"/>
 </head>
 <body>
 
@@ -29,13 +30,15 @@
 
 <div id="right-bar">
     <div class="top">
-        <heading>Layers</heading>
+        <heading id="layer-man-tools">Layers
+            <select class="add">
+                <option value="">Add Layer ▾</option>
+                <option value="linear-gradient">Linear Gradient</option>
+                <option value="radial-gradient">Radial Gradient</option>
+            </select>
+            <button class="duplicate">Dup</button>
+            <button class="remove">Remove</button></heading>
         <div id="layers"></div>
-        <div id="layer-man-tools" class="man_tools">
-            <button>Add Layer</button>
-            <button class="duplicate">Duplicate Layer</button>
-            <button class="remove">Remove Layer</button>
-        </div>
     </div>
 
     <div class="bottom">
@@ -175,20 +178,21 @@
                     <li>
                         <select id="info_linear_direction_set">
                             <option value="">…</option>
-                            <option>top left</option>
-                            <option>top</option>
-                            <option>top right</option>
-                            <option>right</option>
-                            <option>bottom right</option>
-                            <option>bottom</option>
-                            <option>bottom left</option>
-                            <option>left</option>
+                            <option value="top left">top left</option>
+                            <option value="top">top</option>
+                            <option value="top right">top right</option>
+                            <option value="right">right</option>
+                            <option value="bottom right">bottom right</option>
+                            <option value="bottom">bottom</option>
+                            <option value="bottom left">bottom left</option>
+                            <option value="left">left</option>
                         </select>
                     </li>
                 </ul>
             </fieldset>
             <fieldset class="colorstops">
-                <legend>Color Stops <button id="info_add_colorstop">Add Color Stop</button></legend>
+                <legend>Color Stops <button id="info_add_colorstop">Add</button></legend>
+                <div class="preview"><div id="info_gradient_preview"></div></div>
                 <ul id="info_layer_stops">
                 </ul>
             </fieldset>
@@ -222,7 +226,7 @@ background-size: 100px 100px;
         </div>
     </div>
     <li class="colorstop">
-        <input class="color" />@<input class="stop" type="number" min="0"/>
+        <input type="color" class="color"/>@<input class="stop" type="number" min="0"/>
         <select class="unit">
             <option>%</option>
             <option>px</option>

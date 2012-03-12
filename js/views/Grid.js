@@ -36,7 +36,7 @@ define('views/Grid', ['models/Layers', 'models/GradientLinear', 'models/ColorSto
                     enabled : true
                 });
             });
-            this.domElement.setAttribute('style', grid.toString());
+            this.domElement.setAttribute('style', grid.toString(['-webkit','-moz']));
         },
         hideGrid : function () {
             this.domElement.setAttribute('style','');

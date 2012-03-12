@@ -52,7 +52,19 @@ body {
     left: 0; top: 0; right: 0; bottom: 0;
 }
 
-
+input[type='color'] {
+    width: 80px;
+    border: 1px solid #333;
+    background-color : #FFF;
+    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-image : -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-size : 10px 10px;
+    background-position : 0 0, 5px 5px;
+    padding: 3px;
+    text-shadow: 0 0 2px #FFF, 0 0 2px #FFF, 0 0 2px #FFF, 0 0 2px #FFF, 0 0 2px #FFF, 0 0 2px #FFF;
+}
 
 #right-bar {
     position: absolute;
@@ -149,7 +161,7 @@ body {
     content: ':';
 }
 
-#top-bar input {
+#top-bar input[type!=color] {
     margin-left: 2px;
     border-radius: 3px;
     border: #CCC;
