@@ -10,7 +10,7 @@ require(['jquery',
 'views/Canvas',
 'views/Grid',
 'views/LayerList',
-'js/vendor/jquery-ui-1.8.14.custom.min.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList) {
+'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/jpicker-1.1.6.min.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList) {
     'use strict';
     var layerList = new LayerList(new Layers()),
         canvas = new Canvas(document.getElementById('frame')),
@@ -21,6 +21,20 @@ require(['jquery',
     document.addEventListener('marquee_move', updateView);
     document.addEventListener('marquee_resize', updateView);
     document.addEventListener('infopanel_update', updateView);
+
+    /*$('#background-color').jPicker(
+        {
+          window: {
+            position: { x: 'screenCenter', y: 'bottom'},
+            expandable: true,
+            alphaSupport: true
+          },
+          color:
+          {
+            mode: 'h',
+          },
+          images: {clientPath: 'images/'}
+        });*/
 
     function updateView(event) {
         if (event.type === 'infopanel_update') {
@@ -79,8 +93,15 @@ require(['jquery',
     });
 
     document.getElementById('background-color').addEventListener('change', function (event) {
+        document.getElementById('background-color').style.backgroundColor = document.getElementById('background-color').value;
         layerList.layers.backgroundColor = document.getElementById('background-color').value;
         layerList.layers.trigger('update');
+    });
+    
+    document.addEventListener('input', function (event) {
+        if (event.target.type === 'color') {
+            event.target.setAttribute('style', 'background: -webkit-linear-gradient(' + event.target.value + ',' + event.target.value + '),' + '-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);');
+        }
     });
 
     document.getElementById('canvas-width').addEventListener('input', function (event) {
