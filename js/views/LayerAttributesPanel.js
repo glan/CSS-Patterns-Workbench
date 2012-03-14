@@ -25,6 +25,13 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info_layer_stops').appendChild(template.cloneNode(true));
         });
 
+        document.getElementById('info_linear_direction').addEventListener('focus', function(event) {
+            document.querySelector('#info_linear_direction_set input[type=radio].manual').checked = true;
+            var spawnEvent = document.createEvent('UIEvents');
+            spawnEvent.initUIEvent('change', true, true, window, 1);
+            document.getElementById('info-panel').dispatchEvent(spawnEvent);
+        });
+
         document.getElementById('info_layer_opacity_range').addEventListener('change', function(event) {
             document.getElementById('info_layer_opacity').value = this.value;
         });
@@ -92,7 +99,12 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 document.querySelector('#info-panel .radial-options').style.display = 'block';
                 document.querySelector('#info-panel .linear-options').style.display = 'none';
             } else if (layer.attributes.image.name === 'linear-gradient') {
-                document.getElementById('info_linear_direction_set').value = layer.attributes.image.direction.toString();
+                console.log(layer.attributes.image.direction);
+                var radio = document.querySelector('#info_linear_direction_set input[value=\''+layer.attributes.image.direction.toString()+'\']');
+                if (radio)
+                    radio.checked = true;
+                else
+                    document.querySelector('#info_linear_direction_set input[type=radio].manual').checked = true;
                 document.getElementById('info_linear_direction').value = layer.attributes.image.direction.getValue();
 
                 document.querySelector('#info-panel .radial-options').style.display = 'none';
@@ -141,14 +153,15 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
                 spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
 
-                if (document.getElementById('info_linear_direction_set').value) {
-                    spawnEvent.image.direction = new Direction(document.getElementById('info_linear_direction_set').value);
+                var radio = document.querySelector('#info_linear_direction_set input:checked');
+                if (radio.value) {
+                    spawnEvent.image.direction = new Direction(radio.value);
                 } else {
                     spawnEvent.image.direction = new Direction(document.getElementById('info_linear_direction').value + 'deg');
                 }
 
                 spawnEvent.colorStops = new ColorStops();
-                $('#info-panel .colorstops .colorstop').each(function(e, el) {
+                $('#info_layer_stops .colorstop').each(function(e, el) {
                     spawnEvent.colorStops.add(new ColorStop(el.querySelector('.color').value + ((el.querySelector('.stop').value != '') ? + ' ' + el.querySelector('.stop').value + el.querySelector('.unit').value : '')));
                 });
 
@@ -160,10 +173,10 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             }
         },
         show : function () {
-            $(document.getElementById('right-bar')).addClass('show-lower');
+            $(document.body).addClass('showInfo');
         },
         hide : function () {
-            $(document.getElementById('right-bar')).removeClass('show-lower');
+            $(document.body).removeClass('showInfo');
         }
     }
 

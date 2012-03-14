@@ -2,21 +2,34 @@
     font-size: 12px;
     position: absolute;
     right: 0;
-    left: 0;
+    top: 0;
+    bottom: 0;
     overflow: hidden;
-    min-height: 372px;
+    opacity: 0;
+    width: 260px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    background: #FFF;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    -webkit-transition: all 0.2s ease-in;
+    font-size: 10px;
+}
+
+.showInfo #info-panel {
+    right: 260px;
+    -webkit-transition: all 0.2s ease-out;
     opacity: 1;
-    padding-top: 30px;
 }
 
 #info-panel fieldset {
     border: none;
-    position: relative;
+    /*position: relative;*/
+    display: -webkit-box;
 }
 
 #info-panel legend {
     background: #333;
-    padding: 5px;
+    padding: 0;
     color: #FFF;
     width: 100%;
 }
@@ -27,6 +40,8 @@
     text-align: right;
     font-weight: bold;
     text-transform: capitalize;
+    vertical-align: top;
+    margin-top: 4px;
 }
 #info-panel label:after {
     content: ':';
@@ -34,10 +49,16 @@
 #info-panel input[type='number'] {
     width: 50px;
     margin: 2px;
+    font-size: 10px;
 }
 
 #info-panel input[type='checkbox'] {
     margin: 4px;
+}
+
+#info-panel select {
+    font-size: 10px;
+    margin: 2px;
 }
 
 #info-panel ul {
@@ -78,15 +99,14 @@
 #info_gradient_preview {
     height: 30px;
     left: 0; right: 0;
-    position: absolute;
-    background: green;
+    /*position: absolute;*/
     -webkit-transform: translateZ(1px);
 }
 
-#info-panel .colorstops .preview {
+.color_stop_preview_back {
     content : '';
     display: block;
-    position: absolute;
+    /*position: absolute;*/
     height: 30px;
     left: 0; right: 0;
     background-color : #FFF;
@@ -98,14 +118,15 @@
     background-position : 0 0, 4px 4px;
 }
 
-#info-panel #info_layer_stops {
-    height: 138px;
+#info_layer_stops {
+    -webkit-box-flex: 1;
     overflow-y: scroll;
     padding: 4px;
-    padding-top: 32px;
+    font-size: 12px;
+    min-height: 60px;
 }
 
-#info-panel .colorstop {
+#info_layer_stops .colorstop {
     padding: 2px 5px;
     border: 1px solid #ccc;
     border-left: 8px solid #ccc;
@@ -114,22 +135,83 @@
     background: #EEE;
 }
 
-#info-panel .colorstop .color {
+#info_layer_stops .colorstop .color {
     margin-right: 5px;
 }
 
-#info-panel input[type=number] {
+#info_layer_stops input[type=number] {
     margin-left: 5px;
+    width: 50px;
 }
 
-#info-panel .colorstop .remove {
+#info_layer_stops .colorstop .remove {
     -webkit-appearance: none;
     border: none;
     background: none;
     cursor: pointer;
 }
 
-#info-panel .colorstop .remove:after {
-    content: '❌';
+#info_layer_stops .colorstop .remove:after {
+    content: '✖';
 }
 
+
+.hsl-adjustment input[type=range] {
+    margin: 2px 5px;
+    -webkit-transform: translateY(3px);
+}
+
+.direction {
+    border: 1px dotted #AAA;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.direction>* {
+    background: #FFF;
+    position: absolute;
+    margin: -6px;
+}
+
+.direction input.left {
+    left: 0;
+}
+
+.direction input.center {
+    left: 50px;
+}
+
+.direction input.right {
+    right: 0;
+}
+
+.direction input.top {
+    top: 0;
+}
+
+.direction input.middle {
+    top: 50px;
+}
+
+.direction input.bottom {
+    bottom: 0;
+}
+
+.direction input.manual {
+    left: 25px;
+    top: 50px;
+}
+
+.direction .deg {
+    left: 42px;
+    top: 47px;
+    font-size: 14px;
+}
+
+.direction input[type=number] {
+    width: 40px !important;
+    margin: 0 -2px 0 0 !important;
+}

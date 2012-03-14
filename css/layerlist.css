@@ -1,16 +1,30 @@
+#right-bar {
+    position: absolute;
+    top : 0;
+    right: 0;
+    width: 260px;
+    bottom: 0px;
+    border-left: 1px solid #999;
+    background: #EEE;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
 #layers {
     position: absolute;
-    top : 26px;
+    top : 24px;
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 10px;
+    padding: 5px 0 5px 5px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
     overflow-y: scroll;
 }
 
 #layers .layer {
-    clear: both;
-    float: right;
+    display: -webkit-box;
     z-index: 10;
     width: 240px;
     height: 40px;
@@ -112,3 +126,51 @@
     -webkit-box-shadow: 10px 10px 10px rgba(0,0,0,0.6);
     z-index: 200;
 }
+
+.header {
+    width: 100%;
+    height: 24px;
+    background: -webkit-linear-gradient(#000, #555 90%);
+    color: #EEE;
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+}
+
+.header .name {
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    padding: 4px 10px;
+    font-weight: bold;
+    text-shadow: 0 -1px 0px #444;
+    color: #FFF;
+    font-size: 12px;
+}
+
+.header>button,
+.header>select {
+    -webkit-appearance: none;
+    padding: 5px;
+    width: 30px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    border-left: 1px solid #999;
+    color: #FFF;
+    text-shadow: 1px 1px 1px #111;
+    font-weight: normal;
+    cursor: pointer;
+    margin: 0;
+    display: block;
+}
+
+.header>*:active {
+    background: -webkit-linear-gradient(#444, #999 20%, #777);
+    color: #EEE;
+    text-shadow: -1px -1px 0px #333;
+}
+
+.header>*:focus {
+    outline: none;
+}
+
+
