@@ -78,7 +78,7 @@ define('util/regexp', function () {
         linearGradient : /repeating-linear-gradient|linear-gradient/
     }, 'g');
 
-    regex.radialGradient = RegExp.create('(?:-webkit-)?({{radialGradient}})\\(\\s*(?:({{position}})?\\s*({{direction}})?\\s*,)?\\s*(?:({{shape}}|{{length}})?\\s*({{size}}|{{length}})?\\s*,)?\\s*({{colorstop}}\\s*(?:,\\s*{{colorstop}}\\s*)+)\\)\\s*({{position}})?', {
+    regex.radialGradient = RegExp.create('(?:-webkit-)?({{radialGradient}})\\(\\s*(?:({{position}})?\\s*({{direction}})?\\s*,)?\\s*(?:({{shape}}|{{size}}|{{length}})?\\s*({{shape}}|{{size}}|{{length}})?\\s*,)?\\s*({{colorstop}}\\s*(?:,\\s*{{colorstop}}\\s*)+)\\)\\s*({{position}})?', {
         direction: regex.direction,
         colorStop: regex.colorStop,
         position : regex.position,

@@ -64,7 +64,8 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
 
     var layerAttributesPanel = {
         setData : function (layer) {
-            var rect = layer.getRect();
+            var rect = layer.getRect(),
+                radio;
             document.getElementById('info_size_width').value = 1 * rect.getWidth().getValue();
             document.getElementById('info_size_width_unit').value = rect.getWidth().getUnit();
             document.getElementById('info_size_height').value = 1 * rect.getHeight().getValue();
@@ -100,7 +101,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 document.querySelector('#info-panel .linear-options').style.display = 'none';
             } else if (layer.attributes.image.name === 'linear-gradient') {
                 console.log(layer.attributes.image.direction);
-                var radio = document.querySelector('#info_linear_direction_set input[value=\''+layer.attributes.image.direction.toString()+'\']');
+                radio = document.querySelector('#info_linear_direction_set input[value=\''+layer.attributes.image.direction.toString()+'\']');
                 if (radio)
                     radio.checked = true;
                 else
@@ -131,6 +132,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             // We need to suppress change events for the colorstop field since these should only use input
             if ((event.type !== 'change') || (event.target.className !== 'color' && event.target.className !== 'stop')) {
                 var spawnEvent = document.createEvent('UIEvents'),
+                    radio,
                     rect = new Rect({
                         width: document.getElementById('info_size_width').value + document.getElementById('info_size_width_unit').value,
                         height: document.getElementById('info_size_height').value + document.getElementById('info_size_height_unit').value,
@@ -153,8 +155,8 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
                 spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
 
-                var radio = document.querySelector('#info_linear_direction_set input:checked');
-                if (radio.value) {
+                radio = document.querySelector('#info_linear_direction_set input:checked');
+                if (radio && radio.value) {
                     spawnEvent.image.direction = new Direction(radio.value);
                 } else {
                     spawnEvent.image.direction = new Direction(document.getElementById('info_linear_direction').value + 'deg');
