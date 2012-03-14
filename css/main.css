@@ -15,7 +15,7 @@ body {
 #frame {
     position: absolute;
     left: 0; top: 30px;
-    right: 260px;
+    right: 220px;
     bottom: 40px;
     background: #DDD;
     display: -webkit-box;
@@ -29,7 +29,7 @@ body {
 }
 
 .showInfo #frame {
-    right: 520px;
+    right: 480px;
 }
 
 #frame .back {

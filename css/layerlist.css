@@ -1,8 +1,8 @@
 #right-bar {
     position: absolute;
-    top : 0;
+    top : 30px;
     right: 0;
-    width: 260px;
+    width: 220px;
     bottom: 0px;
     border-left: 1px solid #999;
     background: #EEE;
@@ -17,7 +17,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 5px 0 5px 5px;
+    padding: 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow-y: scroll;
@@ -26,17 +26,15 @@
 #layers .layer {
     display: -webkit-box;
     z-index: 10;
-    width: 240px;
+    width: 100%;
     height: 40px;
     background: #FFF;
-    margin-bottom: 5px;
     position: relative;
     cursor: -webkit-grab;
-    border: 1px solid #333;
-    -webkit-border-radius: 2px;
-    display: -webkit-box;
+    border-bottom: 1px solid #AAA;
     -webkit-box-align: center;
     overflow: hidden;
+    text-shadow: 0 1px 0 #FFF;
 }
 
 #layers .layer:active {

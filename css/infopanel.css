@@ -1,8 +1,8 @@
 #info-panel {
     font-size: 12px;
     position: absolute;
-    right: 0;
-    top: 0;
+    right: -40px;
+    top: 30px;
     bottom: 0;
     overflow: hidden;
     opacity: 0;
@@ -16,7 +16,7 @@
 }
 
 .showInfo #info-panel {
-    right: 260px;
+    right: 220px;
     -webkit-transition: all 0.2s ease-out;
     opacity: 1;
 }
