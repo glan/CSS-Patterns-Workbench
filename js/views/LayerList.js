@@ -7,7 +7,7 @@ define('views/LayerList', ['vendor/underscore', 'jquery', 'models/Layer', 'model
 
     function LayerList (layers) {
         this.layers = layers;
-        this.selectedLayer = null;
+        this.selectedLayers = new Layers();
         /*this.layers.bind('remove', function (e) {
             this.layers.trigger('update');
         });*/
@@ -70,14 +70,47 @@ define('views/LayerList', ['vendor/underscore', 'jquery', 'models/Layer', 'model
         },
 
         handleEvent : function(event) {
-            var domLayer = $(event.target).closest('.layer'),
+            var first, ingroup, self,
+                domLayer = $(event.target).closest('.layer'),
                 layer = this.layers.getByCid(domLayer.attr('data-id'));
             if (domLayer && event.type === 'mousedown') {
-                $('#layers .layer.selected').removeClass('selected');
-                this.selectedLayer = null;
                 if (layer) {
-                    domLayer.addClass('selected');
-                    this.selectedLayer = layer;
+                    if (event.shiftKey) {
+                        first = this.selectedLayers.first();
+                        ingroup = false;
+                        self = this;
+                        this.selectedLayers = new Layers();
+                        this.layers.forEach(function(l) {
+                            if ((layer.attributes.order < first.attributes.order && l === layer) || (layer.attributes.order > first.attributes.order && l === first)) {
+                                ingroup = !ingroup;
+                            }
+                            if (ingroup) {
+                                self.selectedLayers.add(l);
+                                $(document.querySelector('.layer[data-id='+l.cid+']')).addClass('selected');
+                            }
+                            if ((layer.attributes.order < first.attributes.order && l === first) || (layer.attributes.order > first.attributes.order && l === layer)) {
+                                ingroup = !ingroup;
+                            }
+                        });
+                        this.selectedLayers.sort();
+                    } else {
+                        if (event.metaKey) {
+                            this.selectedLayers = this.selectedLayers || new Layers();
+                        } else {
+                            $('#layers .layer.selected').removeClass('selected');
+                            this.selectedLayers = new Layers();
+                        }
+                        if (domLayer.hasClass('selected')) {
+                            this.selectedLayers.remove(layer);
+                            domLayer.removeClass('selected');
+                        } else {
+                            this.selectedLayers.add(layer);
+                            domLayer.addClass('selected');
+                        }
+                    }
+                } else {
+                    $('#layers .layer.selected').removeClass('selected');
+                    this.selectedLayers = new Layers();
                 }
                 // Fire layer selected event
                 this.dispacheEvent('selection');
@@ -96,7 +129,7 @@ define('views/LayerList', ['vendor/underscore', 'jquery', 'models/Layer', 'model
         dispacheEvent : function(name) {
             var spawnEvent = document.createEvent('UIEvents');
             spawnEvent.initUIEvent("layerlist_" + name, true, true, window, 1);
-            spawnEvent.layer = this.selectedLayer;
+            spawnEvent.layers = this.selectedLayers;
             document.dispatchEvent(spawnEvent);
         }
     }

@@ -63,9 +63,12 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
     }
 
     var layerAttributesPanel = {
-        setData : function (layer) {
-            var rect = layer.getRect(),
-                radio;
+        setData : function (layers) {
+            var layer = layers.first(),
+                rect = layer.getRect(),
+                radio,
+                template = document.querySelector('#templates>.colorstop');
+
             document.getElementById('info_size_width').value = 1 * rect.getWidth().getValue();
             document.getElementById('info_size_width_unit').value = rect.getWidth().getUnit();
             document.getElementById('info_size_height').value = 1 * rect.getHeight().getValue();
@@ -81,51 +84,58 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info_layer_opacity').value = Math.round(layer.attributes.opacity * 100);
             document.getElementById('info_layer_opacity_range').value = Math.round(layer.attributes.opacity * 100);
 
-            if (layer.attributes.image.name === 'radial-gradient') {
-                document.getElementById('info_radial_shape').value = layer.attributes.image.shape;
-                document.getElementById('info_radial_size').value = layer.attributes.image.size;
-
-                document.getElementById('info_radial_position_x').value = layer.attributes.image.getPosition().x.getValue();
-                document.getElementById('info_radial_position_x_units').value =layer.attributes.image.getPosition().x.getUnit();
-
-                document.getElementById('info_radial_position_y').value = layer.attributes.image.getPosition().y.getValue();
-                document.getElementById('info_radial_position_y_units').value = layer.attributes.image.getPosition().y.getUnit();
-
-                document.getElementById('info_radial_size_width').value = layer.attributes.image.width.getValue();
-                document.getElementById('info_radial_size_width_units').value =layer.attributes.image.width.getUnit();
-
-                document.getElementById('info_radial_size_height').value = layer.attributes.image.height.getValue();
-                document.getElementById('info_radial_size_height_units').value = layer.attributes.image.height.getUnit();
-
-                document.querySelector('#info-panel .radial-options').style.display = 'block';
+            if (layers.length > 1) {
                 document.querySelector('#info-panel .linear-options').style.display = 'none';
-            } else if (layer.attributes.image.name === 'linear-gradient') {
-                radio = document.querySelector('#info_linear_direction_set input[value=\''+layer.attributes.image.direction.toString()+'\']');
-                if (radio)
-                    radio.checked = true;
-                else
-                    document.querySelector('#info_linear_direction_set input[type=radio].manual').checked = true;
-                document.getElementById('info_linear_direction').value = layer.attributes.image.direction.getValue();
-
                 document.querySelector('#info-panel .radial-options').style.display = 'none';
-                document.querySelector('#info-panel .linear-options').style.display = 'block';
-            }
+                document.querySelector('#info-panel .color-stops-options').style.display = 'none';
+            } else {
+                if (layer.attributes.image.name === 'radial-gradient') {
+                    document.getElementById('info_radial_shape').value = layer.attributes.image.shape;
+                    document.getElementById('info_radial_size').value = layer.attributes.image.size;
 
-            var template = document.querySelector('#templates>.colorstop');
-            document.getElementById('info_layer_stops').innerHTML = '';
-            layer.attributes.image.colorStops.getColorStops().forEach(function(colorStop) {
-                var newStop = template.cloneNode(true);
-                newStop.querySelector('.color').value = colorStop.color;
-                if (colorStop.length) {
-                    newStop.querySelector('.stop').value = colorStop.length.getValue();
-                    newStop.querySelector('.unit').value = colorStop.length.getUnit();
+                    document.getElementById('info_radial_position_x').value = layer.attributes.image.getPosition().x.getValue();
+                    document.getElementById('info_radial_position_x_units').value =layer.attributes.image.getPosition().x.getUnit();
+
+                    document.getElementById('info_radial_position_y').value = layer.attributes.image.getPosition().y.getValue();
+                    document.getElementById('info_radial_position_y_units').value = layer.attributes.image.getPosition().y.getUnit();
+
+                    document.getElementById('info_radial_size_width').value = layer.attributes.image.width.getValue();
+                    document.getElementById('info_radial_size_width_units').value =layer.attributes.image.width.getUnit();
+
+                    document.getElementById('info_radial_size_height').value = layer.attributes.image.height.getValue();
+                    document.getElementById('info_radial_size_height_units').value = layer.attributes.image.height.getUnit();
+
+                    document.querySelector('#info-panel .radial-options').style.display = 'block';
+                    document.querySelector('#info-panel .linear-options').style.display = 'none';
+                } else if (layer.attributes.image.name === 'linear-gradient') {
+                    radio = document.querySelector('#info_linear_direction_set input[value=\''+layer.attributes.image.direction.toString()+'\']');
+                    if (radio)
+                        radio.checked = true;
+                    else
+                        document.querySelector('#info_linear_direction_set input[type=radio].manual').checked = true;
+                    document.getElementById('info_linear_direction').value = layer.attributes.image.direction.getValue();
+
+                    document.querySelector('#info-panel .radial-options').style.display = 'none';
+                    document.querySelector('#info-panel .linear-options').style.display = 'block';
                 }
-                document.getElementById('info_layer_stops').appendChild(newStop);
-            });
-            document.getElementById('info_gradient_preview').setAttribute('style',
-                'background: -webkit-linear-gradient(0deg,'+layer.attributes.image.colorStops.getColorStops().toString()+');' +
-                'background: -moz-linear-gradient(0deg,'+layer.attributes.image.colorStops.getColorStops().toString()+');'
-            );
+
+                document.querySelector('#info-panel .color-stops-options').style.display = 'block';
+
+                document.getElementById('info_layer_stops').innerHTML = '';
+                layer.attributes.image.colorStops.getColorStops().forEach(function(colorStop) {
+                    var newStop = template.cloneNode(true);
+                    newStop.querySelector('.color').value = colorStop.color;
+                    if (colorStop.length) {
+                        newStop.querySelector('.stop').value = colorStop.length.getValue();
+                        newStop.querySelector('.unit').value = colorStop.length.getUnit();
+                    }
+                    document.getElementById('info_layer_stops').appendChild(newStop);
+                });
+                document.getElementById('info_gradient_preview').setAttribute('style',
+                    'background: -webkit-linear-gradient(0deg,'+layer.attributes.image.colorStops.getColorStops().toString()+');' +
+                    'background: -moz-linear-gradient(0deg,'+layer.attributes.image.colorStops.getColorStops().toString()+');'
+                );
+            }
         },
         handleEvent : function (event) {
             // We need to suppress change events for the colorstop field since these should only use input

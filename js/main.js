@@ -37,25 +37,26 @@ require(['jquery',
         });*/
 
     function updateView(event) {
+        var selectedLayer = layerList.selectedLayers.first();
         if (event.type === 'infopanel_update') {
-            layerList.selectedLayer.setRect(event.rect);
+            selectedLayer.setRect(event.rect);
             marquee.setRect(event.rect);
-            layerList.selectedLayer.setRepeating(event.repeating);
-            layerList.selectedLayer.attributes.opacity = event.opacity;
-            layerList.selectedLayer.attributes.composite = event.composite;
-            layerList.selectedLayer.attributes.image.colorStops = event.colorStops;
-            layerList.selectedLayer.attributes.image.position = event.image.position.x + ' ' + event.image.position.y;
-            layerList.selectedLayer.attributes.image.shape = event.image.shape ;
-            layerList.selectedLayer.attributes.image.size = event.image.size;
-            layerList.selectedLayer.attributes.image.width = event.image.width;
-            layerList.selectedLayer.attributes.image.height = event.image.height;
-            if (layerList.selectedLayer.attributes.image.name === 'linear-gradient') {
-                layerList.selectedLayer.attributes.image.direction = event.image.direction;
+            selectedLayer.setRepeating(event.repeating);
+            selectedLayer.attributes.opacity = event.opacity;
+            selectedLayer.attributes.composite = event.composite;
+            selectedLayer.attributes.image.colorStops = event.colorStops;
+            selectedLayer.attributes.image.position = event.image.position.x + ' ' + event.image.position.y;
+            selectedLayer.attributes.image.shape = event.image.shape ;
+            selectedLayer.attributes.image.size = event.image.size;
+            selectedLayer.attributes.image.width = event.image.width;
+            selectedLayer.attributes.image.height = event.image.height;
+            if (selectedLayer.attributes.image.name === 'linear-gradient') {
+                selectedLayer.attributes.image.direction = event.image.direction;
             }
-            layerList.selectedLayer.trigger('update');
+            selectedLayer.trigger('update');
         } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
-            layerList.selectedLayer.setRect(event.rect);
-            infoPanel.setData(layerList.selectedLayer);
+            selectedLayer.setRect(event.rect);
+            infoPanel.setData(layerList.selectedLayers);
         }
         layerList.layers.trigger('update');
     }
@@ -71,10 +72,10 @@ require(['jquery',
     });
 
     document.addEventListener('layerlist_selection', function(event) {
-        if (event.layer) {
-            marquee.setRect(event.layer.getRect());
+        if (event.layers && event.layers.length > 0) {
+            marquee.setRect(event.layers.first().getRect());
             marquee.showRect();
-            infoPanel.setData(event.layer);
+            infoPanel.setData(event.layers);
             infoPanel.show();
         } else {
             marquee.hideRect();

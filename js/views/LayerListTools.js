@@ -37,24 +37,34 @@ define('views/LayerListTools', ['vendor/underscore', 'jquery', 'models/Layers', 
                 layer = this.layerList.layers.getByCid(domLayer.attr('data-id')),
                 first = this.layerList.layers.first();
                 //console.log(event);
-            if (this.layerList.selectedLayer && event.type === 'click' && event.target.className === 'remove' && confirm('Delete selected layer?')) {
-                domLayer = $('#layers .layer[data-id='+this.layerList.selectedLayer.cid+']');
-                domLayer.fadeOut(function() { 
-                    domLayer.remove();
-                });
-                this.layerList.selectedLayer.destroy();
-                this.layerList.selectedLayer = null;
+            if (this.layerList.selectedLayers && event.type === 'click' && event.target.className === 'remove') {
+                if ((this.layerList.selectedLayers.length === 1 && confirm('Delete selected layer?')) || (this.layerList.selectedLayers.length > 1 && confirm('Delete selected layers?'))) {
+                    this.layerList.selectedLayers.forEach(function (layer) {
+                        domLayer = $('#layers .layer[data-id='+layer.cid+']');
+                        domLayer.fadeOut(function() {
+                            domLayer.remove();
+                        });
+                    });
+                    this.layerList.layers.remove(this.layerList.selectedLayers.toArray());
+                    this.layerList.selectedLayers = new Layers();
+                }
                 this.layerList.layers.trigger('update');
                 this.layerList.dispacheEvent('selection');
-            } else if (this.layerList.selectedLayer && event.type === 'click' && event.target.className === 'duplicate') {
-                orignalId = this.layerList.selectedLayer.cid;
-                this.layerList.selectedLayer = this.layerList.selectedLayer.clone();
-                this.layerList.selectedLayer.attributes.image = $.extend({}, this.layerList.selectedLayer.attributes.image);
-                this.layerList.selectedLayer.attributes.order = 1 * this.layerList.selectedLayer.attributes.order - 0.01;
-                this.layerList.layers.add(this.layerList.selectedLayer);
+            } else if (this.layerList.selectedLayers && event.type === 'click' && event.target.className === 'duplicate') {
+                var newLayers = new Layers();
+                this.layerList.selectedLayers.forEach(function(layer) {
+                    var newLayer = layer.clone();
+                    newLayer.attributes.image = $.extend({}, layer.attributes.image);
+                    newLayer.attributes.order = 1 * layer.attributes.order - 0.01;
+                    newLayers.add(newLayer);
+                });
+                this.layerList.selectedLayers = newLayers;
+                this.layerList.layers.add(this.layerList.selectedLayers.toArray());
                 this.layerList.layers.sort();
                 $('#layers .layer.selected').removeClass('selected');
-                $('.layer[data-id='+this.layerList.selectedLayer.cid+']').addClass('selected');
+                this.layerList.selectedLayers.forEach(function(layer) {
+                    $('.layer[data-id='+layer.cid+']').addClass('selected');
+                });
                 this.layerList.dispacheEvent('selection');
             } else if (event.type === 'mousedown' && event.target.id === 'pattern-add') {
                 $('#pattern-presets').toggleClass('show');
@@ -72,9 +82,11 @@ define('views/LayerListTools', ['vendor/underscore', 'jquery', 'models/Layers', 
                     }
                 });
                 this.layerList.layers.reset(_.union(this.layerList.layers.toArray(), newLayers.toArray()));
-                this.layerList.selectedLayer = this.layerList.layers.first();
+                this.layerList.selectedLayers = newLayers;
                 $('#layers .layer.selected').removeClass('selected');
-                $('.layer[data-id='+this.layerList.selectedLayer.cid+']').addClass('selected');
+                this.layerList.selectedLayers.forEach(function(layer) {
+                    $('.layer[data-id='+layer.cid+']').addClass('selected');
+                });
                 this.layerList.dispacheEvent('selection');
                 event.target.value = '';
             }
