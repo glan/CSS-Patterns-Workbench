@@ -144,8 +144,7 @@
     font-size: 12px;
 }
 
-.header>button,
-.header>select {
+.header>button {
     -webkit-appearance: none;
     padding: 5px;
     width: 30px;
@@ -161,7 +160,8 @@
     display: block;
 }
 
-.header>*:active {
+.header>*:active,
+.header>*.active {
     background: -webkit-linear-gradient(#444, #999 20%, #777);
     color: #EEE;
     text-shadow: -1px -1px 0px #333;
@@ -172,3 +172,41 @@
 }
 
 
+#pattern-presets {
+    position: absolute;
+    top: 24px;
+    left: 25px;
+    width: 176px;
+    overflow: hidden;
+    background: #FFF;
+    z-index: 100;
+    display: none;
+    padding-bottom: 5px;
+    -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
+}
+
+#pattern-presets.show {
+    display: block;
+}
+
+#pattern-presets>* {
+    float: left;
+    margin: 5px 0 0 5px;
+}
+
+#pattern-presets .preset {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+
+#pattern-presets .trans {
+    background-color : #FFF;
+    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-image : -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-size : 8px 8px;
+    background-position : 0 0, 4px 4px;
+}

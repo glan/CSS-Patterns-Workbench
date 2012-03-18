@@ -100,7 +100,6 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 document.querySelector('#info-panel .radial-options').style.display = 'block';
                 document.querySelector('#info-panel .linear-options').style.display = 'none';
             } else if (layer.attributes.image.name === 'linear-gradient') {
-                console.log(layer.attributes.image.direction);
                 radio = document.querySelector('#info_linear_direction_set input[value=\''+layer.attributes.image.direction.toString()+'\']');
                 if (radio)
                     radio.checked = true;
