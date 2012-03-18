@@ -113,7 +113,11 @@ require(['jquery',
     });
 
     document.getElementById('data').addEventListener('keyup', function (event) {
-        layerList.layers.parseCSS(event.target.value);
+        if (event.target.value === '') {
+            layerList.layers.reset();
+        } else {
+            layerList.layers.parseCSS(event.target.value);
+        }
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
         marquee.hideRect();
     });
