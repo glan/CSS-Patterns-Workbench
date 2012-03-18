@@ -2,11 +2,16 @@
     position: absolute;
     left: 0; bottom: 0; right: 220px;
     height: 20px; 
-    background-color: rgba(255,255,255,0.9); 
+    background-color: rgba(200,200,200,0.8);
     padding: 10px; outline: none;
     -webkit-transition: all 0.2s linear;
-    border-bottom: 2px solid #555;
+    border: none;
+    border-top: 1px solid #555;
+    border-right: 1px solid #555;
     font-family: monaco, monospace;
+    overflow: scroll;
+    font-size: 12px;
+    text-shadow: 0 1px 0 #FFF;
 }
 #data:focus {
     height: 160px;
