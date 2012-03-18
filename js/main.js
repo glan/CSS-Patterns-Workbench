@@ -10,7 +10,7 @@ require(['jquery',
 'views/Canvas',
 'views/Grid',
 'views/LayerList',
-'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/jpicker-1.1.6.min.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList) {
+'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/jpicker-1.1.6.min.js', 'js/vendor/incrementable.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList) {
     'use strict';
     var layerList = new LayerList(new Layers()),
         canvas = new Canvas(document.getElementById('frame')),
@@ -112,7 +112,7 @@ require(['jquery',
         canvas.setHeight(this.value);
     });
 
-    document.getElementById('data').addEventListener('keyup', function (event) {
+    document.getElementById('data').addEventListener('keydown', function (event) {
         if (event.target.value === '') {
             layerList.layers.reset();
         } else {
@@ -121,7 +121,9 @@ require(['jquery',
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
         marquee.hideRect();
     });
-    
+
     layerList.layers.parseCSS(document.getElementById('data').value);
+
+    new Incrementable(document.getElementById('data'));
 
 });
