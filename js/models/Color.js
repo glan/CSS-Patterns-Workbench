@@ -110,7 +110,7 @@ define('models/Color', function () {
                 var d = max - min;
 
                 if(d !== 0) {
-                    this.saturation = Math.round(d*100 / (100 - Math.abs(2*this.lightness - 100))) + '%';
+                    this.saturation = Math.round(d*100 / (100 - Math.abs(2*this.lightness - 100)));
 
                     switch(max) {
                     case rgb[0]: this.hue = (rgb[1] - rgb[2]) / d + (rgb[1] < rgb[2] ? 6 : 0); 
