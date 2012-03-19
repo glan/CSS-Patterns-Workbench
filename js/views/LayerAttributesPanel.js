@@ -143,8 +143,8 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 var spawnEvent = document.createEvent('UIEvents'),
                     radio,
                     rect = new Rect({
-                        width: document.getElementById('info_size_width').value + document.getElementById('info_size_width_unit').value,
-                        height: document.getElementById('info_size_height').value + document.getElementById('info_size_height_unit').value,
+                        width: ((document.getElementById('info_size_width').value > 0) ? document.getElementById('info_size_width').value : 1) + document.getElementById('info_size_width_unit').value,
+                        height: ((document.getElementById('info_size_height').value > 0) ? document.getElementById('info_size_height').value : 1) + document.getElementById('info_size_height_unit').value,
                         left: document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value,
                         top: document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value
                     });
