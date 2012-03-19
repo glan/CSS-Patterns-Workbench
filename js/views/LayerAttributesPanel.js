@@ -87,11 +87,11 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             this.hue = document.getElementById('info-hsl').value = 0;
 
             if (layers.length > 1) {
-                document.querySelector('#info-panel .linear-options').style.display = 'none';
-                document.querySelector('#info-panel .radial-options').style.display = 'none';
-                document.querySelector('#info-panel .color-stops-options').style.display = 'none';
+                document.getElementById('info-panel').className = 'multi';
             } else {
                 if (layer.attributes.image.name === 'radial-gradient') {
+                    document.getElementById('info-panel').className = 'single radial';
+
                     document.getElementById('info_radial_shape').value = layer.attributes.image.shape;
                     document.getElementById('info_radial_size').value = layer.attributes.image.size;
 
@@ -107,24 +107,20 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                     document.getElementById('info_radial_size_height').value = layer.attributes.image.height.getValue();
                     document.getElementById('info_radial_size_height_units').value = layer.attributes.image.height.getUnit();
 
-                    document.querySelector('#info-panel .radial-options').style.display = 'block';
-                    document.querySelector('#info-panel .linear-options').style.display = 'none';
-
-                    this.hue = document.getElementById('info-hsl').value = ((180 - layer.attributes.hue) % 360) - 180;
-
                 } else if (layer.attributes.image.name === 'linear-gradient') {
+                    document.getElementById('info-panel').className = 'single linear';
+
                     radio = document.querySelector('#info_linear_direction_set input[value=\''+layer.attributes.image.direction.toString()+'\']');
                     if (radio)
                         radio.checked = true;
                     else
                         document.querySelector('#info_linear_direction_set input[type=radio].manual').checked = true;
                     document.getElementById('info_linear_direction').value = layer.attributes.image.direction.getValue();
-
-                    document.querySelector('#info-panel .radial-options').style.display = 'none';
-                    document.querySelector('#info-panel .linear-options').style.display = 'block';
                 }
 
-                document.querySelector('#info-panel .color-stops-options').style.display = 'block';
+                this.hue = document.getElementById('info-hsl').value = ((180 - layer.attributes.hue) % 360) - 180;
+
+                //document.querySelector('#info-panel .color-stops-options').style.display = 'block';
 
                 document.getElementById('info_layer_stops').innerHTML = '';
                 layer.attributes.image.colorStops.getColorStops().forEach(function(colorStop) {

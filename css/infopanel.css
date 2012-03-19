@@ -21,6 +21,30 @@
     opacity: 1;
 }
 
+#info-panel.single .multi {
+    display: none;
+}
+
+#info-panel.multi .single {
+    display: none;
+}
+
+#info-panel.single .single {
+    display: block;
+}
+
+#info-panel.multi .multi {
+     display: block;
+}
+
+#info-panel.linear .radial-options {
+    display: none;
+}
+
+#info-panel.radial .linear-options {
+    display: none;
+}
+
 #info-panel fieldset {
     border: none;
     /*position: relative;*/

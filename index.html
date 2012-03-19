@@ -34,7 +34,7 @@
         <span class="name">Layer Options</span>
     </heading>
     <fieldset>
-        <ul>
+        <ul class="single">
             <li>
                 <label for="info_layer_composite">Composite</label>
                 <select id="info_layer_composite" class="composite info">
@@ -55,19 +55,19 @@
                 </select>
             </li>
         </ul>
-        <ul>
+        <ul class="single multi">
             <li>
                 <label for="info_layer_opacity">Opacity</label>
                 <input id="info_layer_opacity" type="number" min="0" max="100"/>%
                 <div id="info_layer_opacity_range_helper"><input id="info_layer_opacity_range" type="range" min="0" max="100"/></div>
             </li>
         </ul>
-        <ul>
+        <ul class="single">
             <li>
                 <label for="info_repeating">Repeat</label><input id="info_repeating" type="checkbox"/>
             </li>
         </ul>
-        <ul>
+        <ul class="single multi">
             <li>
                 <label for="info_position_x">x</label>
                 <input id="info_position_x" type="number" />
@@ -85,7 +85,7 @@
                 </select>
             </li>
         </ul>
-        <ul>
+        <ul class="single multi">
             <li>
                 <label for="info_size_width">Width</label>
                 <input id="info_size_width" type="number" min="1" />
@@ -104,7 +104,7 @@
             </li>
         </ul>
     </fieldset>
-    <fieldset class="radial-options">
+    <fieldset class="radial-options single">
         <heading class="header"><span class="name">Radial Options</span></heading>
         <ul>
             <li>
@@ -157,7 +157,7 @@
             </li>
         </ul>
     </fieldset>
-    <fieldset class="linear-options">
+    <fieldset class="linear-options single">
         <heading class="header"><span class="name">Linear Options</span></heading>
         <ul>
             <li id="info_linear_direction_set">
@@ -177,7 +177,7 @@
             </li>
         </ul>
     </fieldset>
-    <fieldset class="hsl-adjustment">
+    <fieldset class="hsl-adjustment" class="single multi">
         <heading class="header"><span class="name">HSL Adjustment</span></heading>
         <ul>
             <li><label for="info-hsl">Hue</label><input id="info-hsl" type="range" min="-180" max="180"/>˚</li>
@@ -187,7 +187,7 @@
             <li><label>Lightness</label><input type="range"/>%</li>
         </ul>
     </fieldset>
-    <fieldset class="color-stops-options">
+    <fieldset class="color-stops-options single">
         <heading class="header">
             <span class="name">Color Stops</span>
             <button id="info_add_colorstop">✚</button>
