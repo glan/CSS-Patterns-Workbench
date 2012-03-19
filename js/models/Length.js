@@ -9,7 +9,7 @@ define('models/Length', function () {
     var length = {
         regexp : /(-?[0-9]*\.?[0-9]+)(%|px|mm|cm|in|em|rem|en|ex|ch|vm|vw|vh)|(0)/,
         toString : function () {
-            return  ((this.getValue() !== null) ? ((this.getValue() !== 0) ? this.getValue() + this.getUnit() : '0') : '');
+            return  ((this.getValue() !== null) ? ((this.getValue() !== 0) ? Math.round(this.getValue() * 10000) / 10000 + this.getUnit() : '0') : '');
         },
         setValue : function (v) {
             this.value = 1 * v;
