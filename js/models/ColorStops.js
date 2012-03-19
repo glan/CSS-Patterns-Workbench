@@ -13,7 +13,7 @@ define('models/ColorStops', ['models/ColorStop', 'models/Length'], function (Col
         toString : function (alpha) {
             var i = 0, out = '';
             for (i; i<this.colorStops.length; i++) {
-                out += ((i!==0) ? ',' : '') + this.colorStops[i].toString(alpha);
+                out += ((i!==0) ? ', ' : '') + this.colorStops[i].toString(alpha);
             }
             return out;
         },
