@@ -9,7 +9,7 @@
     border-top: 1px solid #555;
     border-right: 1px solid #555;
     font-family: monaco, monospace;
-    overflow: scroll;
+    overflow-y: scroll;
     font-size: 12px;
     text-shadow: 0 1px 0 #FFF;
 }
