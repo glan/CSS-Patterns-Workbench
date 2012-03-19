@@ -37,26 +37,42 @@ require(['jquery',
         });*/
 
     function updateView(event) {
-        var selectedLayer = layerList.selectedLayers.first();
-        if (event.type === 'infopanel_update') {
-            selectedLayer.setRect(event.rect);
-            marquee.setRect(event.rect);
-            selectedLayer.setRepeating(event.repeating);
-            selectedLayer.attributes.opacity = event.opacity;
-            selectedLayer.attributes.composite = event.composite;
-            selectedLayer.attributes.image.colorStops = event.colorStops;
-            selectedLayer.attributes.image.position = event.image.position.x + ' ' + event.image.position.y;
-            selectedLayer.attributes.image.shape = event.image.shape ;
-            selectedLayer.attributes.image.size = event.image.size;
-            selectedLayer.attributes.image.width = event.image.width;
-            selectedLayer.attributes.image.height = event.image.height;
-            if (selectedLayer.attributes.image.name === 'linear-gradient') {
-                selectedLayer.attributes.image.direction = event.image.direction;
+        var selectedLayer
+        if (layerList.selectedLayers.length === 1) {
+            selectedLayer = layerList.selectedLayers.first();
+            if (event.type === 'infopanel_update') {
+                selectedLayer.setRect(event.rect);
+                marquee.setRect(event.rect);
+                selectedLayer.setRepeating(event.repeating);
+                selectedLayer.attributes.opacity = event.opacity;
+                selectedLayer.attributes.composite = event.composite;
+                selectedLayer.attributes.image.colorStops = event.colorStops;
+                selectedLayer.attributes.image.position = event.image.position.x + ' ' + event.image.position.y;
+                selectedLayer.attributes.image.shape = event.image.shape ;
+                selectedLayer.attributes.image.size = event.image.size;
+                selectedLayer.attributes.image.width = event.image.width;
+                selectedLayer.attributes.image.height = event.image.height;
+                if (selectedLayer.attributes.image.name === 'linear-gradient') {
+                    selectedLayer.attributes.image.direction = event.image.direction;
+                }
+                //selectedLayer.trigger('update');
+            } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
+                selectedLayer.setRect(event.rect);
+                infoPanel.setData(layerList.selectedLayers);
             }
-            selectedLayer.trigger('update');
-        } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
-            selectedLayer.setRect(event.rect);
-            infoPanel.setData(layerList.selectedLayers);
+        } else {
+            if (event.type === 'infopanel_update') {
+                //layerList.selectedLayers.setOpacity(event.opacity);
+                layerList.selectedLayers.forEach(function (layer) {
+                    layer.attributes.opacity = event.opacity;
+                    layer.trigger('update');
+                });
+                layerList.selectedLayers.setRect(event.rect);
+                marquee.setRect(event.rect);
+            } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
+                layerList.selectedLayers.setRect(event.rect);
+                infoPanel.setData(layerList.selectedLayers);
+            }
         }
         layerList.layers.trigger('update');
     }
@@ -73,7 +89,7 @@ require(['jquery',
 
     document.addEventListener('layerlist_selection', function(event) {
         if (event.layers && event.layers.length > 0) {
-            marquee.setRect(event.layers.first().getRect());
+            marquee.setRect(event.layers.getRect());
             marquee.showRect();
             infoPanel.setData(event.layers);
             infoPanel.show();
@@ -113,7 +129,7 @@ require(['jquery',
         canvas.setHeight(this.value);
     });
 
-    document.getElementById('data').addEventListener('keydown', function (event) {
+    document.getElementById('data').addEventListener('keyup', function (event) {
         if (event.target.value === '') {
             layerList.layers.reset();
         } else {

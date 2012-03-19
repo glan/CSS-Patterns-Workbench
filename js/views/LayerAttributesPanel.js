@@ -65,7 +65,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
     var layerAttributesPanel = {
         setData : function (layers) {
             var layer = layers.first(),
-                rect = layer.getRect(),
+                rect = layers.getRect(),
                 radio,
                 template = document.querySelector('#templates>.colorstop');
 
@@ -81,8 +81,8 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info_repeating').checked = layer.getRepeating();
 
             document.getElementById('info_layer_composite').value = layer.attributes.composite;
-            document.getElementById('info_layer_opacity').value = Math.round(layer.attributes.opacity * 100);
-            document.getElementById('info_layer_opacity_range').value = Math.round(layer.attributes.opacity * 100);
+            document.getElementById('info_layer_opacity').value = Math.round(layers.getOpacity() * 100);
+            document.getElementById('info_layer_opacity_range').value = Math.round(layers.getOpacity() * 100);
 
             if (layers.length > 1) {
                 document.querySelector('#info-panel .linear-options').style.display = 'none';
