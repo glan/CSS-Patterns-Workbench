@@ -19,20 +19,25 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
             return this.attributes.composite;
         },
         getRect : function () {
+            var size, position;
             //show size
             // [TODO] Replace with better core typing
-            var size = this.getSize().split(' '),
-                position = (this.getPosition()) ? this.getPosition().split(' ') : [0,0],
-                rect = new Rect({
-                    left : new Length('px').parseLength(position[0]),
-                    top : new Length('px').parseLength(position[1]),
-                    width : new Length('px').parseLength(size[0]),
-                    height : new Length('px').parseLength(size[1])
-                });
-            return rect;
+            if (this.rect)
+                return this.rect;
+
+            size = this.getSize().split(' ');
+            position = (this.getPosition()) ? this.getPosition().split(' ') : [0,0];
+            this.rect = new Rect({
+                left : new Length('px').parseLength(position[0]),
+                top : new Length('px').parseLength(position[1]),
+                width : new Length('px').parseLength(size[0]),
+                height : new Length('px').parseLength(size[1])
+            });
+            return this.rect;
         },
         setRect : function (rect) {
             // [TODO] These should be setters
+            this.rect = null;
             this.attributes.position =  rect.getPosition();
             this.attributes.size = rect.getSize();
         },

@@ -77,7 +77,12 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                     left = layerRect.getLeft().getValue();
                 }
             });
-            rect = new Rect({ left: new Length('px').parseLength(left+'px'), top: new Length('px').parseLength(top+'px'), width: new Length('px').parseLength((w - left) + 'px'), height: new Length('px').parseLength((h - top) + 'px')});
+            rect = new Rect({
+                left: new Length('px').parseLength(left + this.first().getRect().left.getUnit()),
+                top: new Length('px').parseLength(top + this.first().getRect().top.getUnit()),
+                width: new Length('px').parseLength((w - left) + this.first().getRect().width.getUnit()),
+                height: new Length('px').parseLength((h - top) + this.first().getRect().height.getUnit())
+            });
             return rect;
         },
         setRect : function (rect) {
@@ -104,7 +109,12 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                     opacity = layer.attributes.opacity;
             });
             return opacity;
-        }
+        }/*,
+        adjustHue : function (hue) {
+            this.forEach(function (layer) {
+                layer.attributes.hue = hue;
+            });
+        }*/
         /*,
         setOpacity : function (opacity) {
             this.forEach(function (layer) {

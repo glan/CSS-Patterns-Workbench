@@ -181,7 +181,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
 
                 spawnEvent.colorStops = new ColorStops();
                 $('#info_layer_stops .colorstop').each(function(e, el) {
-                    spawnEvent.colorStops.add(new ColorStop(el.querySelector('.color').value + ((el.querySelector('.stop').value != '') ? + ' ' + el.querySelector('.stop').value + el.querySelector('.unit').value : '')));
+                    spawnEvent.colorStops.add(new ColorStop(el.querySelector('.color').value + ((el.querySelector('.stop').value != '') ? + ' ' + (1 * el.querySelector('.stop').value) + el.querySelector('.unit').value : '')));
                 });
 
                 document.getElementById('info_gradient_preview').setAttribute('style',
