@@ -10,10 +10,10 @@ define('models/ColorStops', ['models/ColorStop', 'models/Length'], function (Col
     }
 
     ColorStops.prototype = {
-        toString : function (alpha) {
+        toString : function (alpha, hue) {
             var i = 0, out = '';
             for (i; i<this.colorStops.length; i++) {
-                out += ((i!==0) ? ', ' : '') + this.colorStops[i].toString(alpha);
+                out += ((i!==0) ? ', ' : '') + this.colorStops[i].toString(alpha, hue);
             }
             return out;
         },

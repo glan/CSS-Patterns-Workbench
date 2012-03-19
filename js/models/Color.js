@@ -71,9 +71,14 @@ define('models/Color', function () {
     }
 
     Color.prototype = {
-        toString : function (alpha) {
+        toString : function (alpha, hue) {
             if (typeof alpha == 'undefined')
                 alpha = 1;
+            if (typeof hue == 'undefined') {
+                hue = 0;
+            } else {
+                this.toHSL();
+            }
             var color = '';
             switch (this.type) {
             case 'rgb' :
@@ -82,10 +87,46 @@ define('models/Color', function () {
                 break;
             case 'hsl' :
             case 'hsla' :
-                color = 'hsla(' + this.hue + ',' + this.saturation + '%,' + this.lightness + '%,' + (alpha * this.alpha) + ')';
+                color = 'hsla(' + (1 * this.hue + hue) + ',' + this.saturation + '%,' + this.lightness + '%,' + (alpha * this.alpha) + ')';
                 break;
             }
             return color;
+        },
+
+        toHSL : function() {
+            var rgb = [];
+            if (this.type === 'hsl' || this.type === 'hsla') {
+                return this;
+            } else {
+                rgb[0] = this.red / 2.55;
+                rgb[1] = this.green / 2.55;
+                rgb[2] = this.blue / 2.55;
+
+                var hsl = [],
+                    max = Math.max.apply(Math, rgb),
+                    min = Math.min.apply(Math, rgb);
+
+                this.lightness = Math.round((min + max)/2);
+                var d = max - min;
+
+                if(d !== 0) {
+                    this.saturation = Math.round(d*100 / (100 - Math.abs(2*this.lightness - 100))) + '%';
+
+                    switch(max) {
+                    case rgb[0]: this.hue = (rgb[1] - rgb[2]) / d + (rgb[1] < rgb[2] ? 6 : 0); 
+                        break;
+                    case rgb[1]: this.hue = (rgb[2] - rgb[0]) / d + 2; 
+                        break;
+                    case rgb[2]: this.hue = (rgb[0] - rgb[1]) / d + 4;
+                    }
+                    this.hue = Math.round(this.hue*60);
+                } else {
+                    this.hue = 0;
+                    this.saturation = 0;
+                }
+                this.type = 'hsla';
+            }
+            return this;
         }
     }
 

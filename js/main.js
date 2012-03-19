@@ -55,6 +55,7 @@ require(['jquery',
                 if (selectedLayer.attributes.image.name === 'linear-gradient') {
                     selectedLayer.attributes.image.direction = event.image.direction;
                 }
+                selectedLayer.attributes.hue += event.hue;
                 //selectedLayer.trigger('update');
             } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
                 selectedLayer.setRect(event.rect);
@@ -65,6 +66,7 @@ require(['jquery',
                 //layerList.selectedLayers.setOpacity(event.opacity);
                 layerList.selectedLayers.forEach(function (layer) {
                     layer.attributes.opacity = event.opacity;
+                    layer.attributes.hue += event.hue;
                     layer.trigger('update');
                 });
                 layerList.selectedLayers.setRect(event.rect);

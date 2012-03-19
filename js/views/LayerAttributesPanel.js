@@ -84,6 +84,8 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info_layer_opacity').value = Math.round(layers.getOpacity() * 100);
             document.getElementById('info_layer_opacity_range').value = Math.round(layers.getOpacity() * 100);
 
+            this.hue = document.getElementById('info-hsl').value = 0;
+
             if (layers.length > 1) {
                 document.querySelector('#info-panel .linear-options').style.display = 'none';
                 document.querySelector('#info-panel .radial-options').style.display = 'none';
@@ -107,6 +109,9 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
 
                     document.querySelector('#info-panel .radial-options').style.display = 'block';
                     document.querySelector('#info-panel .linear-options').style.display = 'none';
+
+                    this.hue = document.getElementById('info-hsl').value = ((180 - layer.attributes.hue) % 360) - 180;
+
                 } else if (layer.attributes.image.name === 'linear-gradient') {
                     radio = document.querySelector('#info_linear_direction_set input[value=\''+layer.attributes.image.direction.toString()+'\']');
                     if (radio)
@@ -163,6 +168,9 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 spawnEvent.image.size = document.getElementById('info_radial_size').value;
                 spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
                 spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
+
+                spawnEvent.hue = this.hue - (1 * document.getElementById('info-hsl').value);
+                this.hue = 1 * document.getElementById('info-hsl').value;
 
                 radio = document.querySelector('#info_linear_direction_set input:checked');
                 if (radio && radio.value) {
