@@ -56,7 +56,8 @@ require(['jquery',
                     selectedLayer.attributes.image.direction = event.image.direction;
                 }
                 selectedLayer.attributes.hue += event.hue;
-                //selectedLayer.trigger('update');
+                // We need to trigger an update on the layer so that the color stop preview in the layerList can update.
+                selectedLayer.trigger('update');
             } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
                 selectedLayer.setRect(event.rect);
                 infoPanel.setData(layerList.selectedLayers);
