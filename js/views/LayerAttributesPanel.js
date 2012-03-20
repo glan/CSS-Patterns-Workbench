@@ -50,7 +50,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 document.getElementById('info_layer_opacity_range_helper').className = '';
         });
 
-        $("#info_layer_stops").sortable({cursor:'-webkit-grabbing', containment:'document', items: 'li' });
+        $("#info_layer_stops").sortable({cursor:'-webkit-grabbing', containment:'document', items: 'li', axis: 'y' });
         $("#info_layer_stops").disableSelection();
 
         document.getElementById('info-panel').addEventListener('sortupdate', this, true);

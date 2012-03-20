@@ -82,8 +82,8 @@ input[type='color'] {
     font-size: 12px;
     padding: 6px 20px 1px;
     border-bottom: 1px solid #999;
-    background: -webkit-linear-gradient(#333, #000);
-    background: -moz-linear-gradient(#333, #000);
+    background: -webkit-linear-gradient(#444, #333);
+    background: -moz-linear-gradient(#444, #333);
     color: #EEE;
 }
 

@@ -13,6 +13,8 @@
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
     -webkit-transition: all 0.2s ease-in;
     font-size: 10px;
+    border-left: 1px solid #999;
+    background: #EEE;
 }
 
 .showInfo #info-panel {
@@ -45,10 +47,17 @@
     display: none;
 }
 
+#info-panel.single .color-stops-options {
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    position: relative;
+}
+
 #info-panel fieldset {
     border: none;
     /*position: relative;*/
     display: -webkit-box;
+    background: #FFF;
 }
 
 #info-panel legend {
@@ -125,6 +134,7 @@
     left: 0; right: 0;
     /*position: absolute;*/
     -webkit-transform: translateZ(1px);
+    border-bottom: 1px solid #999;
 }
 
 .color_stop_preview_back {
@@ -142,21 +152,26 @@
     background-position : 0 0, 4px 4px;
 }
 
-#info_layer_stops {
-    -webkit-box-flex: 1;
+#info-panel #info_layer_stops {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    right: 0;
+    bottom: 40px;
+    /*-webkit-box-flex: 1;*/
     overflow-y: scroll;
-    padding: 4px;
+    padding: 0;
     font-size: 12px;
     min-height: 60px;
 }
 
 #info_layer_stops .colorstop {
-    padding: 2px 5px;
-    border: 1px solid #ccc;
-    border-left: 8px solid #ccc;
-    margin-bottom: 2px;
+    padding: 2px 5px 2px 16px;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    margin-bottom: -1px;
     cursor: move;
-    background: #EEE;
+    background-image: -webkit-linear-gradient(0deg, #CCC, #BBB 10px, #999 10px, #999 11px, #FFF 11px);
 }
 
 #info_layer_stops .colorstop .color {

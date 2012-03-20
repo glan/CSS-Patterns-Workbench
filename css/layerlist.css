@@ -51,6 +51,8 @@
     position: relative;
     cursor: -webkit-grab;
     border-bottom: 1px solid #AAA;
+    border-top: 1px solid #AAA;
+    margin-bottom: -1px;
     -webkit-box-align: center;
     overflow: hidden;
     text-shadow: 0 1px 0 #FFF;
@@ -61,17 +63,18 @@
 }
 
 #layers .layer.selected {
-    background: #CCC;
+    background: -webkit-linear-gradient(#CCC,#DDD);
 }
 
 #layers .layer .preview {
     position: absolute;
     top: 3px;
     left: 37px;
-    border: 1px solid #333;
+    border: 1px solid #777;
     width: 32px;
     height: 32px;
     -webkit-transform: translateZ(1px);
+    border-radius: 3px;
 }
 
 #layers .layer:before {
@@ -127,11 +130,11 @@
 }
 
 #layers .layer .enabled:checked:after {
-    opacity: 1;
+    opacity: 0.9;
 }
 
 #layers .layer .enabled:active:after {
-    opacity: 1;
+    opacity: 0.9;
 }
 
 #layers .layer .enabled:checked:active:after {
@@ -147,10 +150,15 @@
 .header {
     width: 100%;
     height: 24px;
-    background: -webkit-linear-gradient(#000, #555 90%);
-    color: #EEE;
+    background: -webkit-linear-gradient(#333, #555 90%);
+    color: #CCC;
     display: -webkit-box;
     -webkit-box-orient: horizontal;
+}
+
+.header>* {
+    border-bottom: 1px solid #444;
+    border-right: 1px solid #444;
 }
 
 .header .name {
@@ -158,32 +166,35 @@
     -webkit-box-flex: 1;
     padding: 4px 10px;
     font-weight: bold;
-    text-shadow: 0 -1px 0px #444;
-    color: #FFF;
+    text-shadow: 0 -1px 1px #111;
+    color: #EEE;
     font-size: 12px;
 }
 
 .header>button {
     -webkit-appearance: none;
-    padding: 5px;
-    width: 30px;
+    width: 36px;
     background: none;
     border: none;
     border-radius: 0;
     border-left: 1px solid #999;
-    color: #FFF;
-    text-shadow: 1px 1px 1px #111;
+    border-bottom: 1px solid #444;
+    border-right: 1px solid #444;
+    color: #EEE;
+    text-shadow: 0 -1px 1px #111;
     font-weight: normal;
     cursor: pointer;
     margin: 0;
     display: block;
+    -webkit-transition: all 0.2s linear;
 }
 
 .header>button:active,
 .header>button.active {
-    background: -webkit-linear-gradient(#444, #999 20%, #777);
-    color: #EEE;
-    text-shadow: -1px -1px 0px #333;
+    -webkit-transition: all 0 linear;
+    background-color: rgba(0,0,0,0.3);
+    color: #AAA;
+    text-shadow: 0 -1px 1px #000;
 }
 
 .header>button:focus {
@@ -193,19 +204,23 @@
 
 #pattern-presets {
     position: absolute;
-    top: 24px;
+    top: 25px;
     left: 25px;
     width: 176px;
     overflow: hidden;
     background: #FFF;
     z-index: 100;
-    display: none;
     padding-bottom: 5px;
     -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
+    border: none;
+    -webkit-transition: all 0.2s linear;
+    opacity: 0;
+    max-height: 0;
 }
 
 #pattern-presets.show {
-    display: block;
+    max-height: 300px;
+    opacity: 1;
 }
 
 #pattern-presets>* {
@@ -216,8 +231,14 @@
 #pattern-presets .preset {
     width: 50px;
     height: 50px;
-    border: 1px solid #000;
+    border: 1px solid #777;
+    border-radius: 3px;
     cursor: pointer;
+}
+
+#pattern-presets .preset:hover {
+    border: 1px solid #DD0;
+    box-shadow: inset 0 0 5px #DD0;
 }
 
 #pattern-presets .trans {
