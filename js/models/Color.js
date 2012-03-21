@@ -72,6 +72,8 @@ define('models/Color', function () {
 
     Color.prototype = {
         toString : function (adjustments) {
+            var color = '', hue, saturation, lightness;
+
             adjustments = adjustments || {};
             if (typeof adjustments.opacity == 'undefined') {
                 adjustments.opacity = 1;
@@ -83,11 +85,10 @@ define('models/Color', function () {
                      this.toHSL();
             }
 
-            adjustments.hue = adjustments.hue || 0;
-            adjustments.saturation = adjustments.saturation || 0;
-            adjustments.lightness = adjustments.lightness || 0;
+            adjustments.hue = 1 * adjustments.hue || 0;
+            adjustments.saturation = 1 * adjustments.saturation || 0;
+            adjustments.lightness = 1 * adjustments.lightness || 0;
 
-            var color = '';
             switch (this.type) {
             case 'rgb' :
             case 'rgba' :
@@ -95,7 +96,14 @@ define('models/Color', function () {
                 break;
             case 'hsl' :
             case 'hsla' :
-                color = 'hsla(' + (1 * this.hue + adjustments.hue) + ',' + (1 * this.saturation + adjustments.saturation) + '%,' + (1 * this.lightness + adjustments.lightness) + '%,' + (adjustments.opacity * this.alpha) + ')';
+                hue = 1 * this.hue + adjustments.hue;
+                saturation = 1 * this.saturation + adjustments.saturation;
+                lightness = 1 * this.lightness + adjustments.lightness;
+                color = 'hsla('
+                    + (hue) + ','
+                    + ((saturation < 0) ? 0 : ((saturation > 100) ? 100 : saturation)) + '%,'
+                    + ((lightness < 0) ? 0 : ((lightness > 100) ? 100 : lightness)) + '%,'
+                    + (adjustments.opacity * this.alpha) + ')';
                 break;
             }
             return color;
