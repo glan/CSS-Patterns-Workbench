@@ -97,8 +97,23 @@ define('models/Color', function () {
             case 'hsl' :
             case 'hsla' :
                 hue = 1 * this.hue + adjustments.hue;
-                saturation = 1 * this.saturation + adjustments.saturation;
-                lightness = 1 * this.lightness + adjustments.lightness;
+
+                this.saturation = 1 * this.saturation;
+                adjustments.saturation = 1 * adjustments.saturation;
+                if (adjustments.saturation > 0) {
+                    saturation = Math.round(10000 * (this.saturation + ((100 - this.saturation) * (adjustments.saturation / 100)))) / 10000;
+                } else {
+                    saturation = Math.round(10000 * (this.saturation * ((100 + adjustments.saturation) / 100))) / 10000;
+                }
+
+                this.lightness = 1 * this.lightness;
+                adjustments.lightness = 1 * adjustments.lightness;
+                if (adjustments.lightness > 0) {
+                    lightness = Math.round(10000 * (this.lightness + ((100 - this.lightness) * (adjustments.lightness / 100)))) / 10000;
+                } else {
+                    lightness = Math.round(10000 * (this.lightness * ((100 + adjustments.lightness) / 100))) / 10000;
+                }
+
                 color = 'hsla('
                     + (hue) + ','
                     + ((saturation < 0) ? 0 : ((saturation > 100) ? 100 : saturation)) + '%,'
