@@ -47,6 +47,12 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
             this.domElement.style.top = this.rect.getTop().toString();
             this.domElement.style.width = this.rect.getWidth().toString();
             this.domElement.style.height = this.rect.getHeight().toString();
+            clearTimeout(this.timeout);
+            document.getElementById('ants').className = 'animate';
+            // Stop the ants from marching after 30 seconds to save CPU cycles.
+            this.timeout = setTimeout(function() {
+                document.getElementById('ants').className = '';
+            }, 30000);
         },
 
         hideRect : function () {
