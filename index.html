@@ -179,11 +179,19 @@
     <fieldset class="hsl-adjustment" class="single multi">
         <heading class="header"><span class="name">HSL Adjustment</span></heading>
         <ul>
-            <li><label for="info-hsl">Hue</label><input id="info-hsl" type="range" min="-180" max="180"/>˚</li>
+            <li><label for="info-hsl-hue">Hue</label>
+                <input id="info-hsl-hue" type="range" min="-180" max="180"/>˚
+            </li>
         </ul><ul>
-            <li><label>Saturation</label><input type="range"/>%</li>
+            <li>
+                <label for="info-hsl-saturation">Saturation</label>
+                <input id="info-hsl-saturation" type="range" min="-100" max="100"/>%
+            </li>
         </ul><ul>
-            <li><label>Lightness</label><input type="range"/>%</li>
+            <li>
+                <label for="info-hsl-lightness">Lightness</label>
+                <input id="info-hsl-lightness" type="range" min="-100" max="100"/>%
+            </li>
         </ul>
     </fieldset>
     <fieldset class="color-stops-options single">

@@ -50,7 +50,9 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
                         order : i,
                         opacity : 1,
                         enabled : true,
-                        hue : 0
+                        hue : 0,
+                        saturation : 0,
+                        lightness : 0
                     });
                     i++;
                 } else if (gradient[5] === 'repeating-radial-gradient' || gradient[5] === 'radial-gradient') {
@@ -68,7 +70,9 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
                         order : i,
                         opacity : 1,
                         enabled : true,
-                        hue : 0
+                        hue : 0,
+                        saturation : 0,
+                        lightness : 0
                     });
                     i++;
                 }

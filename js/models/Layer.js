@@ -7,7 +7,12 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
 
     var Layer = {
         getImage : function (prefix) {
-            return this.attributes.image.toString(this.attributes.opacity, this.attributes.hue, prefix);
+            return this.attributes.image.toString(prefix, {
+                opacity : this.attributes.opacity,
+                hue : this.attributes.hue,
+                saturation : this.attributes.saturation,
+                lightness : this.attributes.lightness
+            });
         },
         getSize : function () {
             return (this.attributes.size) ? this.attributes.size : null;

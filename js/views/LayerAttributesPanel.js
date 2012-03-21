@@ -84,7 +84,9 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info_layer_opacity').value = Math.round(layers.getOpacity() * 100);
             document.getElementById('info_layer_opacity_range').value = Math.round(layers.getOpacity() * 100);
 
-            this.hue = document.getElementById('info-hsl').value = 0;
+            this.hue = document.getElementById('info-hsl-hue').value = 0;
+            this.saturation = document.getElementById('info-hsl-saturation').value = 0;
+            this.lightness = document.getElementById('info-hsl-lightness').value = 0;
 
             if (layers.length > 1) {
                 document.getElementById('info-panel').className = 'multi';
@@ -118,7 +120,9 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                     document.getElementById('info_linear_direction').value = layer.attributes.image.direction.getValue();
                 }
 
-                this.hue = document.getElementById('info-hsl').value = ((180 - layer.attributes.hue) % 360) - 180;
+                this.hue = document.getElementById('info-hsl-hue').value = ((180 - layer.attributes.hue) % 360) - 180;
+                this.saturation = document.getElementById('info-hsl-saturation').value = layer.attributes.saturation;
+                this.lightness = document.getElementById('info-hsl-lightness').value = layer.attributes.lightness;
 
                 //document.querySelector('#info-panel .color-stops-options').style.display = 'block';
 
@@ -165,8 +169,14 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
                 spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
 
-                spawnEvent.hue = this.hue - (1 * document.getElementById('info-hsl').value);
-                this.hue = 1 * document.getElementById('info-hsl').value;
+                spawnEvent.hue = this.hue - (1 * document.getElementById('info-hsl-hue').value);
+                this.hue = 1 * document.getElementById('info-hsl-hue').value;
+
+                spawnEvent.saturation = (1 * document.getElementById('info-hsl-saturation').value) - this.saturation;
+                this.saturation = 1 * document.getElementById('info-hsl-saturation').value;
+
+                spawnEvent.lightness = (1 * document.getElementById('info-hsl-lightness').value) - this.lightness;
+                this.lightness = 1 * document.getElementById('info-hsl-lightness').value;
 
                 radio = document.querySelector('#info_linear_direction_set input:checked');
                 if (radio && radio.value) {

@@ -71,23 +71,31 @@ define('models/Color', function () {
     }
 
     Color.prototype = {
-        toString : function (alpha, hue) {
-            if (typeof alpha == 'undefined')
-                alpha = 1;
-            if (typeof hue == 'undefined') {
-                hue = 0;
-            } else {
-                this.toHSL();
+        toString : function (adjustments) {
+            adjustments = adjustments || {};
+            if (typeof adjustments.opacity == 'undefined') {
+                adjustments.opacity = 1;
             }
+
+            if (typeof adjustments.hue !== 'undefined' || 
+                typeof adjustments.saturation !== 'undefined' || 
+                typeof adjustments.lightness !== 'undefined') {
+                     this.toHSL();
+            }
+
+            adjustments.hue = adjustments.hue || 0;
+            adjustments.saturation = adjustments.saturation || 0;
+            adjustments.lightness = adjustments.lightness || 0;
+
             var color = '';
             switch (this.type) {
             case 'rgb' :
             case 'rgba' :
-                color = 'rgba(' + this.red + ',' + this.green + ',' + this.blue + ',' + (alpha * this.alpha) + ')';
+                color = 'rgba(' + this.red + ',' + this.green + ',' + this.blue + ',' + (adjustments.opacity * this.alpha) + ')';
                 break;
             case 'hsl' :
             case 'hsla' :
-                color = 'hsla(' + (1 * this.hue + hue) + ',' + this.saturation + '%,' + this.lightness + '%,' + (alpha * this.alpha) + ')';
+                color = 'hsla(' + (1 * this.hue + adjustments.hue) + ',' + (1 * this.saturation + adjustments.saturation) + '%,' + (1 * this.lightness + adjustments.lightness) + '%,' + (adjustments.opacity * this.alpha) + ')';
                 break;
             }
             return color;
