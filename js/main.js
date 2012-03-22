@@ -140,6 +140,7 @@ require(['jquery',
         }
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
         marquee.hideRect();
+        infoPanel.hide();
     });
 
     // Force blur on data text area
