@@ -93,6 +93,7 @@ require(['jquery',
         }
         document.getElementById('data').value = layerList.layers;
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
+        document.getElementById('size-bytes').innerHTML = layerList.layers.toString().length + ' bytes (W3C) / ' + layerList.layers.toString(['-webkit','-moz']).length + ' bytes (prefixed)';
     });
 
     document.addEventListener('layerlist_selection', function(event) {

@@ -134,3 +134,9 @@ input[type='color'] {
     padding: 0 2px;
     text-shadow: 0 0 6px rgba(255,255,255,0.4);
 }
+
+#top-bar>#size-bytes {
+    position: absolute;
+    right: 10px;
+    font-weight: bold;
+}
