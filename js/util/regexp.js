@@ -55,7 +55,7 @@ define('util/regexp', function () {
         number: regex.number
     });
     
-    regex.size = RegExp.create('({{length}})\\s*({{length}})', {
+    regex.size = RegExp.create('({{length}})\\s*({{length}})?', {
         length: regex.length
     }, 'g');
     
