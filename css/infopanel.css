@@ -137,6 +137,7 @@
     padding: 0;
     font-size: 12px;
     min-height: 60px;
+    background: #EEE;
 }
 
 #info_layer_stops .colorstop {
