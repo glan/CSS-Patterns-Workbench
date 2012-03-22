@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'models/ColorStop', 'models/Length', 'models/Direction'], function (Rect, ColorStops, ColorStop, Length, Direction) {
+define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'models/ColorStop', 'models/Length', 'models/Direction','views/InputColor'], function (Rect, ColorStops, ColorStop, Length, Direction, InputColor) {
     'use strict';
 
     function LayerAttributesPanel() {
@@ -22,7 +22,9 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
 
         document.getElementById('info_add_colorstop').addEventListener('click', function (event) {
             var template = document.querySelector('#templates>.colorstop');
-            document.getElementById('info_layer_stops').appendChild(template.cloneNode(true));
+            var colorStopElement = template.cloneNode(true);
+            document.getElementById('info_layer_stops').appendChild(colorStopElement);
+            new InputColor(colorStopElement.querySelector('input[type=color]'));
         });
 
         document.getElementById('info_linear_direction').addEventListener('focus', function(event) {
@@ -129,7 +131,8 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 document.getElementById('info_layer_stops').innerHTML = '';
                 layer.attributes.image.colorStops.getColorStops().forEach(function(colorStop) {
                     var newStop = template.cloneNode(true);
-                    newStop.querySelector('.color').value = colorStop.color;
+                    newStop.querySelector('input[type=color]').value = colorStop.color;
+                    new InputColor(newStop.querySelector('input[type=color]'));
                     if (colorStop.length) {
                         newStop.querySelector('.stop').value = colorStop.length.getValue();
                         newStop.querySelector('.unit').value = colorStop.length.getUnit();

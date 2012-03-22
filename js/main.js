@@ -10,7 +10,8 @@ require(['jquery',
 'views/Canvas',
 'views/Grid',
 'views/LayerList',
-'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/incrementable.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList) {
+'views/InputColor',
+'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/incrementable.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList, InputColor) {
     'use strict';
     var layerList = new LayerList(new Layers()),
         canvas = new Canvas(document.getElementById('frame')),
@@ -122,11 +123,11 @@ require(['jquery',
         layerList.layers.trigger('update');
     });
     
-    document.addEventListener('input', function (event) {
+    /*document.addEventListener('input', function (event) {
         if (event.target.type === 'color') {
             event.target.setAttribute('style', 'background: -webkit-linear-gradient(' + event.target.value + ',' + event.target.value + '),' + '-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),-webkit-linear-gradient(45deg, #CCC 25%, #FFF 25%, #FFF 75%, #CCC 75%, #CCC); background-size: 10px 10px; background-position: 0 0, 5px 5px;');
         }
-    });
+    });*/
 
     document.getElementById('canvas-width').addEventListener('input', function (event) {
         canvas.setWidth(this.value);
@@ -147,6 +148,10 @@ require(['jquery',
     });
 
     layerList.layers.parseCSS(document.getElementById('data').value);
+
+    $('input[type=color]').each( function (i, element) {
+        new InputColor(element);
+    });
 
     new Incrementable(document.getElementById('data'));
 
