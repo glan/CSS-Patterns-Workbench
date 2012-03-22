@@ -10,8 +10,17 @@ define('models/GradientRadial', ['models/Length'], function (Length) {
         this.position = (position && position !== 'center') ? position : '50% 50%';
         this.width = new Length().parseLength(shape);
         this.height = new Length().parseLength(size);
-        this.shape = (shape) ? ((this.width.getValue() !== null) ? '' : shape) : 'ellipse';
-        this.size = (size && this.height.getValue() === null) ? size : 'farthest-corner';
+
+        size += '';
+        shape += '';
+
+        this.size = size.match(/closest-side|closest-corner|farthest-side|farthest-corner|contain|cover/) || shape.match(/closest-side|closest-corner|farthest-side|farthest-corner|contain|cover/) || 'farthest-corner';
+        this.shape = shape.match(/ellipse|circle/) || size.match(/ellipse|circle/) || 'ellipse';
+
+
+        if (this.width.getValue() !== null)
+            this.shape = '';
+
         this.direction = (direction) ? direction : '';
         this.colorStops = colorStops;
         this.repeating = repeating;
