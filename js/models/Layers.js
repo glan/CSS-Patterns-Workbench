@@ -7,7 +7,7 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
 
     var Layers = Backbone.Collection.extend({
         model: Layer,
-        toString : function (prefixes) {
+        toString : function (prefixes, compress) {
             prefixes = (prefixes) ? prefixes : [];
             prefixes.push(0);
             var image,    //=  this.first().getImage() + ((this.first().getPosition()) ? ' ' + this.first().getPosition() : ''),
@@ -39,7 +39,10 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
             if (this.backgroundColor)
                 bgColor = 'background-color: ' + this.backgroundColor + ';\n';
             css.push(bgColor);
-            return css.join('');
+            if (compress)
+                return css.join('').replace(/,\s*/g, ",");
+            else
+                return css.join('');
         },
         parseCSS : function (css) {
             try {
