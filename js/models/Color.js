@@ -92,7 +92,12 @@ define('models/Color', function () {
             switch (this.type) {
             case 'rgb' :
             case 'rgba' :
-                color = 'rgba(' + this.red + ',' + this.green + ',' + this.blue + ',' + (adjustments.opacity * this.alpha) + ')';
+                color = this.red + ',' + this.green + ',' + this.blue;
+                if (adjustments.opacity * this.alpha === 1) {
+                    color = 'rgb(' + color + ')';
+                } else {
+                    color = 'rgba(' + color + ',' + (adjustments.opacity * this.alpha) + ')';
+                }
                 break;
             case 'hsl' :
             case 'hsla' :
@@ -114,11 +119,16 @@ define('models/Color', function () {
                     lightness = Math.round(10000 * (this.lightness * ((100 + adjustments.lightness) / 100))) / 10000;
                 }
 
-                color = 'hsla('
-                    + (hue) + ','
-                    + ((saturation < 0) ? 0 : ((saturation > 100) ? 100 : saturation)) + '%,'
-                    + ((lightness < 0) ? 0 : ((lightness > 100) ? 100 : lightness)) + '%,'
-                    + (adjustments.opacity * this.alpha) + ')';
+                color = hue + ','
+                        + ((saturation < 0) ? 0 : ((saturation > 100) ? 100 : saturation)) + '%,'
+                        + ((lightness < 0) ? 0 : ((lightness > 100) ? 100 : lightness)) + '%'
+
+                if (adjustments.opacity * this.alpha === 1) {
+                    color = 'hsl(' + color + ')';
+                } else {
+                    color = 'hsla(' + color + ',' + (adjustments.opacity * this.alpha) + ')';
+                }
+
                 break;
             }
             return color;
