@@ -40,16 +40,26 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
         document.getElementById('info_layer_opacity').addEventListener('input', function(event) {
             document.getElementById('info_layer_opacity_range').value = this.value;
         });
-        document.getElementById('info_layer_opacity').addEventListener('focus', function(event) {
-            document.getElementById('info_layer_opacity_range_helper').className = 'active';
+
+        document.getElementById('info-hsl-hue-range').addEventListener('change', function(event) {
+            document.getElementById('info-hsl-hue').value = this.value;
         });
-        document.getElementById('info_layer_opacity').addEventListener('click', function(event) {
-            document.getElementById('info_layer_opacity_range_helper').className = 'active';
-            event.stopPropagation();
+        document.getElementById('info-hsl-hue').addEventListener('input', function(event) {
+            document.getElementById('info-hsl-hue-range').value = this.value;
         });
-        document.addEventListener('click', function(event) {
-            if (event.target.id != 'info_layer_opacity_range')
-                document.getElementById('info_layer_opacity_range_helper').className = '';
+
+        document.getElementById('info-hsl-saturation-range').addEventListener('change', function(event) {
+            document.getElementById('info-hsl-saturation').value = this.value;
+        });
+        document.getElementById('info-hsl-saturation').addEventListener('input', function(event) {
+            document.getElementById('info-hsl-saturation-range').value = this.value;
+        });
+
+        document.getElementById('info-hsl-lightness-range').addEventListener('change', function(event) {
+            document.getElementById('info-hsl-lightness').value = this.value;
+        });
+        document.getElementById('info-hsl-lightness').addEventListener('input', function(event) {
+            document.getElementById('info-hsl-lightness-range').value = this.value;
         });
 
         $("#info_layer_stops").sortable({cursor:'-webkit-grabbing', containment:'document', items: 'li', axis: 'y' });
@@ -86,9 +96,9 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info_layer_opacity').value = Math.round(layers.getOpacity() * 100);
             document.getElementById('info_layer_opacity_range').value = Math.round(layers.getOpacity() * 100);
 
-            this.hue = document.getElementById('info-hsl-hue').value = 0;
-            this.saturation = document.getElementById('info-hsl-saturation').value = 0;
-            this.lightness = document.getElementById('info-hsl-lightness').value = 0;
+            this.hue = document.getElementById('info-hsl-hue').value = document.getElementById('info-hsl-hue-range').value = 0;
+            this.saturation = document.getElementById('info-hsl-saturation').value = document.getElementById('info-hsl-saturation-range').value = 0;
+            this.lightness = document.getElementById('info-hsl-lightness').value = document.getElementById('info-hsl-lightness-range').value = 0;
 
             if (layers.length > 1) {
                 document.getElementById('info-panel').className = 'multi';
@@ -122,9 +132,9 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                     document.getElementById('info_linear_direction').value = layer.attributes.image.direction.getValue();
                 }
 
-                this.hue = document.getElementById('info-hsl-hue').value = ((180 - layer.attributes.hue) % 360) - 180;
-                this.saturation = document.getElementById('info-hsl-saturation').value = layer.attributes.saturation;
-                this.lightness = document.getElementById('info-hsl-lightness').value = layer.attributes.lightness;
+                document.getElementById('info-hsl-hue-range').value = document.getElementById('info-hsl-hue').value = this.hue = ((180 - layer.attributes.hue) % 360) - 180;
+                document.getElementById('info-hsl-saturation-range').value = document.getElementById('info-hsl-saturation').value = this.saturation = layer.attributes.saturation;
+                document.getElementById('info-hsl-lightness-range').value = document.getElementById('info-hsl-lightness').value = this.lightness = layer.attributes.lightness;
 
                 //document.querySelector('#info-panel .color-stops-options').style.display = 'block';
 

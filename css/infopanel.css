@@ -99,32 +99,6 @@
     border-bottom: 1px solid #EEE;
 }
 
-
-
-#info_layer_opacity_range_helper.active {
-    display: block;
-    z-index: 100;
-}
-
-#info_layer_opacity_range_helper {
-    display: none;
-    height: 80px;
-    position: absolute;
-    left: 90px;
-    margin-top: -2px; 
-    padding: 5px;
-    width: 20px;
-    background: rgba(255,255,255,0.9);
-    -webkit-box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
-}
-
-#info-panel #info_layer_opacity_range {
-    -webkit-appearance: slider-vertical; 
-    height: 80px;
-    width: 20px;
-    cursor: pointer;
-}
-
 #info-panel fieldset.colorstops {
     padding-bottom: 30px;
 }
@@ -202,9 +176,10 @@
 }
 
 
-.hsl-adjustment input[type=range] {
-    margin: 2px 5px;
-    -webkit-transform: translateY(3px);
+#info-panel input[type=range] {
+    width: 90px;
+    margin: 0 5px;
+    -webkit-transform: translateY(4px);
 }
 
 .direction {

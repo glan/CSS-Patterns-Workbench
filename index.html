@@ -59,8 +59,8 @@
         <ul class="single multi">
             <li>
                 <label for="info_layer_opacity">Opacity</label>
+                <input id="info_layer_opacity_range" type="range" min="0" max="100"/>
                 <input id="info_layer_opacity" type="number" min="0" max="100"/>%
-                <div id="info_layer_opacity_range_helper"><input id="info_layer_opacity_range" type="range" min="0" max="100"/></div>
             </li>
         </ul>
         <ul class="single">
@@ -182,17 +182,20 @@
         <heading class="header"><span class="name">HSL Adjustment</span></heading>
         <ul>
             <li><label for="info-hsl-hue">Hue</label>
-                <input id="info-hsl-hue" type="range" min="-180" max="180"/>˚
+                <input id="info-hsl-hue-range" type="range" min="-180" max="180"/>
+                <input id="info-hsl-hue" type="number" min="-180" max="180"/>˚
             </li>
         </ul><ul>
             <li>
                 <label for="info-hsl-saturation">Saturation</label>
-                <input id="info-hsl-saturation" type="range" min="-100" max="100"/>%
+                <input id="info-hsl-saturation-range" type="range" min="-100" max="100"/>
+                <input id="info-hsl-saturation" type="number" min="-100" max="100"/>%
             </li>
         </ul><ul>
             <li>
                 <label for="info-hsl-lightness">Lightness</label>
-                <input id="info-hsl-lightness" type="range" min="-100" max="100"/>%
+                <input id="info-hsl-lightness-range" type="range" min="-100" max="100"/>
+                <input id="info-hsl-lightness" type="number" min="-100" max="100"/>%
             </li>
         </ul>
     </fieldset>
