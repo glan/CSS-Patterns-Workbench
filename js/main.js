@@ -123,12 +123,6 @@ require(['jquery',
         layerList.layers.backgroundColor = document.getElementById('background-color').value;
         layerList.layers.trigger('update');
     });
-    
-    /*document.addEventListener('input', function (event) {
-        if (event.target.type === 'color') {
-            event.target.setAttribute('style', 'background: -webkit-linear-gradient(' + event.target.value + ',' + event.target.value + '),' + '-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),-webkit-linear-gradient(45deg, #CCC 25%, #FFF 25%, #FFF 75%, #CCC 75%, #CCC); background-size: 10px 10px; background-position: 0 0, 5px 5px;');
-        }
-    });*/
 
     document.getElementById('canvas-width').addEventListener('input', function (event) {
         canvas.setWidth(this.value);
@@ -146,6 +140,12 @@ require(['jquery',
         }
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
         marquee.hideRect();
+    });
+
+    // Force blur on data text area
+    document.addEventListener('click', function (event) {
+        if (event.target.id !== 'data')
+            document.getElementById('data').blur();
     });
 
     layerList.layers.parseCSS(document.getElementById('data').value);
