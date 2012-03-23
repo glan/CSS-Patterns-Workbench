@@ -121,24 +121,28 @@
 
 #layers .layer .enabled:after {
     opacity: 0.15;
-    content : '';
+    content : '✗';
     display: block;
     width:22px;
     height: 22px;
-    -webkit-background-size: 18px auto;
-    background: url(../img/noun_project_421.svg) 50% 50% no-repeat;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
 }
 
 #layers .layer .enabled:checked:after {
     opacity: 0.9;
+    content : '✓';
 }
 
 #layers .layer .enabled:active:after {
     opacity: 0.9;
+    content : '✓';
 }
 
 #layers .layer .enabled:checked:active:after {
     opacity: 0.15;
+    content : '✗';
 }
 
 #layers .ui-sortable-helper {
