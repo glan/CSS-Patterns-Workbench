@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-define('models/Color', function () {
+define('models/Color', ['vendor/goog/color'], function (goog) {
     'use strict';
     /**
      * @source http://sverri.tumblr.com/post/865857181/javascript-hex-to-rgb-converter
@@ -134,12 +134,12 @@ define('models/Color', function () {
             return color;
         },
 
-        toHSL : function() {
-            var rgb = [];
+        toHSL : function () {
+            var hsl;
             if (this.type === 'hsl' || this.type === 'hsla') {
                 return this;
             } else {
-                rgb[0] = this.red / 2.55;
+                /*rgb[0] = this.red / 2.55;
                 rgb[1] = this.green / 2.55;
                 rgb[2] = this.blue / 2.55;
 
@@ -164,8 +164,26 @@ define('models/Color', function () {
                 } else {
                     this.hue = 0;
                     this.saturation = 0;
-                }
+                }*/
+                hsl = goog.color.rgbToHsl(this.red, this.green, this.blue);
+                this.hue = hsl[0];
+                this.saturation = hsl[1] * 100;
+                this.lightness = hsl[2] * 100;
                 this.type = 'hsla';
+            }
+            return this;
+        },
+        
+        toRGB : function () {
+            var rgb;
+            if (this.type === 'rgb' || this.type === 'rgba') {
+                return this;
+            } else {
+                rgb = goog.color.hslToRgb(this.hue, this.saturation / 100, this.lightness / 100);
+                this.red = rgb[0];
+                this.green = rgb[1];
+                this.blue = rgb[2];
+                this.type = 'rgba';
             }
             return this;
         }

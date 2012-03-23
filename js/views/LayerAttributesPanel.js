@@ -9,6 +9,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
         //$('#info-panel').unbind();
         document.getElementById('info-panel').addEventListener('input', this);
         document.getElementById('info-panel').addEventListener('change', this);
+        document.addEventListener('color_input', this);
 
         document.getElementById('info-panel').addEventListener('click', function (event) {
             var spawnEvent;
@@ -24,7 +25,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             var template = document.querySelector('#templates>.colorstop');
             var colorStopElement = template.cloneNode(true);
             document.getElementById('info_layer_stops').appendChild(colorStopElement);
-            new InputColor(colorStopElement.querySelector('input[type=color]'));
+            new InputColor(colorStopElement.querySelector('input[type=color]'), window.colorPicker);
         });
 
         document.getElementById('info_linear_direction').addEventListener('focus', function(event) {
@@ -143,7 +144,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 layer.attributes.image.colorStops.getColorStops().forEach(function(colorStop) {
                     var newStop = template.cloneNode(true);
                     newStop.querySelector('input[type=color]').value = colorStop.color;
-                    new InputColor(newStop.querySelector('input[type=color]'));
+                    new InputColor(newStop.querySelector('input[type=color]'), window.colorPicker);
                     if (colorStop.length) {
                         newStop.querySelector('.stop').value = colorStop.length.getValue();
                         newStop.querySelector('.unit').value = colorStop.length.getUnit();

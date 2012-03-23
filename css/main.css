@@ -140,3 +140,17 @@ input[type='color'] {
     right: 10px;
     font-weight: bold;
 }
+
+
+
+.ranges input[type='number'] {
+    width: 50px;
+    margin: 2px;
+    font-size: 10px;
+}
+
+.ranges input[type=range] {
+    width: 90px;
+    margin: 0 5px;
+    -webkit-transform: translateY(4px);
+}

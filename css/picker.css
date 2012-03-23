@@ -1,0 +1,96 @@
+#color-picker {
+    width: 500px;
+    background: #FFF;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.4);
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    font-size: 10px;
+    padding: 20px;
+    display: none;
+}
+
+#color-picker.active {
+    display: block;
+}
+
+#color-picker .preview {
+    display: inline-block;
+}
+
+#color-picker .grad {
+    width: 90px;
+    height: 8px;
+    border: 1px solid #EEE;
+    margin-top: -5px;
+    margin-right: -96px;
+    margin-left: 10px;
+}
+
+#color-picker .preview>* {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #EEE;
+    display: inline-block;
+}
+
+#color-picker .color-inputs {
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#color-picker .color-inputs>ul {
+    display: -webkit-box;
+    -webkit-box-flex: 1;
+    -webkit-box-orient: vertical;
+}
+
+#color-picker .color-inputs>ul>li {
+    display: -webkit-box;
+}
+
+#color-picker label {
+    font-weight: bold;
+    width: 55px;
+    display: inline-block;
+    text-align: right;
+    margin-top: 4px;
+}
+
+#color-picker label:after {
+    content: ':';
+}
+
+#color-picker button {
+    padding: 10px;
+    width: 80px;
+    float: right;
+    margin: 5px;
+}
+
+#picker-hsl-hue-preview {
+    background: -webkit-linear-gradient(0deg,
+        hsl(0, 100%, 50%) 0%,
+        hsl(30, 100%, 50%) 8.363%,
+        hsl(60, 100%, 50%) 16.666%,
+        hsl(90, 100%, 50%) 25%,
+        hsl(120, 100%, 50%) 33.333%,
+        hsl(150, 100%, 50%) 41.333%,
+        hsl(180, 100%, 50%) 50%,
+        hsl(210, 100%, 50%) 58.333%,
+        hsl(240, 100%, 50%) 66.666%,
+        hsl(270, 100%, 50%) 75%,
+        hsl(300, 100%, 50%) 83.333%,
+        hsl(330, 100%, 50%) 91.666%,
+        hsl(360, 100%, 50%) 100%
+    );
+}
+.color {
+    background-image : -webkit-linear-gradient(0deg, transparent, transparent),
+                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-size : 100% 100%, 10px 10px, 10px 10px;
+    background-position : 100% 100%, 0 0, 5px 5px;
+}

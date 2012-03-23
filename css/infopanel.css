@@ -176,13 +176,6 @@
     content: '✖';
 }
 
-
-#info-panel input[type=range] {
-    width: 90px;
-    margin: 0 5px;
-    -webkit-transform: translateY(4px);
-}
-
 .direction {
     border: 1px dotted #AAA;
     width: 100px;
