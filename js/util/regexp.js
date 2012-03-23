@@ -109,5 +109,9 @@ define('util/regexp', function () {
         color : regex.color
     }, 'g');
 
+    regex.backgroundRepeat = RegExp.create('background-repeat:\\s*(?:{{repeat}})\\s*(?:,\\s*{{repeat}}\\s*)*;', {
+        repeat : /repeat|repeat-x|repeat-y|no-repeat/
+    }, 'g');
+
     return regex;
 });

@@ -91,6 +91,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info_position_y_unit').value = rect.getTop().getUnit();
 
             document.getElementById('info_repeating').checked = layer.getRepeating();
+            document.getElementById('info_repeat').value = layer.getRepeat();
 
             document.getElementById('info_layer_composite').value = layer.attributes.composite;
             document.getElementById('info_layer_opacity').value = Math.round(layers.getOpacity() * 100);
@@ -170,6 +171,7 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 spawnEvent.initUIEvent('infopanel_update', true, true, window, 1);
                 spawnEvent.rect = rect;
                 spawnEvent.repeating = document.getElementById('info_repeating').checked;
+                spawnEvent.repeat = document.getElementById('info_repeat').value;
                 spawnEvent.composite = document.getElementById('info_layer_composite').value;
                 spawnEvent.opacity = document.getElementById('info_layer_opacity').value / 100;
 

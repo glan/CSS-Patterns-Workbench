@@ -45,6 +45,7 @@ require(['jquery',
                 selectedLayer.setRect(event.rect);
                 marquee.setRect(event.rect);
                 selectedLayer.setRepeating(event.repeating);
+                selectedLayer.setRepeat(event.repeat);
                 selectedLayer.attributes.opacity = event.opacity;
                 selectedLayer.attributes.composite = event.composite;
                 selectedLayer.attributes.image.colorStops = event.colorStops;

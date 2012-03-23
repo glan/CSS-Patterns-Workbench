@@ -13,7 +13,8 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
             var image,    //=  this.first().getImage() + ((this.first().getPosition()) ? ' ' + this.first().getPosition() : ''),
                 position,  //=  this.first().getPosition(),
                 size,     //=  ((this.first().getSize()) ? this.first().getSize() : ''),
-                composite,//=  this.first().getComposite();
+                composite,//=  this.first().getComposite()
+                repeat,
                 bgColor = '',
                 i, css = [];
 
@@ -22,19 +23,22 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                 position = '';
                 size = '';
                 composite = '';
+                repeat = '';
                 this.forEach(function (x) {
                     if (x.attributes.enabled) {
                         image     += (x.getImage(prefixes[i])) ? ((image !== '') ? ',\n' : '') + x.getImage(prefixes[i]) + ((x.getPosition()) ? ' ' + x.getPosition() : '') : '';
                         position  += (x.getPosition()) ? ((position !== '') ? ', ' : '') + x.getPosition() : '';
                         size      += (x.getSize()) ? ((size !== '') ? ', ' : '') + x.getSize() : '';
                         composite += (x.getComposite()) ? ((composite !== '') ? ', ' : '') + x.getComposite() : '';
+                        repeat    += (x.getRepeat()) ? ((repeat !== '') ? ', ' : '') + x.getRepeat() : '';
                     }
                 });
                 image     = 'background:' + image+ ';\n';
                 size      = ((prefixes[i]) ? prefixes[i] + '-' : '') + 'background-size:' + size + ';\n';
+                repeat    = 'background-repeat:' + repeat + ';\n';
                 if (composite !=='')
                     composite = ((prefixes[i]) ? prefixes[i] + '-' : '') + 'background-composite: ' + composite + ';\n';
-                css.push(image + size + composite);
+                css.push(image + size + repeat + composite);
             }
             if (this.backgroundColor)
                 bgColor = 'background-color: ' + this.backgroundColor + ';\n';

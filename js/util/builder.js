@@ -12,7 +12,7 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
             //console.log(cssString.match(regex.backgroundImage));
             
             var layers = [],
-                images, sizes, positions, i = 0;
+                images, sizes, positions, repeats, i = 0;
                 
             try {
                 images = cssString.match(regex.backgroundImage)[0].match(regex.gradient);
@@ -24,6 +24,12 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
             } catch (e) {
                 sizes = ['100% 100%'];
             }
+            try {
+                repeats = cssString.match(regex.backgroundRepeat)[0].match(/repeat-x|repeat-y|no-repeat|repeat/g);
+            } catch (e) {
+                repeats = [];
+            }
+
             positions = (cssString.match(regex.backgroundPosition)) ? cssString.match(regex.backgroundPosition)[0].match(regex.position) : null;
 
             images.forEach(function (x) {
@@ -52,7 +58,8 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
                         enabled : true,
                         hue : 0,
                         saturation : 0,
-                        lightness : 0
+                        lightness : 0,
+                        repeat : repeats[i+1] || 'repeat' // +1 as we don't want to match the 'repeat' in background-repeat
                     });
                     i++;
                 } else if (gradient[5] === 'repeating-radial-gradient' || gradient[5] === 'radial-gradient') {
@@ -72,7 +79,8 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
                         enabled : true,
                         hue : 0,
                         saturation : 0,
-                        lightness : 0
+                        lightness : 0,
+                        repeat : repeats[i+1] || 'repeat'
                     });
                     i++;
                 }

@@ -23,6 +23,13 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
         getComposite : function () {
             return this.attributes.composite;
         },
+        getRepeat : function () {
+            return this.attributes.repeat;
+        },
+        setRepeat : function (repeat) {
+            this.attributes.repeat = repeat;
+            this.trigger('update');
+        },
         getRect : function () {
             var size, position;
             //show size
