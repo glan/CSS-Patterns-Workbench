@@ -17,12 +17,12 @@ define('views/ColorPicker', ['views/InputColor','models/Color', 'vendor/goog/col
             this.target = target;
             this.originalColor = target.element.value;
             document.getElementById('picker-text').value = this.originalColor;
-            document.getElementById('color-picker').className = 'active';
+            document.body.classList.add('showpicker');
             this.handleEvent(event);
             document.querySelector('#color-picker .original').style.backgroundImage = document.querySelector('#color-picker .new').style.backgroundImage;
         },
         isOpen : function () {
-            return (document.getElementById('color-picker').className === 'active');
+            return document.body.classList.contains('showpicker');
         },
         setColor : function (color) {
             var event = { target : document.getElementById('picker-text')};
@@ -38,12 +38,14 @@ define('views/ColorPicker', ['views/InputColor','models/Color', 'vendor/goog/col
                 this.target.handleEvent({type : 'input'});
                 spawnEvent.initUIEvent("color_input", true, true, document.getElementById('info-panel'), 1);
                 document.dispatchEvent(spawnEvent);
-                document.getElementById('color-picker').className = '';
+                document.body.classList.remove('showpicker');
+                this.target.element.classList.remove('active');
                 return;
             case 'picker-button-ok' :
                 this.target.element.value = this.color;
                 this.target.handleEvent({type : 'input'});
-                document.getElementById('color-picker').className = '';
+                document.body.classList.remove('showpicker');
+                this.target.element.classList.remove('active');
                 return;
             case 'picker-rgb-red-range' :
                 document.getElementById('picker-rgb-red').value = event.target.value;

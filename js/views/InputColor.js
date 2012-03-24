@@ -23,6 +23,7 @@ define('views/InputColor', function () {
                 if (this.picker.isOpen()) {
                     this.picker.setColor(this);
                 } else {
+                    this.element.classList.add('active');
                     this.picker.open(this);
                 }
             else

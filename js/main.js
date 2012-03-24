@@ -24,20 +24,6 @@ require(['jquery',
     document.addEventListener('marquee_resize', updateView);
     document.addEventListener('infopanel_update', updateView);
 
-    /*$('#background-color').jPicker(
-        {
-          window: {
-            position: { x: 'screenCenter', y: 'bottom'},
-            expandable: true,
-            alphaSupport: true
-          },
-          color:
-          {
-            mode: 'h',
-          },
-          images: {clientPath: 'images/'}
-        });*/
-
     function updateView(event) {
         var selectedLayer
         if (layerList.selectedLayers.length === 1) {
