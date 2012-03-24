@@ -32,6 +32,14 @@ define('models/Length', function () {
                 this.unit = result[2];
             }
             return this;
+        },
+        normalize : function (len) {
+            if (this.unit === '%') {
+                return this.value / 100;
+            }
+            else {
+                return this.value / len;
+            }
         }
     };
 
