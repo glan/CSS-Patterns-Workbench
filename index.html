@@ -31,60 +31,71 @@
 </div>
 
 <div id="color-picker">
-    <div class="title">Color Picker</div>
-    <div class="preview">
-        <div class="original color"></div>
-        <div class="new color"></div>
+    <heading class="header"><span class="name">Color Picker</span></heading>
+    <div class="content">
+
+        
+        <div class="color-inputs">
+            <div style="display:-webkit-box">
+                <div class="preview">
+                    <div class="original color"></div>
+                    <div class="new color"></div>
+                </div>
+            </div>
+            <ul class="ranges">
+                <li><label for="picker-rgb-red">Red</label>
+                    <div id="picker-rgb-red-preview" class="grad"></div>
+                    <input id="picker-rgb-red-range" type="range" min="0" max="255"/>
+                    <input id="picker-rgb-red" type="number" min="0" max="255"/>
+                </li>
+                <li>
+                    <label for="picker-rgb-green">Green</label>
+                    <div id="picker-rgb-green-preview" class="grad"></div>
+                    <input id="picker-rgb-green-range" type="range" min="0" max="255"/>
+                    <input id="picker-rgb-green" type="number" min="0" max="255"/>
+                </li>
+                <li>
+                    <label for="picker-rgb-blue">Blue</label>
+                    <div id="picker-rgb-blue-preview" class="grad"></div>
+                    <input id="picker-rgb-blue-range" type="range" min="0" max="255"/>
+                    <input id="picker-rgb-blue" type="number" min="0" max="255"/>
+                </li>
+                <li style="margin-top: 20px;">
+                    <label></label>
+                    <input type="text" id="picker-text"/>
+                </li>
+            </ul>
+            <ul class="ranges">
+                <li><label for="picker-hsl-hue">Hue</label>
+                    <div id="picker-hsl-hue-preview" class="grad"></div>
+                    <input id="picker-hsl-hue-range" type="range" min="0" max="360"/>
+                    <input id="picker-hsl-hue" type="number" min="0" max="360"/>˚
+                </li>
+                <li>
+                    <label for="picker-hsl-saturation">Saturation</label>
+                    <div id="picker-hsl-saturation-preview" class="grad"></div>
+                    <input id="picker-hsl-saturation-range" type="range" min="0" max="100"/>
+                    <input id="picker-hsl-saturation" type="number" min="0" max="100"/>%
+                </li>
+                <li>
+                    <label for="picker-hsl-lightness">Lightness</label>
+                    <div id="picker-hsl-lightness-preview" class="grad"></div>
+                    <input id="picker-hsl-lightness-range" type="range" min="0" max="100"/>
+                    <input id="picker-hsl-lightness" type="number" min="0" max="100"/>%
+                </li>
+                <li style="margin-top: 20px;">
+                    <label for="picker-alpha">Alpha</label>
+                    <div id="picker-alpha-preview" class="grad color"></div>
+                    <input id="picker-alpha-range" type="range" min="0" max="100"/>
+                    <input id="picker-alpha" type="number" min="0" max="100"/>
+                </li>
+            </ul>
+            <div style="display:-webkit-box; width: 110px;">
+                <button id="picker-button-ok">OK</button>
+                <button id="picker-button-cancel">Cancel</button>
+            </div>
+        </div>
     </div>
-    <input type="text" id="picker-text"/>
-    <div class="color-inputs">
-        <ul class="ranges">
-            <li><label for="picker-rgb-red">Red</label>
-                <div id="picker-rgb-red-preview" class="grad"></div>
-                <input id="picker-rgb-red-range" type="range" min="0" max="255"/>
-                <input id="picker-rgb-red" type="number" min="0" max="255"/>
-            </li>
-            <li>
-                <label for="picker-rgb-green">Green</label>
-                <div id="picker-rgb-green-preview" class="grad"></div>
-                <input id="picker-rgb-green-range" type="range" min="0" max="255"/>
-                <input id="picker-rgb-green" type="number" min="0" max="255"/>
-            </li>
-            <li>
-                <label for="picker-rgb-blue">Blue</label>
-                <div id="picker-rgb-blue-preview" class="grad"></div>
-                <input id="picker-rgb-blue-range" type="range" min="0" max="255"/>
-                <input id="picker-rgb-blue" type="number" min="0" max="255"/>
-            </li>
-            <li>
-                <label for="picker-alpha">Alpha</label>
-                <div id="picker-alpha-preview" class="grad color"></div>
-                <input id="picker-alpha-range" type="range" min="0" max="100"/>
-                <input id="picker-alpha" type="number" min="0" max="100"/>
-            </li>
-        </ul>
-        <ul class="ranges">
-            <li><label for="picker-hsl-hue">Hue</label>
-                <div id="picker-hsl-hue-preview" class="grad"></div>
-                <input id="picker-hsl-hue-range" type="range" min="0" max="360"/>
-                <input id="picker-hsl-hue" type="number" min="0" max="360"/>˚
-            </li>
-            <li>
-                <label for="picker-hsl-saturation">Saturation</label>
-                <div id="picker-hsl-saturation-preview" class="grad"></div>
-                <input id="picker-hsl-saturation-range" type="range" min="0" max="100"/>
-                <input id="picker-hsl-saturation" type="number" min="0" max="100"/>%
-            </li>
-            <li>
-                <label for="picker-hsl-lightness">Lightness</label>
-                <div id="picker-hsl-lightness-preview" class="grad"></div>
-                <input id="picker-hsl-lightness-range" type="range" min="0" max="100"/>
-                <input id="picker-hsl-lightness" type="number" min="0" max="100"/>%
-            </li>
-        </ul>
-    </div>
-    <button id="picker-button-ok">OK</button>
-    <button id="picker-button-cancel">Cancel</button>
 </div>
 
 <div id="info-panel">

@@ -3,19 +3,77 @@
 }
 
 .showpicker #color-picker {
-    width: 500px;
+    width: 740px;
+    height: 200px;
     background: #FFF;
     box-shadow: 5px 5px 5px rgba(0,0,0,0.4);
     position: absolute;
     top: 50px;
     left: 50px;
     font-size: 10px;
-    padding: 20px;
     display: block;
 }
 
+.showpicker #color-picker .content {
+    padding: 20px;
+    position: relative;
+}
+
+.showpicker #color-picker .pad {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #CCC;
+    float: left;
+}
+
+.showpicker #color-picker .vpad {
+    width: 20px;
+    height: 200px;
+    border: 2px solid #CCC;
+    float: left;
+    margin-left: 20px;
+}
+
+#color-picker #picker-text {
+    padding: 2px;
+    margin: 5px;
+}
+
+#color-picker .left {
+    float: left;
+}
+
+#color-picker .right {
+    float: left;
+}
+
+#color-picker .right>* {
+    clear: left;
+}
+
 #color-picker .preview {
-    display: inline-block;
+    display: block;
+    margin: 30px 10px 30px 30px;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border: 1px solid #EEE;
+}
+
+#color-picker .preview:before {
+    content: 'new';
+    top: -1.6em;
+    width: 60px;
+    text-align: center;
+    position: absolute;
+}
+
+#color-picker .preview:after {
+    content: 'current';
+    bottom: -1.6em;
+    width: 60px;
+    text-align: center;
+    position: absolute;
 }
 
 #color-picker .grad {
@@ -27,18 +85,29 @@
     margin-left: 10px;
 }
 
-#color-picker .preview>* {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #EEE;
-    display: inline-block;
+#color-picker .preview>*{
+    position: absolute;
+}
+#color-picker .preview>.new {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50%;
+}
+
+#color-picker .preview>.original {
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 #color-picker .color-inputs {
     display: -webkit-box;
     -webkit-box-orient: horizontal;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    -webkit-box-align: start;
+    position: absolute;
+    left: 0; right: 0;
 }
 
 #color-picker .color-inputs>ul {
@@ -49,6 +118,7 @@
 
 #color-picker .color-inputs>ul>li {
     display: -webkit-box;
+    margin-top: 5px;
 }
 
 #color-picker label {
@@ -66,8 +136,8 @@
 #color-picker button {
     padding: 10px;
     width: 80px;
-    float: right;
     margin: 5px;
+    display: inline;
 }
 
 #picker-hsl-hue-preview {
