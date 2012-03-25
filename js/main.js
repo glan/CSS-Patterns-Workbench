@@ -10,9 +10,8 @@ require(['jquery',
 'views/Canvas',
 'views/Grid',
 'views/LayerList',
-'views/InputColor',
 'views/ColorPicker',
-'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/incrementable.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList, InputColor, ColorPicker) {
+'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/incrementable.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList, ColorPicker) {
     'use strict';
     var layerList = new LayerList(new Layers()),
         canvas = new Canvas(document.getElementById('frame')),
@@ -140,10 +139,7 @@ require(['jquery',
     layerList.layers.parseCSS(document.getElementById('data').value);
 
     window.colorPicker = new ColorPicker();
-
-    $('input[type=color]').each( function (i, element) {
-        new InputColor(element, Window.colorPicker);
-    });
+    window.colorPicker.updateColors();
 
     new Incrementable(document.getElementById('data'));
 

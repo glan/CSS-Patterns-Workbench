@@ -2,50 +2,69 @@
  * © Glan Thomas 2012
  */
 
-define('views/ColorPicker', ['views/InputColor','models/Color', 'vendor/goog/color'], function (InputColor, Color, goog) {
+define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Color, goog) {
     'use strict';
 
     function ColorPicker() {
-        document.getElementById('color-picker').addEventListener('change', this);
-        document.getElementById('color-picker').addEventListener('input', this);
-        document.getElementById('color-picker').addEventListener('click', this);
+        document.addEventListener('change', this);
+        document.addEventListener('input', this);
+        document.addEventListener('click', this);
+    }
+
+    function updateColorBackground (element) {
+        element.setAttribute('style', 'background: -webkit-linear-gradient(' + element.value + ',' + element.value + '),' + '-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),-webkit-linear-gradient(45deg, #CCC 25%, #FFF 25%, #FFF 75%, #CCC 75%, #CCC); background-size: 10px 10px; background-position: 0 0, 5px 5px;');
     }
 
     ColorPicker.prototype = {
-        open : function (target) {
-            var event = { target : document.getElementById('picker-text')};
-            this.target = target;
-            this.originalColor = target.element.value;
-            document.getElementById('picker-text').value = this.originalColor;
-            document.body.classList.add('showpicker');
-            this.handleEvent(event);
-            document.querySelector('#color-picker .original').style.backgroundImage = document.querySelector('#color-picker .new').style.backgroundImage;
-        },
-        isOpen : function () {
-            return document.body.classList.contains('showpicker');
+        updateColors : function () {
+            Array.prototype.slice.call(document.querySelectorAll('input[type=color]')).forEach(function (el) {
+                updateColorBackground(el);
+            });
         },
         setColor : function (color) {
             var event = { target : document.getElementById('picker-text')};
-            document.getElementById('picker-text').value = color.element.value;
-            this.handleEvent(event);
+            document.getElementById('picker-text').value = color;
+            this.handlePickerEvent(event);
         },
         handleEvent : function (event) {
+            if (event.target.type === 'color') {
+                this.handleColorEvent(event);
+            } else {
+                this.handlePickerEvent(event);
+            }
+        },
+        handleColorEvent : function (event) {
+            if (event.type === 'click') {
+                if (document.body.classList.contains('showpicker')) {
+                    this.setColor(event.target.value);
+                } else {
+                    this.targetInput = event.target;
+                    this.targetInput.classList.add('active');
+                    this.originalColor = this.targetInput.value;
+                    document.getElementById('picker-text').value = this.originalColor;
+                    this.setColor(event.target.value);
+                    document.querySelector('#color-picker .original').style.backgroundImage = document.querySelector('#color-picker .new').style.backgroundImage;
+                    document.body.classList.add('showpicker');
+                }
+            }
+        },
+        handlePickerEvent : function (event) {
             var spawnEvent = document.createEvent('UIEvents');
             var mode, color;
             switch (event.target.id) {
             case 'picker-button-cancel' :
-                this.target.element.value = this.originalColor;
-                this.target.handleEvent({type : 'input'});
+                this.targetInput.value = this.originalColor;
+                updateColorBackground(this.targetInput);
                 spawnEvent.initUIEvent("color_input", true, true, document.getElementById('info-panel'), 1);
                 document.dispatchEvent(spawnEvent);
                 document.body.classList.remove('showpicker');
-                this.target.element.classList.remove('active');
+                this.targetInput.classList.remove('active');
                 return;
             case 'picker-button-ok' :
-                this.target.element.value = this.color;
-                this.target.handleEvent({type : 'input'});
+                this.targetInput.value = this.color;
+                updateColorBackground(this.targetInput);
                 document.body.classList.remove('showpicker');
-                this.target.element.classList.remove('active');
+                this.targetInput.classList.remove('active');
                 return;
             case 'picker-rgb-red-range' :
                 document.getElementById('picker-rgb-red').value = event.target.value;
@@ -104,6 +123,9 @@ define('views/ColorPicker', ['views/InputColor','models/Color', 'vendor/goog/col
             case 'picker-text' :
                 color = new Color(event.target.value);
                 mode = 'text';
+                break;
+            default :
+                return;
             }
 
             switch (mode) {
@@ -199,8 +221,9 @@ define('views/ColorPicker', ['views/InputColor','models/Color', 'vendor/goog/col
             document.querySelector('#color-picker .new').style.backgroundImage = '-webkit-linear-gradient(0deg, '+this.color+ ','+this.color+'),-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),' +
                        '-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC)';
 
-            this.target.element.value = this.color;
-            this.target.handleEvent({type : 'input'});
+            this.targetInput.value = this.color;
+            updateColorBackground(this.targetInput);
+            document.getElementById('picker-text').value = this.color;
             spawnEvent.initUIEvent("color_input", true, true, document.getElementById('info-panel'), 1);
             document.dispatchEvent(spawnEvent);
         }
