@@ -62,12 +62,7 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length', 'mode
         },
         clone : function () {
             var clone = new this.constructor(this.attributes);
-            // [TODO] move this clone method into an the image object
-            clone.attributes.image = $.extend({}, this.attributes.image);
-            clone.attributes.image.colorStops = new ColorStops();
-            this.attributes.image.colorStops.each(function(colorStop) {
-                clone.attributes.image.colorStops.add(new ColorStop(colorStop.toJSON()));
-            });
+            clone.attributes.image = this.attributes.image.clone();
             clone.attributes.order = 1 * this.attributes.order - 0.01;
             return clone;
         }

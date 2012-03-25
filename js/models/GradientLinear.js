@@ -2,21 +2,25 @@
  * © Glan Thomas 2012
  */
 
-define('models/GradientLinear', ['models/Direction'], function (Direction) {
+define('models/GradientLinear', ['vendor/underscore', 'models/Direction', 'models/Gradient'], function (_, Direction, Gradient) {
     'use strict';
 
     function GradientLinear(name, repeating, direction, colorStops) {
         this.name = name;
         this.direction = direction;
+
+        // Super [TODO] create a Super constructor
         this.colorStops = colorStops;
         this.repeating = repeating;
     }
 
-    GradientLinear.prototype = {
+    var gradientLinear = {
         toString : function (prefix, adjustments) {
             return ((prefix) ? prefix + '-' : '') + ((this.repeating) ? 'repeating-' : '') + this.name + '(' + this.direction + ', ' + this.colorStops.toString(adjustments) + ')';
         }
     }
+
+    _.extend(GradientLinear.prototype, new Gradient(), gradientLinear);
 
     return GradientLinear;
 });
