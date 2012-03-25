@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], function(Backbone, Rect, Length) {
+define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length', 'models/ColorStops', 'models/ColorStop'], function(Backbone, Rect, Length, ColorStops, ColorStop) {
     "use strict";
 
     var Layer = {
@@ -59,6 +59,17 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
         },
         getRepeating : function () {
             return this.attributes.image.repeating;
+        },
+        clone : function () {
+            var clone = new this.constructor(this.attributes);
+            // [TODO] move this clone method into an the image object
+            clone.attributes.image = $.extend({}, this.attributes.image);
+            clone.attributes.image.colorStops = new ColorStops();
+            this.attributes.image.colorStops.each(function(colorStop) {
+                clone.attributes.image.colorStops.add(new ColorStop(colorStop.toJSON()));
+            });
+            clone.attributes.order = 1 * this.attributes.order - 0.01;
+            return clone;
         }
     };
     return Backbone.Model.extend(Layer);

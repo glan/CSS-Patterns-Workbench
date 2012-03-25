@@ -53,10 +53,7 @@ define('views/LayerListTools', ['vendor/underscore', 'jquery', 'models/Layers', 
             } else if (this.layerList.selectedLayers && event.type === 'click' && event.target.className === 'duplicate') {
                 var newLayers = new Layers();
                 this.layerList.selectedLayers.forEach(function(layer) {
-                    var newLayer = layer.clone();
-                    newLayer.attributes.image = $.extend({}, layer.attributes.image);
-                    newLayer.attributes.order = 1 * layer.attributes.order - 0.01;
-                    newLayers.add(newLayer);
+                    newLayers.add(layer.clone());
                 });
                 this.layerList.selectedLayers = newLayers;
                 this.layerList.layers.add(this.layerList.selectedLayers.toArray());
