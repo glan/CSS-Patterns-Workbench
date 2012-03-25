@@ -6,7 +6,6 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
     'use strict';
 
     function ColorPicker() {
-        document.addEventListener('change', this);
         document.addEventListener('input', this);
         document.addEventListener('click', this);
     }
@@ -49,14 +48,14 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
             }
         },
         handlePickerEvent : function (event) {
-            var spawnEvent = document.createEvent('UIEvents');
-            var mode, color;
+            var spawnEvent = document.createEvent('UIEvents'),
+                mode, color;
             switch (event.target.id) {
             case 'picker-button-cancel' :
                 this.targetInput.value = this.originalColor;
                 updateColorBackground(this.targetInput);
                 spawnEvent.initUIEvent("color_input", true, true, document.getElementById('info-panel'), 1);
-                document.dispatchEvent(spawnEvent);
+                this.targetInput.dispatchEvent(spawnEvent);
                 document.body.classList.remove('showpicker');
                 this.targetInput.classList.remove('active');
                 return;
@@ -225,7 +224,7 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
             updateColorBackground(this.targetInput);
             document.getElementById('picker-text').value = this.color;
             spawnEvent.initUIEvent("color_input", true, true, document.getElementById('info-panel'), 1);
-            document.dispatchEvent(spawnEvent);
+            this.targetInput.dispatchEvent(spawnEvent);
         }
     }
 

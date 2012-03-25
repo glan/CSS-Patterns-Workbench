@@ -103,20 +103,24 @@
     padding-bottom: 30px;
 }
 
+.color_stop_view {
+    display: table-row;
+}
+
 #info_gradient_preview {
-    height: 30px;
-    left: 0; right: 0;
-    /*position: absolute;*/
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     -webkit-transform: translateZ(1px);
     border-bottom: 1px solid #999;
 }
 
 .color_stop_preview_back {
-    content : '';
-    display: block;
-    /*position: absolute;*/
-    height: 30px;
-    left: 0; right: 0;
+    width: 30px;
+    display: table-cell;
+    position: relative;
     background-color : #FFF;
     background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
                        -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
@@ -126,21 +130,25 @@
     background-position : 0 0, 4px 4px;
 }
 
+#info-panel #stop-graph {
+    background: #EEE;
+    height: 100%;
+    overflow: hidden;
+    display: table-cell;
+}
+
 #info-panel #info_layer_stops {
-    position: absolute;
-    top: 55px;
-    left: 0;
-    right: 0;
-    bottom: 40px;
-    /*-webkit-box-flex: 1;*/
-    overflow-y: scroll;
+    height: 100%;
     padding: 0;
     font-size: 12px;
-    min-height: 60px;
     background: #EEE;
+    display: table-cell;
+    -webkit-box-orient: vertical;
 }
 
 #info_layer_stops .colorstop {
+    display: -webkit-box;
+    -webkit-box-flex: 1;
     padding: 2px 5px 2px 16px;
     border-bottom: 1px solid #ccc;
     border-top: 1px solid #ccc;
@@ -154,6 +162,7 @@
         -webkit-radial-gradient(0 0, ellipse farthest-corner, hsla(0,0%,30%,1) 1px, hsla(0,0%,40%,0) 1px) 0 0,
         -webkit-linear-gradient(left, hsla(0,0%,75%,1), hsla(0,0%,65%,1) 11px, hsla(0,0%,100%,1) 11px) 0 0;
     background-size:100% 100%, 4px 4px, 4px 4px, 4px 4px, 4px 4px, 100% 100%;
+    min-height: 24px;
 }
 
 #info_layer_stops .colorstop .color {

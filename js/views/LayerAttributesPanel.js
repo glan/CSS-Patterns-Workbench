@@ -2,31 +2,14 @@
  * © Glan Thomas 2012
  */
 
-define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'models/ColorStop', 'models/Length', 'models/Direction','views/InputColor'], function (Rect, ColorStops, ColorStop, Length, Direction, InputColor) {
+define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Direction', 'views/GradientEditor'], function (Rect, Length, Direction, GradientEditor) {
     'use strict';
 
     function LayerAttributesPanel() {
         //$('#info-panel').unbind();
         document.getElementById('info-panel').addEventListener('input', this);
         document.getElementById('info-panel').addEventListener('change', this);
-        document.addEventListener('color_input', this);
-
-        document.getElementById('info-panel').addEventListener('click', function (event) {
-            var spawnEvent;
-            if (event.target.className === 'remove') {
-                spawnEvent = document.createEvent('UIEvents');
-                event.target.parentNode.parentNode.removeChild(event.target.parentNode);
-                spawnEvent.initUIEvent('change', true, true, window, 1);
-                document.getElementById('info-panel').dispatchEvent(spawnEvent);
-            }
-        });
-
-        document.getElementById('info_add_colorstop').addEventListener('click', function (event) {
-            var template = document.querySelector('#templates>.colorstop');
-            var colorStopElement = template.cloneNode(true);
-            document.getElementById('info_layer_stops').appendChild(colorStopElement);
-            new InputColor(colorStopElement.querySelector('input[type=color]'), window.colorPicker);
-        });
+        document.addEventListener('gradient_update', this);
 
         document.getElementById('info_linear_direction').addEventListener('focus', function(event) {
             document.querySelector('#info_linear_direction_set input[type=radio].manual').checked = true;
@@ -63,24 +46,14 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
             document.getElementById('info-hsl-lightness-range').value = this.value;
         });
 
-        $("#info_layer_stops").sortable({cursor:'-webkit-grabbing', containment:'document', items: 'li', axis: 'y' });
-        $("#info_layer_stops").disableSelection();
-
-        document.getElementById('info-panel').addEventListener('sortupdate', this, true);
-        // Nasty jQuery events relay hack for catching sortupdate as a real UI event
-        $('#info-panel').parent().bind("sortupdate", function() {
-            var spawnEvent = document.createEvent('UIEvents');
-            spawnEvent.initUIEvent("sortupdate", false, false, window, 1);
-            document.getElementById('info-panel').dispatchEvent(spawnEvent);
-        });
+        this.gradientEditor = new GradientEditor();
     }
 
     var layerAttributesPanel = {
         setData : function (layers) {
             var layer = layers.first(),
                 rect = layers.getRect(),
-                radio,
-                template = document.querySelector('#templates>.colorstop');
+                radio;
 
             document.getElementById('info_size_width').value = 1 * rect.getWidth().getValue();
             document.getElementById('info_size_width_unit').value = rect.getWidth().getUnit();
@@ -138,80 +111,58 @@ define('views/LayerAttributesPanel', ['models/Rect' ,'models/ColorStops', 'model
                 document.getElementById('info-hsl-saturation-range').value = document.getElementById('info-hsl-saturation').value = this.saturation = layer.attributes.saturation;
                 document.getElementById('info-hsl-lightness-range').value = document.getElementById('info-hsl-lightness').value = this.lightness = layer.attributes.lightness;
 
-                //document.querySelector('#info-panel .color-stops-options').style.display = 'block';
-
                 document.getElementById('info_layer_stops').innerHTML = '';
-                layer.attributes.image.colorStops.getColorStops().forEach(function(colorStop) {
-                    var newStop = template.cloneNode(true);
-                    newStop.querySelector('input[type=color]').value = colorStop.color;
-                    new InputColor(newStop.querySelector('input[type=color]'), window.colorPicker);
-                    if (colorStop.length) {
-                        newStop.querySelector('.stop').value = colorStop.length.getValue();
-                        newStop.querySelector('.unit').value = colorStop.length.getUnit();
-                    }
-                    document.getElementById('info_layer_stops').appendChild(newStop);
-                });
-                document.getElementById('info_gradient_preview').setAttribute('style',
-                    'background: -webkit-linear-gradient(0deg,'+layer.attributes.image.colorStops.getColorStops().toString()+');' +
-                    'background: -moz-linear-gradient(0deg,'+layer.attributes.image.colorStops.getColorStops().toString()+');'
-                );
+
+                this.gradientEditor.setData(layer.attributes.image.colorStops);
             }
         },
+
         handleEvent : function (event) {
             // We need to suppress change events for the colorstop field since these should only use input
-            if ((event.type !== 'change') || (event.target.className !== 'color' && event.target.className !== 'stop')) {
-                var spawnEvent = document.createEvent('UIEvents'),
-                    radio,
-                    rect = new Rect({
-                        width: ((document.getElementById('info_size_width').value > 0) ? document.getElementById('info_size_width').value : 1) + document.getElementById('info_size_width_unit').value,
-                        height: ((document.getElementById('info_size_height').value > 0) ? document.getElementById('info_size_height').value : 1) + document.getElementById('info_size_height_unit').value,
-                        left: document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value,
-                        top: document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value
-                    });
-
-                spawnEvent.initUIEvent('infopanel_update', true, true, window, 1);
-                spawnEvent.rect = rect;
-                spawnEvent.repeating = document.getElementById('info_repeating').checked;
-                spawnEvent.repeat = document.getElementById('info_repeat').value;
-                spawnEvent.composite = document.getElementById('info_layer_composite').value;
-                spawnEvent.opacity = document.getElementById('info_layer_opacity').value / 100;
-
-                spawnEvent.image = {};
-                spawnEvent.image.position = {};
-                spawnEvent.image.position.x = new Length().parseLength(document.getElementById('info_radial_position_x').value + document.getElementById('info_radial_position_x_units').value);
-                spawnEvent.image.position.y = new Length().parseLength(document.getElementById('info_radial_position_y').value + document.getElementById('info_radial_position_y_units').value);
-                spawnEvent.image.shape = document.getElementById('info_radial_shape').value;
-                spawnEvent.image.size = document.getElementById('info_radial_size').value;
-                spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
-                spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
-
-                spawnEvent.hue = this.hue - (1 * document.getElementById('info-hsl-hue').value);
-                this.hue = 1 * document.getElementById('info-hsl-hue').value;
-
-                spawnEvent.saturation = (1 * document.getElementById('info-hsl-saturation').value) - this.saturation;
-                this.saturation = 1 * document.getElementById('info-hsl-saturation').value;
-
-                spawnEvent.lightness = (1 * document.getElementById('info-hsl-lightness').value) - this.lightness;
-                this.lightness = 1 * document.getElementById('info-hsl-lightness').value;
-
-                radio = document.querySelector('#info_linear_direction_set input:checked');
-                if (radio && radio.value) {
-                    spawnEvent.image.direction = new Direction(radio.value);
-                } else {
-                    spawnEvent.image.direction = new Direction(document.getElementById('info_linear_direction').value + 'deg');
-                }
-
-                spawnEvent.colorStops = new ColorStops();
-                $('#info_layer_stops .colorstop').each(function(e, el) {
-                    spawnEvent.colorStops.add(new ColorStop(el.querySelector('.color').value + ((el.querySelector('.stop').value != '') ? + ' ' + (1 * el.querySelector('.stop').value) + el.querySelector('.unit').value : '')));
+            var spawnEvent = document.createEvent('UIEvents'),
+                radio,
+                rect = new Rect({
+                    width: ((document.getElementById('info_size_width').value > 0) ? document.getElementById('info_size_width').value : 1) + document.getElementById('info_size_width_unit').value,
+                    height: ((document.getElementById('info_size_height').value > 0) ? document.getElementById('info_size_height').value : 1) + document.getElementById('info_size_height_unit').value,
+                    left: document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value,
+                    top: document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value
                 });
 
-                document.getElementById('info_gradient_preview').setAttribute('style',
-                    'background: -webkit-linear-gradient(0deg,'+spawnEvent.colorStops.toString()+');' +
-                    'background: -moz-linear-gradient(0deg,'+spawnEvent.colorStops.toString()+');'
-                );
-                document.dispatchEvent(spawnEvent);
+            spawnEvent.initUIEvent('infopanel_update', true, true, window, 1);
+            spawnEvent.rect = rect;
+            spawnEvent.repeating = document.getElementById('info_repeating').checked;
+            spawnEvent.repeat = document.getElementById('info_repeat').value;
+            spawnEvent.composite = document.getElementById('info_layer_composite').value;
+            spawnEvent.opacity = document.getElementById('info_layer_opacity').value / 100;
+
+            spawnEvent.image = {};
+            spawnEvent.image.position = {};
+            spawnEvent.image.position.x = new Length().parseLength(document.getElementById('info_radial_position_x').value + document.getElementById('info_radial_position_x_units').value);
+            spawnEvent.image.position.y = new Length().parseLength(document.getElementById('info_radial_position_y').value + document.getElementById('info_radial_position_y_units').value);
+            spawnEvent.image.shape = document.getElementById('info_radial_shape').value;
+            spawnEvent.image.size = document.getElementById('info_radial_size').value;
+            spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
+            spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
+
+            spawnEvent.hue = this.hue - (1 * document.getElementById('info-hsl-hue').value);
+            this.hue = 1 * document.getElementById('info-hsl-hue').value;
+
+            spawnEvent.saturation = (1 * document.getElementById('info-hsl-saturation').value) - this.saturation;
+            this.saturation = 1 * document.getElementById('info-hsl-saturation').value;
+
+            spawnEvent.lightness = (1 * document.getElementById('info-hsl-lightness').value) - this.lightness;
+            this.lightness = 1 * document.getElementById('info-hsl-lightness').value;
+
+            radio = document.querySelector('#info_linear_direction_set input:checked');
+            if (radio && radio.value) {
+                spawnEvent.image.direction = new Direction(radio.value);
+            } else {
+                spawnEvent.image.direction = new Direction(document.getElementById('info_linear_direction').value + 'deg');
             }
+
+            spawnEvent.colorStops = this.gradientEditor.colorStops;
+
+            document.dispatchEvent(spawnEvent);
         },
         show : function () {
             $(document.body).addClass('showInfo');

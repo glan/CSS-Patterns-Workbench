@@ -2,64 +2,44 @@
  * © Glan Thomas 2012
  */
 
-define('models/ColorStops', ['models/ColorStop', 'models/Length'], function (ColorStop, Length) {
+define('models/ColorStops', ['vendor/backbone', 'models/ColorStop', 'models/Length'], function (Backbone, ColorStop, Length) {
     'use strict';
 
-    function ColorStops() {
-        this.colorStops = [];
-    }
-
-    ColorStops.prototype = {
+    var ColorStops = Backbone.Collection.extend({
+        model: ColorStop,
         toString : function (adjustments) {
             var i = 0, out = '';
-            for (i; i<this.colorStops.length; i++) {
-                out += ((i!==0) ? ', ' : '') + this.colorStops[i].toString(adjustments);
+            for (i; i<this.length; i++) {
+                out += ((i!==0) ? ', ' : '') + this.models[i].toString(adjustments);
             }
             return out;
         },
-        add : function (colorStop) {
-            this.colorStops.push(colorStop);
-            return this;
-        },
-        getColorStops : function () {
-            var i, length, stops = [], stop;
-            for(i=0;i<this.colorStops.length;i++) {
-                stop = new ColorStop();
-                stop.color =  this.colorStops[i].color;
-                stop.length = this.colorStops[i].length;
-                if (stop.length == null) {
-                    // [TODO make this work for any number of mid stops
-                    stop.length = new Length();
-                }
-                stops.push(stop);
-            }
-            return stops;
-        },
         getNormallizedColorStops : function (normalLength) {
             var positions = this.getPositions(normalLength);
-            var i, length, stops = [], stop;
-            for(i=0;i<this.colorStops.length;i++) {
-                stop = new ColorStop();
-                stop.color =  this.colorStops[i].color;
-                stop.length = new Length().parseLength(positions[i] * 100 + '%');
-                stops.push(stop);
+            var i, length, stops = new ColorStops(), stop;
+            for(i=0;i<this.length;i++) {
+                stops.add({
+                    color : this.models[i].attributes.color,
+                    length : new Length().parseLength(positions[i] * 100 + '%'),
+                    order : this.models[i].attributes.order
+                });
             }
             return stops;
         },
         getPositions : function (normalLength) {
             var positions = [], pos, ii, i = 0, lockStart = 0, lockEnd, max = 1, scale = 1;
-            for(i=0; i<this.colorStops.length; i++) {
-                if (this.colorStops[i].length && this.colorStops[i].length.normalize(normalLength) > max)
-                    max = this.colorStops[i].length.normalize(normalLength);
+            for(i=0; i<this.length; i++) {
+                if (this.models[i].attributes.length && this.models[i].attributes.length.normalize(normalLength) > max)
+                    max = this.models[i].attributes.length.normalize(normalLength);
             }
             scale = 1 / max;
-            for(i=0; i<this.colorStops.length; i++) {
-                pos = (this.colorStops[i].length) ? scale * this.colorStops[i].length.normalize(normalLength) : null;
+            for(i=0; i<this.models.length; i++) {
+                pos = (this.models[i].attributes.length) ? scale * this.models[i].attributes.length.normalize(normalLength) : null;
 
                 if (pos === null) {
                     if (i === 0)
                         pos = 0;
-                    if (i === this.colorStops.length - 1)
+                    if (i === this.length - 1)
                         pos = 1;
                 }
 
@@ -76,8 +56,18 @@ define('models/ColorStops', ['models/ColorStop', 'models/Length'], function (Col
                 }
             }
             return positions;
+        },
+        reorder : function (neworder) {
+            for(var i in neworder) {
+                this.getByCid(neworder[i]).attributes.order = i;
+            };
+            this.sort({silent: true});
+            this.trigger('update');
+        },
+        comparator : function (layer) {
+            return 1 * layer.attributes.order;
         }
-    }
+    });
 
     return ColorStops;
 });

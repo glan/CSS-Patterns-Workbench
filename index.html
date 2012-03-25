@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Gradient Editor</title>
+    <title>CSS Gradient Editor</title>
     <link rel="stylesheet" href="css/main.css"/>
     <link rel="stylesheet" href="css/console.css"/>
     <link rel="stylesheet" href="css/infopanel.css"/>
@@ -31,11 +31,12 @@
 </div>
 
 <div id="color-picker">
+    <div class="title">Color Picker</div>
     <div class="preview">
         <div class="original color"></div>
         <div class="new color"></div>
     </div>
-    <input type="color" id="picker-text"/>
+    <input type="text" id="picker-text"/>
     <div class="color-inputs">
         <ul class="ranges">
             <li><label for="picker-rgb-red">Red</label>
@@ -267,8 +268,15 @@
             <span class="name">Color Stops</span>
             <button id="info_add_colorstop">✚</button>
         </heading>
-        <div class="color_stop_preview_back"><div id="info_gradient_preview"></div></div>
-        <ul class="" id="info_layer_stops"></ul>
+        <div style="overflow: scroll; position: absolute; top: 24px; bottom: 0; left: 0; right: 0;">
+            <table cellpadding="0" cellspacing="0">
+                 <tr class="color_stop_view">
+                    <td class="color_stop_preview_back"><div id="info_gradient_preview"></div></td>
+                    <td id="stop-graph"></td>
+                    <td class="" id="info_layer_stops"></td>
+                </tr>
+            </table>
+        </div>
     </fieldset>
 </div>
 
@@ -311,12 +319,14 @@ background-color: transparent;
         </div>
     </div>
     <li class="colorstop">
-        <input type="color" class="color"/>@<input class="stop" type="number" min="0"/>
-        <select class="unit">
-            <option>%</option>
-            <option>px</option>
-        </select>
-        <button class="remove"></button>
+        <div style="height:0">
+            <input type="color" class="color"/>@<input class="stop" type="number" min="0"/>
+            <select class="unit">
+                <option>%</option>
+                <option>px</option>
+            </select>
+            <button class="remove"></button>
+        </div>
     </li>
 </div>
 
