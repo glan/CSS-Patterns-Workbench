@@ -38,7 +38,6 @@ define('models/ColorStops', ['models/ColorStop', 'models/Length'], function (Col
         getNormallizedColorStops : function (normalLength) {
             var positions = this.getPositions(normalLength);
             var i, length, stops = [], stop;
-            console.log(positions);
             for(i=0;i<this.colorStops.length;i++) {
                 stop = new ColorStop();
                 stop.color =  this.colorStops[i].color;
@@ -54,7 +53,6 @@ define('models/ColorStops', ['models/ColorStop', 'models/Length'], function (Col
                     max = this.colorStops[i].length.normalize(normalLength);
             }
             scale = 1 / max;
-            console.log(scale);
             for(i=0; i<this.colorStops.length; i++) {
                 pos = (this.colorStops[i].length) ? scale * this.colorStops[i].length.normalize(normalLength) : null;
 
