@@ -19,7 +19,7 @@ define('models/ColorStops', ['vendor/backbone', 'models/ColorStop', 'models/Leng
             var i, length, stops = new ColorStops(), stop;
             for(i=0;i<this.length;i++) {
                 stops.add({
-                    color : this.models[i].attributes.color,
+                    color : this.models[i].getColor(),
                     length : new Length().parseLength(positions[i] * 100 + '%'),
                     order : this.models[i].attributes.order
                 });
@@ -29,12 +29,12 @@ define('models/ColorStops', ['vendor/backbone', 'models/ColorStop', 'models/Leng
         getPositions : function (normalLength) {
             var positions = [], pos, ii, i = 0, lockStart = 0, lockEnd, max = 1, scale = 1;
             for(i=0; i<this.length; i++) {
-                if (this.models[i].attributes.length && this.models[i].attributes.length.normalize(normalLength) > max)
-                    max = this.models[i].attributes.length.normalize(normalLength);
+                if (this.models[i].getLength() && this.models[i].getLength().normalize(normalLength) > max)
+                    max = this.models[i].getLength().normalize(normalLength);
             }
             scale = 1 / max;
             for(i=0; i<this.models.length; i++) {
-                pos = (this.models[i].attributes.length) ? scale * this.models[i].attributes.length.normalize(normalLength) : null;
+                pos = (this.models[i].getLength()) ? scale * this.models[i].getLength().normalize(normalLength) : null;
 
                 if (pos === null) {
                     if (i === 0)

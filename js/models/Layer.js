@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length', 'models/ColorStops', 'models/ColorStop'], function(Backbone, Rect, Length, ColorStops, ColorStop) {
+define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], function(Backbone, Rect, Length) {
     "use strict";
 
     var Layer = {

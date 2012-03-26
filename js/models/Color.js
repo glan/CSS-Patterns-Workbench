@@ -136,35 +136,7 @@ define('models/Color', ['vendor/goog/color'], function (goog) {
 
         toHSL : function () {
             var hsl;
-            if (this.type === 'hsl' || this.type === 'hsla') {
-                return this;
-            } else {
-                /*rgb[0] = this.red / 2.55;
-                rgb[1] = this.green / 2.55;
-                rgb[2] = this.blue / 2.55;
-
-                var hsl = [],
-                    max = Math.max.apply(Math, rgb),
-                    min = Math.min.apply(Math, rgb);
-
-                this.lightness = Math.round((min + max)/2);
-                var d = max - min;
-
-                if(d !== 0) {
-                    this.saturation = Math.round(d*100 / (100 - Math.abs(2*this.lightness - 100)));
-
-                    switch(max) {
-                    case rgb[0]: this.hue = (rgb[1] - rgb[2]) / d + (rgb[1] < rgb[2] ? 6 : 0); 
-                        break;
-                    case rgb[1]: this.hue = (rgb[2] - rgb[0]) / d + 2; 
-                        break;
-                    case rgb[2]: this.hue = (rgb[0] - rgb[1]) / d + 4;
-                    }
-                    this.hue = Math.round(this.hue*60);
-                } else {
-                    this.hue = 0;
-                    this.saturation = 0;
-                }*/
+            if (this.type !== 'hsl' && this.type !== 'hsla') {
                 hsl = goog.color.rgbToHsl(this.red, this.green, this.blue);
                 this.hue = hsl[0];
                 this.saturation = hsl[1] * 100;
@@ -173,12 +145,10 @@ define('models/Color', ['vendor/goog/color'], function (goog) {
             }
             return this;
         },
-        
+
         toRGB : function () {
             var rgb;
-            if (this.type === 'rgb' || this.type === 'rgba') {
-                return this;
-            } else {
+            if (this.type !== 'rgb' && this.type !== 'rgba') {
                 rgb = goog.color.hslToRgb(this.hue, this.saturation / 100, this.lightness / 100);
                 this.red = rgb[0];
                 this.green = rgb[1];
@@ -186,6 +156,14 @@ define('models/Color', ['vendor/goog/color'], function (goog) {
                 this.type = 'rgba';
             }
             return this;
+        },
+
+        getAlpha : function () {
+            return this.alpha;
+        },
+
+        setAlpha : function (alpha) {
+            this.alpha = alpha;
         }
     }
 

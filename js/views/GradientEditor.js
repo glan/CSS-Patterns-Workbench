@@ -9,10 +9,10 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
         var template = document.querySelector('#templates>.colorstop'),
             newStop = template.cloneNode(true);
         newStop.setAttribute('data-id',colorStop.cid);
-        newStop.querySelector('input[type=color]').value = colorStop.attributes.color;
-        if (colorStop.attributes.length) {
-            newStop.querySelector('.stop').value = colorStop.attributes.length.getValue();
-            newStop.querySelector('.unit').value = colorStop.attributes.length.getUnit();
+        newStop.querySelector('input[type=color]').value = colorStop.getColor();
+        if (colorStop.getLength()) {
+            newStop.querySelector('.stop').value = colorStop.getLength().getValue();
+            newStop.querySelector('.unit').value = colorStop.getLength().getUnit();
         }
         document.getElementById('info_layer_stops').appendChild(newStop);
     }
@@ -110,8 +110,12 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 element = event.target.parentElement.parentElement;
                 colorStop = this.colorStops.getByCid(element.getAttribute('data-id'));
                 if (colorStop) {
-                    colorStop.attributes.color = new Color(element.querySelector('input[type=color]').value);
-                    colorStop.attributes.length = (element.querySelector('.stop').value !== '') ? new Length(element.querySelector('.unit').value).parseLength(element.querySelector('.stop').value + element.querySelector('.unit').value) : null;
+                    colorStop.setColor(new Color(element.querySelector('input[type=color]').value));
+                    if (element.querySelector('.stop').value !== '') {
+                        colorStop.setLength(new Length(element.querySelector('.unit').value).parseLength(element.querySelector('.stop').value + element.querySelector('.unit').value));
+                    } else {
+                        colorStop.setLength(null);
+                    }
                 }
             } else if (event.target.className === 'remove') {
                 element = event.target.parentElement.parentElement;
@@ -133,7 +137,6 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 normalizedLengths = this.colorStops.getPositions(height),
                 stopCount = this.colorStops.length;
             this.colorStops.forEach(function (colorStop) {
-                //console.log(colorStop.length.getValue());
                 var top = normalizedLengths[ii] * height,
                     bottom = (14 + (ii * height / stopCount)),
                     id = colorStop.cid;
@@ -142,7 +145,7 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                  '" fill="none" stroke="black" stroke-width="4"></path>';
                 svg += '<path id="pipe-a-'+(id)+'" d="M0,'+ top +
                  ' Q15,' + (top) + ' 15,' + (top + (bottom - top)/2) +' T30,'+ bottom + 
-                 '" fill="none" stroke="'+((colorStop.attributes.color.alpha == 0) ? 'white' : colorStop.attributes.color) +'" stroke-width="2"></path>';
+                 '" fill="none" stroke="'+((colorStop.getColor().getAlpha() == 0) ? 'white' : colorStop.getColor()) +'" stroke-width="2"></path>';
                 ii++;
             });
             document.getElementById('stop-graph').innerHTML = '<svg width="30px" xmlns="http://www.w3.org/2000/svg" version="1.1">' + svg + '</svg>';
