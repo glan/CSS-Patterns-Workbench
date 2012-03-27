@@ -1,7 +1,7 @@
 body {
     font-family: "Lucida Grande", sans-serif;
     overflow: hidden;
-    background: #DDD;
+    background: #282828;
 }
 
 * { 
@@ -10,13 +10,62 @@ body {
     list-style: none;
 }
 
+select {
+    position: relative;
+    margin: 0;
+    background: transparent;
+    color: #CCC;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    padding: 2px 18px 2px 4px;
+    text-align: center;
+    outline: none;
+    z-index: 20;
+    border: none;
+    font-size: 10px;
+    border-radius: 0;
+}
+
+select:active {
+    background: -webkit-linear-gradient(#272727 1px, #404040 1px,#373737);
+}
+
+.select {
+    position: relative;
+    background: #444 -webkit-linear-gradient(#909090 1px, #747474 1px,#646464);
+    overflow: hidden;
+    display: inline-block;
+    border: 1px solid #272727;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 #696969;
+}
+
+.select:after {
+    z-index: 18;
+    content: '▾';
+    position: absolute;
+    right: 6px;
+    top: 0;
+    font-size: 12px;
+}
+
+input[type=number] {
+    background: transparent;
+    color: #CCC;
+    border: 1px solid #555;
+    text-align: right;
+    padding: 1px;
+}
+
 #templates {
     display: none;
 }
 
 #frame {
     position: absolute;
-    left: 0; top: 30px;
+    left: 260px; 
+    top: 30px;
     right: 220px;
     bottom: 40px;
     display: -webkit-box;
@@ -27,10 +76,6 @@ body {
     -moz-box-pack: center;
     overflow: hidden;
     -webkit-transition: all 0.2s linear;
-}
-
-.showInfo #frame {
-    right: 480px;
 }
 
 #frame .back {
@@ -97,10 +142,11 @@ input[type='color'].active {
     height: 22px;
     font-size: 12px;
     padding: 6px 20px 1px;
-    border-bottom: 1px solid #999;
-    background: -webkit-linear-gradient(#444, #333);
-    background: -moz-linear-gradient(#444, #333);
+    border-top: 1px solid #6a6a6a;
+    border-bottom: 1px solid #282828;
+    background: #535353;
     color: #EEE;
+    z-index: 300;
 }
 
 #top-bar>* {

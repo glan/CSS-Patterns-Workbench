@@ -88,8 +88,8 @@ require(['jquery',
         if (event.layers && event.layers.length > 0) {
             marquee.setRect(event.layers.getRect());
             marquee.showRect();
-            infoPanel.setData(event.layers);
             infoPanel.show();
+            infoPanel.setData(event.layers);
         } else {
             marquee.hideRect();
             infoPanel.hide();
@@ -106,10 +106,12 @@ require(['jquery',
             grid.hideGrid();
     });
 
-    document.getElementById('background-color').addEventListener('change', function (event) {
-        document.getElementById('background-color').style.backgroundColor = document.getElementById('background-color').value;
-        layerList.layers.backgroundColor = document.getElementById('background-color').value;
-        layerList.layers.trigger('update');
+    document.addEventListener('color_input', function (event) {
+        if (event.target.id === 'background-color') {
+            document.getElementById('background-color').style.backgroundColor = document.getElementById('background-color').value;
+            layerList.layers.backgroundColor = document.getElementById('background-color').value;
+            layerList.layers.trigger('update');
+        }
     });
 
     document.getElementById('canvas-width').addEventListener('input', function (event) {

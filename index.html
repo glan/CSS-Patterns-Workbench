@@ -23,8 +23,6 @@
         <label for="grid-color">color</label><input type="color" id="grid-color" value="lightblue"/>
     </div>
     <div id="view-options">
-        <label for="canvas-width">Width</label><input type="number" id="canvas-width" value="800" min="1" />px
-        <label for="canvas-height">Height</label><input type="number" id="canvas-height" value="600" min="1" />px
     </div>
     <div id="size-bytes">
     </div>
@@ -33,12 +31,25 @@
 <div id="info-panel">
     <fieldset>
         <heading class="header">
-            <span class="name">Layer Options</span>
+            <span class="name">Properties</span>
         </heading>
+        <ul class="canvas">
+            <li>
+                <label for="canvas-width">Width</label><input type="number" id="canvas-width" value="800" min="1" />px
+            </li>
+            <li>
+                <label for="canvas-height">Height</label><input type="number" id="canvas-height" value="600" min="1" />px
+            </li>
+        </ul>
+        <ul class="canvas">
+            <li>
+                <label for="background-color">Color</label><input type="color" id="background-color"/>
+            </li>
+        </ul>
         <ul class="single">
             <li>
                 <label for="info_layer_composite">Composite</label>
-                <select id="info_layer_composite" class="composite info">
+                <span class="select"><select id="info_layer_composite" class="composite info">
                     <option>clear</option>
                     <option>copy</option>
                     <option>destination-atop</option>
@@ -53,7 +64,7 @@
                     <option>source-out</option>
                     <option>source-over</option>
                     <option>xor</option>
-                </select>
+                </select></span>
             </li>
         </ul>
         <ul class="single multi ranges">
@@ -66,12 +77,12 @@
         <ul class="single">
             <li>
                 <label for="info_repeat">Repeat</label>
-                <select id="info_repeat">
+                <span class="select"><select id="info_repeat">
                     <option>repeat</option>
                     <option>repeat-x</option>
                     <option>repeat-y</option>
                     <option>no-repeat</option>
-                </select><label for="info_repeating">Repeating</label>
+                </select></span><label for="info_repeating">Repeating</label>
                 <input id="info_repeating" type="checkbox"/>
             </li>
         </ul>
@@ -79,36 +90,36 @@
             <li>
                 <label for="info_position_x">x</label>
                 <input id="info_position_x" type="number" />
-                <select id="info_position_x_unit">
+                <span class="select"><select id="info_position_x_unit">
                     <option>%</option>
                     <option>px</option>
-                </select>
+                </select></span>
             </li>
             <li>
                 <label for="info_position_y">y</label>
                 <input id="info_position_y" type="number" />
-                <select id="info_position_y_unit">
+                <span class="select"><select id="info_position_y_unit">
                     <option>%</option>
                     <option>px</option>
-                </select>
+                </select></span>
             </li>
         </ul>
         <ul class="single multi">
             <li>
                 <label for="info_size_width">Width</label>
                 <input id="info_size_width" type="number" min="1" />
-                <select id="info_size_width_unit">
+                <span class="select"><select id="info_size_width_unit">
                     <option>%</option>
                     <option>px</option>
-                </select>
+                </select></span>
             </li>
             <li>
                 <label for="info_size_height">Height</label>
                 <input id="info_size_height" type="number" min="1" />
-                <select id="info_size_height_unit">
+                <span class="select"><select id="info_size_height_unit">
                     <option>%</option>
                     <option>px</option>
-                </select>
+                </select></span>
             </li>
         </ul>
     </fieldset>
@@ -118,50 +129,50 @@
             <li>
                 <label for="info_radial_position_x">x</label>
                 <input id="info_radial_position_x" type="number"/>
-                <select id="info_radial_position_x_units">
+                <span class="select"><select id="info_radial_position_x_units">
                     <option>%</option>
                     <option>px</option>
-                </select>
+                </select></span>
             </li>
             <li>
                 <label for="info_radial_position_y">y</label>
                 <input id="info_radial_position_y" type="number"/>
-                <select id="info_radial_position_y_units">
+                <span class="select"><select id="info_radial_position_y_units">
                     <option>%</option>
                     <option>px</option>
-                </select>
+                </select></span>
             </li>
         </ul>
         <ul>
             <li>
                 <label for="info_radial_shape">shape</label>
-                <select id="info_radial_shape">
+                <span class="select"><select id="info_radial_shape">
                     <option value="circle">circle</option>
                     <option value="ellipse">ellipse</option>
                     <option value="">…</option>
-                </select>
-                <select id="info_radial_size">
+                </select></span>
+                <span class="select"><select id="info_radial_size">
                     <option>closest-side</option>
                     <option>closest-corner</option>
                     <option>farthest-side</option>
                     <option>farthest-corner</option>
-                </select>
+                </select></span>
             </li>
              <li>
                 <label for="info_radial_size_width">width</label>
                 <input id="info_radial_size_width" type="number"/>
-                <select id="info_radial_size_width_units">
+                <span class="select"><select id="info_radial_size_width_units">
                     <option>%</option>
                     <option>px</option>
-                </select>
+                </select></span>
             </li>
             <li>
                 <label for="info_radial_size_height">height</label>
                 <input id="info_radial_size_height" type="number"/>
-                <select id="info_radial_size_height_units">
+                <span class="select"><select id="info_radial_size_height_units">
                     <option>%</option>
                     <option>px</option>
-                </select>
+                </select></span>
             </li>
         </ul>
     </fieldset>
@@ -185,7 +196,7 @@
             </li>
         </ul>
     </fieldset>
-    <fieldset class="hsl-adjustment" class="single multi">
+    <fieldset class="hsl-adjustment single multi">
         <heading class="header"><span class="name">HSL Adjustment</span></heading>
         <ul class="ranges">
             <li><label for="info-hsl-hue">Hue</label>
@@ -212,10 +223,10 @@
             <button id="info_add_colorstop">✚</button>
         </heading>
         <div style="overflow: scroll; position: absolute; top: 24px; bottom: 0; left: 0; right: 0;">
-            <table cellpadding="0" cellspacing="0">
+            <table cellpadding="0" cellspacing="0" style="width:100%;">
                  <tr class="color_stop_view">
-                    <td class="color_stop_preview_back"><div id="info_gradient_preview"></div></td>
-                    <td id="stop-graph"></td>
+                    <td style="width:30px" class="color_stop_preview_back"><div id="info_gradient_preview"></div></td>
+                    <td style="width:30px" id="stop-graph"></td>
                     <td class="" id="info_layer_stops"></td>
                 </tr>
             </table>
@@ -232,9 +243,6 @@
         <button class="remove">✖</button>
     </heading>
     <div id="layers"></div>
-    <div id="background-props">
-        <label for="background-color">Background color</label><input type="color" id="background-color"/>
-    </div>
 </div>
 
 
@@ -329,19 +337,16 @@ background-color: transparent;
         </div>
     </div>
     <li class="colorstop">
-        <div style="height:0">
-            <input type="color" class="color"/>@<input class="stop" type="number" min="0"/>
+        <input type="color" class="color"/>@<input class="stop" type="number" min="0"/>
+        <span class="select">
             <select class="unit">
                 <option>%</option>
                 <option>px</option>
             </select>
-            <button class="remove"></button>
-        </div>
+        </span>
+        <button class="remove"></button>
     </li>
 </div>
-
-
-
 
 <script type="text/javascript" data-main="js/main" src="js/vendor/require-jquery.js"></script>
 

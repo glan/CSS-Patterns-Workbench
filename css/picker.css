@@ -12,6 +12,7 @@
     left: 50px;
     font-size: 10px;
     display: block;
+    z-index: 200;
 }
 
 .showpicker #color-picker .content {

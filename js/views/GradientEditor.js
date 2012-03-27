@@ -107,7 +107,7 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 });
                 AddColorStopUIElement(this.colorStops.last());
             } else if (event.type === 'color_input' || event.type === 'input' || event.type === 'change') {
-                element = event.target.parentElement.parentElement;
+                element = event.target.parentElement;
                 colorStop = this.colorStops.getByCid(element.getAttribute('data-id'));
                 if (colorStop) {
                     colorStop.setColor(new Color(element.querySelector('input[type=color]').value));
@@ -118,7 +118,7 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                     }
                 }
             } else if (event.target.className === 'remove') {
-                element = event.target.parentElement.parentElement;
+                element = event.target.parentElement;
                 colorStop = this.colorStops.getByCid(element.getAttribute('data-id'));
                 this.colorStops.remove(colorStop);
                 element.parentNode.removeChild(element);

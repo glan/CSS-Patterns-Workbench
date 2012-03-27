@@ -223,7 +223,7 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
             this.targetInput.value = this.color;
             updateColorBackground(this.targetInput);
             document.getElementById('picker-text').value = this.color;
-            spawnEvent.initUIEvent("color_input", true, true, document.getElementById('info-panel'), 1);
+            spawnEvent.initUIEvent("color_input", true, true, window, 1);
             this.targetInput.dispatchEvent(spawnEvent);
         }
     }

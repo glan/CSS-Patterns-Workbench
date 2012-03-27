@@ -1,17 +1,19 @@
 #data {
     position: absolute;
-    left: 0; bottom: 0; right: 220px;
+    left: 261px; bottom: 0; right: 221px;
     height: 20px; 
-    background-color: rgba(200,200,200,0.8);
+    color: #EEE;
+    background-color: rgba(50,50,50,0.9);
     padding: 10px; outline: none;
     -webkit-transition: all 0.2s linear;
     border: none;
-    border-top: 1px solid #555;
-    border-right: 1px solid #555;
+    border-top: 1px solid #444;
+    border-left: 1px solid #444;
+    border-right: 1px solid #444;
     font-family: monaco, monospace;
     overflow-y: scroll;
-    font-size: 12px;
-    text-shadow: 0 1px 0 #FFF;
+    font-size: 10px;
+    text-shadow: 0 -1px 0 #000;
 }
 #data:focus {
     height: 160px;
