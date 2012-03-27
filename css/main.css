@@ -147,6 +147,7 @@ input[type='color'].active {
     background: #535353;
     color: #EEE;
     z-index: 300;
+    text-shadow: 0 -1px 0 #333;
 }
 
 #top-bar>* {
@@ -199,6 +200,7 @@ input[type='color'].active {
 
 #top-bar>#size-bytes {
     position: absolute;
+    top: 8px;
     right: 10px;
     font-weight: bold;
 }
