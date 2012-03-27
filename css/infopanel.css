@@ -78,7 +78,7 @@
 }
 #info-panel input[type='number']:focus {
     outline: none;
-    background: green;
+    background: darkgreen;
 }
 
 #info-panel input[type='checkbox'] {
