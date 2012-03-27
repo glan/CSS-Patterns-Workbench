@@ -152,7 +152,9 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
 
             document.getElementById('info_gradient_preview').setAttribute('style',
                 'background: -webkit-linear-gradient(-90deg,'+this.colorStops.getNormallizedColorStops(height).toString()+');' +
-                'background: -moz-linear-gradient(-90deg,'+this.colorStops.getNormallizedColorStops(height).toString()+');'
+                'background: -moz-linear-gradient(-90deg,'+this.colorStops.getNormallizedColorStops(height).toString()+');' +
+                'background: -o-linear-gradient(-90deg,'+this.colorStops.getNormallizedColorStops(height).toString()+');' +
+                'background: -ms-linear-gradient(-90deg,'+this.colorStops.getNormallizedColorStops(height).toString()+');'
             );
         }
     }

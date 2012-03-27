@@ -73,14 +73,15 @@ require(['jquery',
     }
 
     layerList.layers.bind('update', function() {
-        canvas.render(layerList.layers.toString(['-webkit','-moz'], true));
+        var prefixes = ['-webkit','-moz','-o','-ms'];
+        canvas.render(layerList.layers.toString(prefixes, true));
         grid.setData(layerList.layers);
         if (document.getElementById('update-grid').checked) {
             grid.showGrid();
         }
         document.getElementById('data').value = layerList.layers;
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
-        document.getElementById('size-bytes').innerHTML = layerList.layers.toString([], true).length + ' bytes (W3C) / ' + layerList.layers.toString(['-webkit','-moz'], true).length + ' bytes (prefixed)';
+        document.getElementById('size-bytes').innerHTML = layerList.layers.toString([], true).length + ' bytes (W3C) / ' + layerList.layers.toString(prefixes, true).length + ' bytes (prefixed)';
     });
 
     document.addEventListener('layerlist_selection', function(event) {

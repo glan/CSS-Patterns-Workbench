@@ -38,7 +38,7 @@ define('views/LayerList', ['vendor/underscore', 'jquery', 'models/Layer', 'model
      }
 
      function updatePreview(layer) {
-        var prefixes = ['-webkit', '-moz'],
+        var prefixes = ['-webkit','-moz','-o','-ms'],
             css = '';
         prefixes.forEach(function(prefix) {
             css += 'background:'+layer.getImage(prefix) + ';';
