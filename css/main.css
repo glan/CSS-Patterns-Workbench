@@ -141,7 +141,7 @@ input[type='color'].active {
     right: 0;
     height: 22px;
     font-size: 12px;
-    padding: 6px 20px 1px;
+    padding: 6px 20px 1px 10px;
     border-top: 1px solid #6a6a6a;
     border-bottom: 1px solid #282828;
     background: #535353;
