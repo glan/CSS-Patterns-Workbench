@@ -5,31 +5,45 @@
 define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer', 'models/Rect', 'models/Length', 'util/builder' ,'util/regexp'], function(Backbone, _, Layer, Rect, Length, builder, regex) {
     "use strict";
 
+    function reduceCyclicCSS (list) {
+        var i, cycleLength = 1;
+        for(i = 1; i < list.length; i++) {
+            if ('' + list[i] !== '' + list[i%cycleLength]) {
+                cycleLength = i+1;
+            }
+        }
+        return list.slice(0,cycleLength);
+    }
+
     var Layers = Backbone.Collection.extend({
         model: Layer,
         toString : function (compress) {
-            var image = '',
-                position = '',
-                size = '',
-                composite = '',
-                repeat = '',
-                bgColor = '',
-                i, css = [];
+            var i, css = [], sizeList = [], compositeList = [], repeatList = [], imageList = [];
 
             this.forEach(function (x) {
                 if (x.attributes.enabled) {
-                    image     += (x.getImage()) ? ((image !== '') ? ',\n' : '') + x.getImage() + ((x.getPosition()) ? ' ' + x.getPosition() : '') : '';
-                    position  += (x.getPosition()) ? ((position !== '') ? ', ' : '') + x.getPosition() : '';
-                    size      += (x.getSize()) ? ((size !== '') ? ', ' : '') + x.getSize() : '';
-                    composite += (x.getComposite()) ? ((composite !== '') ? ', ' : '') + x.getComposite() : '';
-                    repeat    += (x.getRepeat()) ? ((repeat !== '') ? ', ' : '') + x.getRepeat() : '';
+                    sizeList.push(x.getSize());
+                    compositeList.push(x.getComposite());
+                    repeatList.push(x.getRepeat());
+                    imageList.push(x.getImage() + ((x.getPosition()) ? ' ' + x.getPosition() : ''));
                 }
             });
-            css.push('background: ' + image);
-            css.push('background-size: ' + size);
-            css.push('background-repeat: ' + repeat);
-            if (composite !=='') {
-                css.push('background-composite: ' + composite);
+
+            sizeList = reduceCyclicCSS(sizeList);
+            compositeList = reduceCyclicCSS(compositeList);
+            repeatList = reduceCyclicCSS(repeatList);
+
+            if (imageList.length > 0) {
+                css.push('background: ' + imageList.join(',\n'));
+            }
+            if (sizeList.length > 0) {
+                css.push('background-size: ' + sizeList.join(', '));
+            }
+            if (repeatList.length > 0 && !(repeatList.length == 1 && repeatList[0] == 'repeat')) {
+                css.push('background-repeat: ' + repeatList.join(', '));
+            }
+            if (compositeList.length > 0 && !(compositeList.length == 1 && compositeList[0] == 'source-over')) {
+                css.push('background-composite: ' + compositeList.join(', '));
             }
             if (this.backgroundColor) {
                 css.push('background-color: ' + this.backgroundColor);
