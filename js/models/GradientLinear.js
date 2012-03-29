@@ -15,8 +15,8 @@ define('models/GradientLinear', ['vendor/underscore', 'models/Direction', 'model
     }
 
     var gradientLinear = {
-        toString : function (prefix, adjustments) {
-            return ((prefix) ? prefix + '-' : '') + ((this.repeating) ? 'repeating-' : '') + this.name + '(' + this.direction + ', ' + this.colorStops.toString(adjustments) + ')';
+        toString : function (adjustments) {
+            return ((this.repeating) ? 'repeating-' : '') + this.name + '(' + this.direction + ', ' + this.colorStops.toString(adjustments) + ')';
         }
     }
 

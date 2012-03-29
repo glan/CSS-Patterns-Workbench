@@ -2,7 +2,8 @@
  * © Glan Thomas 2012
  */
 
-define('views/LayerList', ['vendor/underscore', 'jquery', 'models/Layer', 'models/Layers', 'models/Direction', 'models/ColorStop', 'models/ColorStops', 'models/GradientLinear', 'models/GradientRadial', 'views/LayerListTools'], function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, GradientLinear, GradientRadial, LayerListTools) {
+define('views/LayerList', ['vendor/underscore', 'jquery', 'models/Layer', 'models/Layers', 'models/Direction', 'models/ColorStop', 'models/ColorStops', 'models/GradientLinear', 'models/GradientRadial', 'views/LayerListTools'], 
+function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, GradientLinear, GradientRadial, LayerListTools) {
     'use strict';
 
     function LayerList (layers) {
@@ -38,11 +39,7 @@ define('views/LayerList', ['vendor/underscore', 'jquery', 'models/Layer', 'model
      }
 
      function updatePreview(layer) {
-        var prefixes = ['-webkit','-moz','-o','-ms'],
-            css = '';
-        prefixes.forEach(function(prefix) {
-            css += 'background:'+layer.getImage(prefix) + ';';
-        });
+        var css = PrefixFree.prefixCSS('background:'+layer.getImage() + ';');
         document.querySelector('.layer[data-id='+layer.cid+'] .preview').setAttribute('style', css);
     }
 

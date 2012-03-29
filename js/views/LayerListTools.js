@@ -18,7 +18,7 @@ define('views/LayerListTools', ['vendor/underscore', 'jquery', 'models/Layers', 
             trans.className = 'trans';
             option.className = 'preset';
             option.setAttribute('data-value', pattern);
-            option.setAttribute('style', layers.toString(['-webkit','-moz','-o','-ms']));
+            option.setAttribute('style', PrefixFree.prefixCSS(layers.toString()));
             trans.appendChild(option);
             presetsList.appendChild(trans);
         });

@@ -7,46 +7,38 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
 
     var Layers = Backbone.Collection.extend({
         model: Layer,
-        toString : function (prefixes, compress) {
-            prefixes = (prefixes) ? prefixes : [];
-            prefixes.push(0);
-            var image,    //=  this.first().getImage() + ((this.first().getPosition()) ? ' ' + this.first().getPosition() : ''),
-                position,  //=  this.first().getPosition(),
-                size,     //=  ((this.first().getSize()) ? this.first().getSize() : ''),
-                composite,//=  this.first().getComposite()
-                repeat,
+        toString : function (compress) {
+            var image = '',
+                position = '',
+                size = '',
+                composite = '',
+                repeat = '',
                 bgColor = '',
                 i, css = [];
 
-            for(i=0; i<prefixes.length; i++) {
-                image = '';
-                position = '';
-                size = '';
-                composite = '';
-                repeat = '';
-                this.forEach(function (x) {
-                    if (x.attributes.enabled) {
-                        image     += (x.getImage(prefixes[i])) ? ((image !== '') ? ',\n' : '') + x.getImage(prefixes[i]) + ((x.getPosition()) ? ' ' + x.getPosition() : '') : '';
-                        position  += (x.getPosition()) ? ((position !== '') ? ', ' : '') + x.getPosition() : '';
-                        size      += (x.getSize()) ? ((size !== '') ? ', ' : '') + x.getSize() : '';
-                        composite += (x.getComposite()) ? ((composite !== '') ? ', ' : '') + x.getComposite() : '';
-                        repeat    += (x.getRepeat()) ? ((repeat !== '') ? ', ' : '') + x.getRepeat() : '';
-                    }
-                });
-                image     = 'background:' + image+ ';\n';
-                size      = ((prefixes[i]) ? prefixes[i] + '-' : '') + 'background-size:' + size + ';\n';
-                repeat    = 'background-repeat:' + repeat + ';\n';
-                if (composite !=='')
-                    composite = ((prefixes[i]) ? prefixes[i] + '-' : '') + 'background-composite: ' + composite + ';\n';
-                css.push(image + size + repeat + composite);
+            this.forEach(function (x) {
+                if (x.attributes.enabled) {
+                    image     += (x.getImage()) ? ((image !== '') ? ',\n' : '') + x.getImage() + ((x.getPosition()) ? ' ' + x.getPosition() : '') : '';
+                    position  += (x.getPosition()) ? ((position !== '') ? ', ' : '') + x.getPosition() : '';
+                    size      += (x.getSize()) ? ((size !== '') ? ', ' : '') + x.getSize() : '';
+                    composite += (x.getComposite()) ? ((composite !== '') ? ', ' : '') + x.getComposite() : '';
+                    repeat    += (x.getRepeat()) ? ((repeat !== '') ? ', ' : '') + x.getRepeat() : '';
+                }
+            });
+            css.push('background: ' + image);
+            css.push('background-size: ' + size);
+            css.push('background-repeat: ' + repeat);
+            if (composite !=='') {
+                css.push('background-composite: ' + composite);
             }
-            if (this.backgroundColor)
-                bgColor = 'background-color: ' + this.backgroundColor + ';\n';
-            css.push(bgColor);
+            if (this.backgroundColor) {
+                css.push('background-color: ' + this.backgroundColor);
+            }
+
             if (compress)
-                return css.join('').replace(/,\s*/g, ",");
+                return css.join(';').replace(/(,|\:|\))\s*/g, "$1");
             else
-                return css.join('');
+                return css.join(';\n');
         },
         parseCSS : function (css) {
             try {

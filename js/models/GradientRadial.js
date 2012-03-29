@@ -37,8 +37,8 @@ define('models/GradientRadial', ['vendor/underscore', 'models/Length', 'models/G
             };
         },
 
-        toString : function (prefix, adjustments) {
-            return ((prefix) ? prefix + '-' : '') + ((this.repeating) ? 'repeating-' : '') + this.name + '(' +
+        toString : function (adjustments) {
+            return ((this.repeating) ? 'repeating-' : '') + this.name + '(' +
             this.position + ((this.direction) ? ' ' + this.direction : '') + ((this.position||this.direction) ? ', ' : '') +
             ((this.shape) ? this.shape : this.width) +  ' ' + 
             ((this.shape) ? this.size : this.height) + ((this.shape||this.size||this.width||this.height) ? ', ' : '') + this.colorStops.toString(adjustments) + ')';

@@ -11,7 +11,7 @@ require(['jquery',
 'views/Grid',
 'views/LayerList',
 'views/ColorPicker',
-'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/incrementable.js'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList, ColorPicker) {
+'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/incrementable.js', 'vendor/prefixfree.min'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList, ColorPicker) {
     'use strict';
     var layerList = new LayerList(new Layers()),
         canvas = new Canvas(document.getElementById('frame')),
@@ -73,15 +73,14 @@ require(['jquery',
     }
 
     layerList.layers.bind('update', function() {
-        var prefixes = ['-webkit','-moz','-o','-ms'];
-        canvas.render(layerList.layers.toString(prefixes, true));
+        canvas.render(layerList.layers.toString(true));
         grid.setData(layerList.layers);
         if (document.getElementById('update-grid').checked) {
             grid.showGrid();
         }
         document.getElementById('data').value = layerList.layers;
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
-        document.getElementById('size-bytes').innerHTML = layerList.layers.toString([], true).length + ' bytes (W3C) / ' + layerList.layers.toString(prefixes, true).length + ' bytes (prefixed)';
+        document.getElementById('size-bytes').innerHTML = layerList.layers.toString(true).length + ' bytes (W3C) / ' + PrefixFree.prefixCSS(layerList.layers.toString(true), true).length + ' bytes (prefixed)';
     });
 
     document.addEventListener('layerlist_selection', function(event) {
@@ -145,5 +144,7 @@ require(['jquery',
     window.colorPicker.updateColors();
 
     new Incrementable(document.getElementById('data'));
+
+    $(document.body).addClass('ready');
 
 });

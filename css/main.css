@@ -15,9 +15,7 @@ select {
     margin: 0;
     background: transparent;
     color: #CCC;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -o-appearance: none;
+    appearance: none;
     padding: 2px 18px 2px 4px;
     text-align: center;
     outline: none;
@@ -29,12 +27,12 @@ select {
 }
 
 select:active {
-    background: -webkit-linear-gradient(#272727 1px, #404040 1px,#373737);
+    background: linear-gradient(#272727 1px, #404040 1px,#373737);
 }
 
 .select {
     position: relative;
-    background: #444 -webkit-linear-gradient(#909090 1px, #747474 1px,#646464);
+    background: #444 linear-gradient(#909090 1px, #747474 1px,#646464);
     overflow: hidden;
     display: inline-block;
     border: 1px solid #272727;
@@ -71,29 +69,24 @@ input[type=number] {
     top: 30px;
     right: 220px;
     bottom: 40px;
-    display: -webkit-box;
-    -webkit-box-align: center;
-    -webkit-box-pack: center;
-    display: -moz-box;
-    -moz-box-align: center;
-    -moz-box-pack: center;
+    display: box;
+    box-align: center;
+    box-pack: center;
+    box-align: center;
+    box-pack: center;
     overflow: hidden;
-    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
 }
 
 #frame .back {
     position: relative;
-    display: -webkit-box;
-    display: -moz-box;
+    display: box;
     background-color : #FFF;
-    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
-    background-image : -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-image : linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
     background-size : 10px 10px;
     background-position : 0 0, 5px 5px;
-    -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
-    -moz-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
 }
 
 #frame #canvas {
@@ -112,17 +105,15 @@ input[type='color'] {
     font-size: 10px;
     border: 1px solid #333;
     background-color : #FFF;
-    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
-    background-image : -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-image : linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
     background-size : 10px 10px;
     background-position : 0 0, 5px 5px;
     padding: 0;
-    -webkit-appearance: none;
+    appearance: none;
     cursor: pointer;
     color: transparent;
-    -webkit-user-select: none;
+    user-select: none;
     outline: none;
 }
 
@@ -175,8 +166,7 @@ input[type='color'].active {
 }
 
 #top-bar input:focus {
-    -webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
-    -moz-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
     outline: none;
 }
 
@@ -192,7 +182,8 @@ input[type='color'].active {
     font-family: "Arial Black";
     font-size: 18px;
     margin: -5px 0 0 0;
-    background: -webkit-radial-gradient(ellipse, rgba(0,0,0,0) 60%,rgba(0,0,0,1)),  -webkit-radial-gradient(50% 1202px, circle, #990 1180px,  #330 1190px,  #AAF 1190px, #FFF 1200px);
+    background: -webkit-radial-gradient(ellipse, rgba(0,0,0,0) 60%,rgba(0,0,0,1)),
+                -webkit-radial-gradient(50% 1202px, circle, #990 1180px,  #330 1190px,  #AAF 1190px, #FFF 1200px);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-style: italic;

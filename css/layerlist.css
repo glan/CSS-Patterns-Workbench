@@ -6,9 +6,14 @@
     bottom: 0px;
     border-left: 1px solid #282828;
     background: #444444;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
+    display: box;
+    box-orient: vertical;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    display: none;
+}
+
+.ready #right-bar {
+    display: block;
 }
 
 #layers {
@@ -18,8 +23,8 @@
     bottom: 0;
     left: 0;
     padding: 0;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
+    display: box;
+    box-orient: vertical;
     overflow-y: scroll;
 }
 
@@ -43,7 +48,7 @@
 }
 
 #layers .layer {
-    display: -webkit-box;
+    display: box;
     width: 100%;
     height: 40px;
     background: #535353;
@@ -52,7 +57,7 @@
     border-bottom: 1px solid #333;
     border-top: 1px solid #333;
     margin-top: -1px;
-    -webkit-box-align: center;
+    box-align: center;
     overflow: hidden;
     text-shadow: 0 -1px 0 #333;
     color: #E7E7E7;
@@ -74,7 +79,7 @@
     border: 1px solid #333;
     width: 32px;
     height: 32px;
-    -webkit-transform: translateZ(1px);
+    transform: translateZ(1px);
 }
 
 #layers .layer:before {
@@ -86,11 +91,8 @@
     top: 4px;
     left: 38px;
     background-color : #FFF;
-    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
-    background-image : -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
-
+    background-image : linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
     background-size : 8px 8px;
     background-position : 0 0, 4px 4px;
 }
@@ -109,11 +111,11 @@
 }
 
 #layers .layer .enabled {
-    display: -webkit-box;
+    display: box;
     cursor: pointer;
     margin: 0 0 0 6px;
     height: 24px;
-    -webkit-appearance: none;
+    appearance: none;
     width:24px;
     opacity: 1;
     background: #535353;
@@ -161,7 +163,7 @@
 
 #layers .ui-sortable-helper {
     opacity: 0.9;
-    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.6);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.6);
     z-index: 200;
 }
 
@@ -170,10 +172,10 @@
     height: 22px;
     border-top: 1px solid #282828;
     border-bottom: 1px solid #282828;
-    background: -webkit-linear-gradient(#4a4a4a 1px, #3b3b3b 1px, #373737);
+    background: linear-gradient(#4a4a4a 1px, #3b3b3b 1px, #373737);
     color: #CCC;
-    display: -webkit-box;
-    -webkit-box-orient: horizontal;
+    display: box;
+    box-orient: horizontal;
     z-index: 400;
 }
 
@@ -183,8 +185,8 @@
 }
 
 .header .name {
-    display: -webkit-box;
-    -webkit-box-flex: 1;
+    display: box;
+    box-flex: 1;
     padding: 4px 10px;
     font-weight: bold;
     text-shadow: 0 -1px 1px #111;
@@ -193,7 +195,7 @@
 }
 
 .header>button {
-    -webkit-appearance: none;
+    appearance: none;
     width: 36px;
     background: none;
     border: none;
@@ -206,12 +208,12 @@
     cursor: pointer;
     margin: 0;
     display: block;
-    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
 }
 
 .header>button:active,
 .header>button.active {
-    -webkit-transition: all 0 linear;
+    transition: all 0 linear;
     background-color: rgba(0,0,0,0.3);
     color: #AAA;
     text-shadow: 0 -1px 1px #000;
@@ -231,14 +233,15 @@
     background: #444;
     z-index: 100;
     padding-bottom: 5px;
-    -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.4);
     border: none;
-    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
     opacity: 0;
     max-height: 0;
     border-width: 0 1px 1px 1px;
     border-style: none solid solid solid;
     border-color: #555 #333 #333 #555;
+    transform: translateZ(2px);
 }
 
 #pattern-presets.show {
@@ -265,10 +268,8 @@
 
 #pattern-presets .trans {
     background-color : #FFF;
-    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
-    background-image : -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       -moz-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-image : linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
     background-size : 8px 8px;
     background-position : 0 0, 4px 4px;
 }

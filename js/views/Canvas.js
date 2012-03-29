@@ -21,7 +21,7 @@ define('views/Canvas', function () {
 
     var canvas = {
         render : function (css) {
-            this.domElement.setAttribute('style',css);
+            this.domElement.setAttribute('style',PrefixFree.prefixCSS(css));
         },
         getDomElement : function () {
             return this.domElement;
