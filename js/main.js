@@ -78,7 +78,9 @@ require(['jquery',
         if (document.getElementById('update-grid').checked) {
             grid.showGrid();
         }
-        document.getElementById('data').value = layerList.layers;
+        if (!document.querySelector('#data:focus')) {
+            document.getElementById('data').value = layerList.layers;
+        }
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
         document.getElementById('size-bytes').innerHTML = layerList.layers.toString(true).length + ' bytes (W3C) / ' + PrefixFree.prefixCSS(layerList.layers.toString(true), true).length + ' bytes (prefixed)';
     });
