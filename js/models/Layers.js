@@ -46,7 +46,7 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                 css.push('background-composite: ' + compositeList.join(', '));
             }
             if (this.backgroundColor) {
-                css.push('background-color: ' + this.backgroundColor);
+                css.push('background-color: ' + this.backgroundColor + ';');
             }
 
             if (compress)

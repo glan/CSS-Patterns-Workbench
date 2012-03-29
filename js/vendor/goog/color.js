@@ -7,6 +7,50 @@ var goog = {};
 goog.color = {};
 
 /**
+ * Takes a string a prepends a '#' sign if one doesn't exist.
+ * @param {string} str String to check.
+ * @return {string} The value passed in, prepended with a '#' if it didn't
+ *    already have one.
+ * @private
+ */
+goog.color.prependPoundIfNecessary_ = function(str) {
+  return str.charAt(0) == '#' ? str : '#' + str;
+};
+
+/**
+ * Takes a hex value and prepends a zero if it's a single digit.
+ * @param {string} hex Hex value to prepend if single digit.
+ * @return {string} hex value prepended with zero if it was single digit,
+ *    otherwise the same value that was passed in.
+ * @private
+ */
+goog.color.prependZeroIfNecessary_ = function(hex) {
+  return hex.length == 1 ? '0' + hex : hex;
+};
+
+/**
+ * Converts a color from RGB to hex representation.
+ * @param {number} r Amount of red, int between 0 and 255.
+ * @param {number} g Amount of green, int between 0 and 255.
+ * @param {number} b Amount of blue, int between 0 and 255.
+ * @return {string} hex representation of the color.
+ */
+goog.color.rgbToHex = function(r, g, b) {
+  r = Number(r);
+  g = Number(g);
+  b = Number(b);
+  if (isNaN(r) || r < 0 || r > 255 ||
+      isNaN(g) || g < 0 || g > 255 ||
+      isNaN(b) || b < 0 || b > 255) {
+    throw Error('"(' + r + ',' + g + ',' + b + '") is not a valid RGB color');
+  }
+  var hexR = goog.color.prependZeroIfNecessary_(r.toString(16));
+  var hexG = goog.color.prependZeroIfNecessary_(g.toString(16));
+  var hexB = goog.color.prependZeroIfNecessary_(b.toString(16));
+  return '#' + hexR + hexG + hexB;
+};
+
+/**
  * Converts a color from RGB color space to HSL color space.
  * Modified from {@link http://en.wikipedia.org/wiki/HLS_color_space}.
  * @param {number} r Value of red, in [0, 255].
