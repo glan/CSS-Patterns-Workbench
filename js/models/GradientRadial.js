@@ -38,10 +38,26 @@ define('models/GradientRadial', ['vendor/underscore', 'models/Length', 'models/G
         },
 
         toString : function (adjustments) {
-            return ((this.repeating) ? 'repeating-' : '') + this.name + '(' +
-            this.position + ((this.direction) ? ' ' + this.direction : '') + ((this.position||this.direction) ? ', ' : '') +
-            ((this.shape) ? this.shape : this.width) +  ' ' + 
-            ((this.shape) ? this.size : this.height) + ((this.shape||this.size||this.width||this.height) ? ', ' : '') + this.colorStops.toString(adjustments) + ')';
+            var css = '';
+            if (this.position != '50% 50%')
+                css += ((css) ? ' ' : '') + this.position;
+            if (this.direction)
+                css += ((css) ? ' ' : '') + this.direction;
+
+            css += (css) ? ', ' : '';
+
+            if (this.shape) {
+                css += ((this.shape != 'ellipse') ? this.shape : '');
+                css += ((this.shape != 'ellipse') && (this.size != 'farthest-corner')) ? ' ' : '';
+                css += ((this.size != 'farthest-corner') ? this.size : '');
+                css += ((this.shape != 'ellipse') || (this.size != 'farthest-corner')) ? ', ' : '';
+            } else if (this.width != '' && this.height != '') {
+                css += ((css) ? '' : this.position + ', ') + this.width + ' ' + this.height + ', ';
+            }
+
+            css += this.colorStops.toString(adjustments);
+
+            return ((this.repeating) ? 'repeating-' : '') + this.name + '(' + css + ')';
         }
     }
 
