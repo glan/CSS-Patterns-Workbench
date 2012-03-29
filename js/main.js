@@ -11,7 +11,7 @@ require(['jquery',
 'views/Grid',
 'views/LayerList',
 'views/ColorPicker',
-'js/vendor/jquery-ui-1.8.14.custom.min.js', 'js/vendor/incrementable.js', 'vendor/prefixfree.min'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList, ColorPicker) {
+'vendor/jquery-ui-1.8.14.custom.min', 'vendor/incrementable', 'vendor/prefixfree.min'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList, ColorPicker) {
     'use strict';
     var layerList = new LayerList(new Layers()),
         canvas = new Canvas(document.getElementById('frame')),
