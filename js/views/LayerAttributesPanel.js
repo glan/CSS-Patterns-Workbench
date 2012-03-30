@@ -50,22 +50,25 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
     }
 
     var layerAttributesPanel = {
-        setData : function (layers) {
+        setData : function (layers, lockAspect) {
             var layer = layers.first(),
                 rect = layers.getRect(),
                 radio;
 
-            document.getElementById('info_size_width').value = 1 * rect.getWidth().getValue();
+            document.getElementById('info_size_width').value = Math.round(1 * rect.getWidth().getValue());
             document.getElementById('info_size_width_unit').value = rect.getWidth().getUnit();
-            document.getElementById('info_size_height').value = 1 * rect.getHeight().getValue();
+            document.getElementById('info_size_height').value = Math.round(1 * rect.getHeight().getValue());
             document.getElementById('info_size_height_unit').value = rect.getHeight().getUnit();
-            document.getElementById('info_position_x').value = 1 * rect.getLeft().getValue();
+            document.getElementById('info_position_x').value = Math.round(1 * rect.getLeft().getValue());
             document.getElementById('info_position_x_unit').value = rect.getLeft().getUnit();
-            document.getElementById('info_position_y').value = 1 * rect.getTop().getValue();
+            document.getElementById('info_position_y').value = Math.round(1 * rect.getTop().getValue());
             document.getElementById('info_position_y_unit').value = rect.getTop().getUnit();
 
             document.getElementById('info_repeating').checked = layer.getRepeating();
             document.getElementById('info_repeat').value = layer.getRepeat();
+
+            document.getElementById('info_size_aspect_lock').checked = lockAspect;
+            document.getElementById('info_size_aspect_lock').value = rect.getAspect();
 
             document.getElementById('info_layer_composite').value = layer.attributes.composite;
             document.getElementById('info_layer_opacity').value = Math.round(layers.getOpacity() * 100);
@@ -120,16 +123,30 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
         handleEvent : function (event) {
             // We need to suppress change events for the colorstop field since these should only use input
             var spawnEvent = document.createEvent('UIEvents'),
-                radio,
-                rect = new Rect({
-                    width: ((document.getElementById('info_size_width').value > 0) ? document.getElementById('info_size_width').value : 1) + document.getElementById('info_size_width_unit').value,
-                    height: ((document.getElementById('info_size_height').value > 0) ? document.getElementById('info_size_height').value : 1) + document.getElementById('info_size_height_unit').value,
-                    left: document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value,
-                    top: document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value
-                });
+                radio;
 
             spawnEvent.initUIEvent('infopanel_update', true, true, window, 1);
-            spawnEvent.rect = rect;
+
+            spawnEvent.aspectLock = document.getElementById('info_size_aspect_lock').checked;
+            if (spawnEvent.aspectLock) {
+                if (event.target.id === 'info_size_width') {
+                    document.getElementById('info_size_height').value = Math.round(document.getElementById('info_size_width').value / document.getElementById('info_size_aspect_lock').value);
+                } else if (event.target.id === 'info_size_height') {
+                    document.getElementById('info_size_width').value = Math.round(document.getElementById('info_size_height').value * document.getElementById('info_size_aspect_lock').value);
+                }
+            }
+
+            spawnEvent.rect = new Rect({
+                width: ((document.getElementById('info_size_width').value > 0) ? document.getElementById('info_size_width').value : 1) + document.getElementById('info_size_width_unit').value,
+                height: ((document.getElementById('info_size_height').value > 0) ? document.getElementById('info_size_height').value : 1) + document.getElementById('info_size_height_unit').value,
+                left: document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value,
+                top: document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value
+            });
+
+            if (!spawnEvent.aspectLock) {
+                document.getElementById('info_size_aspect_lock').value = spawnEvent.rect.getAspect();
+            }
+
             spawnEvent.repeating = document.getElementById('info_repeating').checked;
             spawnEvent.repeat = document.getElementById('info_repeat').value;
             spawnEvent.composite = document.getElementById('info_layer_composite').value;

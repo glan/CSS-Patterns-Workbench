@@ -122,7 +122,15 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                     opacity = layer.attributes.opacity;
             });
             return opacity;
-        }/*,
+        },
+        getAspectLock : function () {
+            var aspectLock = false;
+            this.forEach(function (layer) {
+                aspectLock = aspectLock || layer.attributes.aspectLock;
+            });
+            return aspectLock;
+        }
+        /*,
         adjustHue : function (hue) {
             this.forEach(function (layer) {
                 layer.attributes.hue = hue;

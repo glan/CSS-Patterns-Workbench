@@ -228,7 +228,7 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
                     x = obj.x;
                 }
 
-                if (event.shiftKey)
+                if (event.shiftKey || this.lockAspect)
                 {
                     switch (this.actionType) {
                         case 'se-resize' :

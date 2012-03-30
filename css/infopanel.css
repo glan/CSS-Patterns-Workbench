@@ -241,3 +241,16 @@
     width: 45px !important;
     margin: 0 -2px 0 0 !important;
 }
+
+#info-panel .constrain {
+    display: block;
+    border: 1px dotted #AAA;
+    border-left: none;
+    margin: -10px 70px -10px 170px;
+    text-align: right;
+    height: 20px;
+}
+
+#info-panel .constrain>* {
+    transform: translateX(10px);
+}
