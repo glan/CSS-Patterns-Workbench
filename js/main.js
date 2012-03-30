@@ -156,6 +156,8 @@ require(['jquery',
     canvas.setWidth(800);
     canvas.setHeight(600);
 
+    document.onselectstart = function () { return false; };
+
     $(document.body).addClass('ready');
 
 });
