@@ -4,10 +4,30 @@
 
 define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Color, goog) {
     'use strict';
+    
+    var mouseX, mouseY;
 
     function ColorPicker() {
         document.addEventListener('input', this);
         document.addEventListener('click', this);
+        document.querySelector('#color-picker heading').addEventListener('mousedown', function(event) {
+            mouseY = event.offsetY;
+            mouseX = event.offsetX;
+            document.addEventListener('mousemove', movePicker);
+            document.addEventListener('mouseup', endMovePicker);
+        });
+        document.getElementById('color-picker').onselectstart = function () { return false; };
+    }
+
+    function movePicker(event) {
+        var el = document.getElementById('color-picker');
+        el.style.top = (event.clientY - mouseY) + 'px';
+        el.style.left = (event.clientX - mouseX) + 'px';
+    }
+
+    function endMovePicker(event) {
+        document.removeEventListener('mousemove', movePicker);
+        document.removeEventListener('mouseup', endMovePicker);
     }
 
     function updateColorBackground (element) {
@@ -47,8 +67,9 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
                     this.originalColor = this.targetInput.value;
                     document.getElementById('picker-text').value = this.originalColor;
                     this.setColor(event.target.value);
-                    document.querySelector('#color-picker .original').style.backgroundImage = document.querySelector('#color-picker .new').style.backgroundImage;
+                    document.querySelector('#color-picker .original').style.backgroundColor = this.originalColor;
                     document.body.classList.add('showpicker');
+                    $('#color-picker').fadeIn(100);
                 }
             }
         },
@@ -61,14 +82,14 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
                 updateColorBackground(this.targetInput);
                 spawnEvent.initUIEvent("color_input", true, true, document.getElementById('info-panel'), 1);
                 this.targetInput.dispatchEvent(spawnEvent);
-                document.body.classList.remove('showpicker');
                 this.targetInput.classList.remove('active');
+                $('#color-picker').fadeOut(100, function () { document.body.classList.remove('showpicker') });
                 return;
             case 'picker-button-ok' :
                 this.targetInput.value = this.color;
                 updateColorBackground(this.targetInput);
-                document.body.classList.remove('showpicker');
                 this.targetInput.classList.remove('active');
+                $('#color-picker').fadeOut(100, function () { document.body.classList.remove('showpicker') });
                 return;
             case 'picker-rgb-red-range' :
                 document.getElementById('picker-rgb-red').value = event.target.value;
@@ -222,9 +243,7 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
                        'linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),' +
                        'linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC)');
 
-            document.querySelector('#color-picker .new').style.backgroundImage = PrefixFree.prefixCSS(' linear-gradient(0deg, '+this.color+ ','+this.color+'),'+
-                       'linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),' +
-                       'linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC)');
+            document.querySelector('#color-picker .new').style.backgroundColor = this.color;
 
             this.targetInput.value = this.color;
             updateColorBackground(this.targetInput);

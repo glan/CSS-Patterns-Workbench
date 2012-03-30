@@ -2,22 +2,29 @@
     display: none;
 }
 
+#color-picker heading {
+    cursor: pointer;
+    user-select: none;
+}
+
 .showpicker #color-picker {
-    width: 740px;
-    height: 200px;
-    background: #FFF;
-    box-shadow: 5px 5px 5px rgba(0,0,0,0.4);
+    width: 640px;
+    height: 225px;
+    background: #444;
+    box-shadow: 2px 5px 8px rgba(0,0,0,0.4);
     position: absolute;
     top: 50px;
     left: 50px;
     font-size: 10px;
     display: block;
     z-index: 200;
+    color: #EEE;
+    text-shadow: 0 -1px 0 #111;
 }
 
-.showpicker #color-picker .content {
-    padding: 20px;
-    position: relative;
+#color-picker input {
+    outline: none;
+    text-shadow: 0 -1px 0 #111;
 }
 
 .showpicker #color-picker .pad {
@@ -36,8 +43,15 @@
 }
 
 #color-picker #picker-text {
-    padding: 2px;
-    margin: 5px;
+    padding: 4px;
+    margin-left: 65px;
+    background: #444;
+    color: #EEE;
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #555;
+    border-bottom: 1px solid #555;
+    outline: none;
 }
 
 #color-picker .left {
@@ -54,11 +68,15 @@
 
 #color-picker .preview {
     display: block;
-    margin: 30px 10px 30px 30px;
-    position: relative;
+    position: absolute;
+    top: 50px;
+    right: 32px;
     width: 60px;
     height: 60px;
-    border: 1px solid #EEE;
+    border-top: 2px solid #333;
+    border-left: 2px solid #333;
+    border-right: 2px solid #555;
+    border-bottom: 2px solid #555;
 }
 
 #color-picker .preview:before {
@@ -80,7 +98,10 @@
 #color-picker .grad {
     width: 90px;
     height: 8px;
-    border: 1px solid #EEE;
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #555;
+    border-bottom: 1px solid #555;
     margin-top: -5px;
     margin-right: -96px;
     margin-left: 10px;
@@ -108,7 +129,8 @@
     box-orient: horizontal;
     box-align: start;
     position: absolute;
-    left: 0; right: 0;
+    left: 0; right: 100px;
+    top: 45px;
 }
 
 #color-picker .color-inputs>ul {
@@ -119,7 +141,7 @@
 
 #color-picker .color-inputs>ul>li {
     display: box;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 #color-picker label {
@@ -134,11 +156,29 @@
     content: ':';
 }
 
+#color-picker .buttons {
+    position: absolute;
+    top: 140px;
+    right: 30px;
+    width: 80px;
+}
+
 #color-picker button {
-    padding: 10px;
+    padding: 5px 10px;
     width: 80px;
     margin: 5px;
     display: inline;
+    color: #EEE;
+    text-shadow: 0 -1px 0 #111;
+    background: linear-gradient(top, #919191 1px, #747474 1px, #636363);
+    border: 1px solid #272727;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 #555;
+    font-weight: bold;
+}
+
+#color-picker button:active {
+    background: linear-gradient(#272727 1px, #404040 1px,#373737);
 }
 
 #picker-hsl-hue-preview {
@@ -158,10 +198,16 @@
         hsl(360, 100%, 50%) 100%
     );
 }
+
+#picker-alpha-preview {
+    background-color: #FFF;
+}
+
 .color {
-    background-image : linear-gradient(0deg, transparent, transparent),
+    background-image : linear-gradient(left, transparent, transparent),
                        linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
                        linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-color: #FFF;
     background-size : 100% 100%, 10px 10px, 10px 10px;
-    background-position : 100% 100%, 0 0, 5px 5px;
+    background-position : 0 0, 0 0, 5px 5px;
 }
