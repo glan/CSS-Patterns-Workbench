@@ -153,6 +153,9 @@ require(['jquery',
 
     new Incrementable(document.getElementById('data'));
 
+    canvas.setWidth(800);
+    canvas.setHeight(600);
+
     $(document.body).addClass('ready');
 
 });

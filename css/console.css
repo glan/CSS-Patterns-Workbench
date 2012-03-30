@@ -14,6 +14,7 @@
     overflow-y: scroll;
     font-size: 10px;
     text-shadow: 0 -1px 0 #000;
+    z-index: 5;
 }
 #data:focus {
     height: 160px;

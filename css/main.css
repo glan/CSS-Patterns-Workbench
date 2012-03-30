@@ -65,8 +65,8 @@ input[type=number] {
 
 #frame {
     position: absolute;
-    left: 260px; 
-    top: 30px;
+    left: 280px;
+    top: 50px;
     right: 220px;
     bottom: 40px;
     display: box;
@@ -74,7 +74,6 @@ input[type=number] {
     box-pack: center;
     box-align: center;
     box-pack: center;
-    overflow: hidden;
     transition: all 0.2s linear;
 }
 
@@ -199,8 +198,6 @@ input[type='color'].active {
     font-weight: bold;
 }
 
-
-
 .ranges input[type='number'] {
     width: 50px;
     margin: 2px;
@@ -211,4 +208,62 @@ input[type='color'].active {
     width: 90px;
     margin: 0 5px;
     -webkit-transform: translateY(4px);
+}
+
+#top-rule {
+    background-color: #444;
+    background-size: 50px 4px, 50px 8px;
+    background-repeat: repeat-x;
+    background-position: 50% 100%;
+    left: 0;
+    top: -20px;
+    right: 0;
+    height: 20px;
+    position: absolute;
+    z-index: 2;
+}
+
+#left-rule:before {
+    content: '';
+    background-color: #444;
+    position: absolute;
+    top: -20px; left: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 3;
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
+
+#left-rule {
+    background-color: #444;
+    background-size: 4px 50px, 8px 50px;
+    background-repeat: repeat-y;
+    background-position: 100% 50%;
+    left: -20px;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    position: absolute;
+    z-index: 2;
+}
+
+#left-rule-marker {
+    left: -20px;
+    top: 0px;
+    height: 400px;
+    width:20px;
+    position: absolute;
+    border-bottom: 1px dotted rgba(255,255,255,0.4);
+    z-index: 3;
+}
+
+#top-rule-marker {
+    left: 0px;
+    top: -20px;
+    height: 20px;
+    width:400px;
+    position: absolute;
+    border-right: 1px dotted rgba(255,255,255,0.4);
+    z-index: 3;
 }

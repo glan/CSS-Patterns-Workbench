@@ -10,6 +10,7 @@
     box-orient: vertical;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
     display: none;
+    z-index: 5;
 }
 
 .ready #right-bar {
