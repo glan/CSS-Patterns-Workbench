@@ -27,12 +27,11 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
 
     return {
         parseCSS : function (cssString) {
-            var sizeOk = null;
             //console.log(regex.backgroundImage);
             //console.log(cssString.match(regex.backgroundImage));
             
             var layers = [],
-                images, sizes, positions, repeats, i = 0;
+                images, sizes, positions, repeats, composites;
                 
             try {
                 images = cssString.match(regex.backgroundImage)[0].match(regex.gradient);
@@ -49,57 +48,47 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
             } catch (e) {
                 repeats = [];
             }
+            try {
+                composites = cssString.match(regex.backgroundComposites)[0].match(/clear|copy|destination-atop|destination-in|destination-out|destination-over|highlight|plus-darker|plus-lighter|source-atop|source-in|source-out|source-over|xor/g);
+            } catch (e) {
+                composites = [];
+            }
 
             positions = (cssString.match(regex.backgroundPosition)) ? cssString.match(regex.backgroundPosition)[0].match(regex.position) : null;
 
             images.forEach(function (x) {
                 //console.log(x);
-                var colorStops = new ColorStops(),
+                var layer,
+                    colorStops = new ColorStops(),
                     gradient = new RegExp(regex.gradient).exec(x),
                     repeating;
-                    
-                sizeOk = (sizes[i]) ? sizes[i] : sizeOk;
+
+                layer = {
+                    size : sizes[layers.length % sizes.length],
+                    composite : new Composite(composites[layers.length % composites.length]),
+                    order : layers.length,
+                    opacity : 1,
+                    enabled : true,
+                    hue : 0,
+                    saturation : 0,
+                    lightness : 0,
+                    repeat : repeats[layers.length % repeats.length + 1] || 'repeat' // +1 as we don't want to match the 'repeat' in background-repeat
+                };
 
                 if (gradient[1] === 'repeating-linear-gradient' || gradient[1] === 'linear-gradient') {
-
                     colorStops = parseColorStops(gradient[3]);
-                    
                     repeating = (gradient[1] === 'repeating-linear-gradient');
-
-                    layers.push({
-                        image : new GradientLinear('linear-gradient', repeating, new Direction(gradient[2]), colorStops),
-                        size : sizeOk,
-                        position : (positions && positions[i]) ? positions[i] : ((gradient[4]) ? gradient[4] : null),
-                        composite : new Composite(),
-                        order : i,
-                        opacity : 1,
-                        enabled : true,
-                        hue : 0,
-                        saturation : 0,
-                        lightness : 0,
-                        repeat : repeats[i+1] || 'repeat' // +1 as we don't want to match the 'repeat' in background-repeat
-                    });
-                    i++;
+                    layer.image = new GradientLinear('linear-gradient', repeating, new Direction(gradient[2]), colorStops);
+                    layer.position = (positions) ? positions[layers.length % positions.length] : ((gradient[4]) ? gradient[4] : null);
+                    layer.name = 'Linear ' + (layers.length + 1);
                 } else if (gradient[5] === 'repeating-radial-gradient' || gradient[5] === 'radial-gradient') {
                     colorStops = parseColorStops(gradient[10]);
-
                     repeating = (gradient[5] === 'repeating-radial-gradient');
-
-                    layers.push({
-                        image : new GradientRadial('radial-gradient', repeating, gradient[6], gradient[7], gradient[8], gradient[9], colorStops),
-                        size : sizeOk,
-                        position : (positions && positions[i]) ? positions[i] : ((gradient[11]) ? gradient[11] : null),
-                        composite : new Composite(),
-                        order : i,
-                        opacity : 1,
-                        enabled : true,
-                        hue : 0,
-                        saturation : 0,
-                        lightness : 0,
-                        repeat : repeats[i+1] || 'repeat'
-                    });
-                    i++;
+                    layer.image = new GradientRadial('radial-gradient', repeating, gradient[6], gradient[7], gradient[8], gradient[9], colorStops);
+                    layer.position = (positions) ? positions[layers.length % positions.length] : ((gradient[11]) ? gradient[11] : null);
+                    layer.name = 'Radial ' + (layers.length + 1);
                 }
+                layers.push(layer);
             });
 
             return layers;

@@ -96,21 +96,25 @@ define('util/regexp', function () {
     regex.backgroundImage = RegExp.create('background(?:-image)?:\\s*{{gradient}}\\s*(?:,\\s*{{gradient}}\\s*)*;', {
         gradient : regex.gradient
     }, 'g');
-    
+
     regex.backgroundSize = RegExp.create('background-size:\\s*{{size}}\\s*(?:,\\s*{{size}}\\s*)*', {
         size : regex.size
     }, 'g');
-    
+
     regex.backgroundPosition = RegExp.create('background-position:\\s*(?:{{position}})\\s*(?:,\\s*(?:{{position}})\\s*)*;', {
         position : regex.position
     }, 'g');
-    
+
     regex.backgroundColor = RegExp.create('background-color:\\s*({{color}})', {
         color : regex.color
     }, 'g');
 
     regex.backgroundRepeat = RegExp.create('background-repeat:\\s*(?:{{repeat}})\\s*(?:,\\s*{{repeat}}\\s*)*;', {
         repeat : /repeat|repeat-x|repeat-y|no-repeat/
+    }, 'g');
+
+    regex.backgroundComposites = RegExp.create('background-composite:\\s*(?:{{composite}})\\s*(?:,\\s*{{composite}}\\s*)*;', {
+        composite : /clear|copy|destination-atop|destination-in|destination-out|destination-over|highlight|plus-darker|plus-lighter|source-atop|source-in|source-out|source-over|xor/
     }, 'g');
 
     return regex;

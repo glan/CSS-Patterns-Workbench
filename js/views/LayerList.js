@@ -50,20 +50,20 @@ function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, GradientLinear,
             this.layers.trigger('update');
         },
 
-        createDomLayer : function (e) {
+        createDomLayer : function (layer) {
             var template = document.querySelector('#templates>.layer'),
-                cid = e.cid,
+                cid = layer.cid,
                 newLayer = template.cloneNode(true);
             newLayer.setAttribute('data-id',cid);
-            newLayer.querySelector('.info.name').innerHTML = 'Layer ' + cid;
-            newLayer.querySelector('.info.type').innerHTML = ((e.attributes.image.repeating) ? 'repeating-' : '' ) + e.attributes.image.name;
-            newLayer.querySelector('.enabled').checked = e.attributes.enabled;
-            e.bind('update', function() {
-                updatePreview(e);
+            newLayer.querySelector('.info.name').innerHTML = layer.attributes.name;
+            newLayer.querySelector('.info.type').innerHTML = ((layer.attributes.image.repeating) ? 'repeating-' : '' ) + layer.attributes.image.name;
+            newLayer.querySelector('.enabled').checked = layer.attributes.enabled;
+            layer.bind('update', function() {
+                updatePreview(layer);
                 document.querySelector('.layer[data-id='+cid+'] .info.type').innerHTML = ((this.attributes.image.repeating) ? 'repeating-' : '' ) + this.attributes.image.name;
             });
             document.getElementById('layers').appendChild(newLayer);
-            updatePreview(e);
+            updatePreview(layer);
         },
 
         handleEvent : function(event) {
