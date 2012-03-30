@@ -133,16 +133,20 @@
 }
 
 #info-panel #stop-graph>svg {
-    height: 100%;
+    position: absolute;
+    left: 30px;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }
 
-#info-panel #info_layer_stops {
+/*#info-panel #info_layer_stops {
     height: 100%;
     padding: 0;
     font-size: 10px;
     display: table-cell;
     box-orient: vertical;
-}
+}*/
 
 #info_layer_stops .colorstop {
     display: box;

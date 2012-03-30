@@ -31,7 +31,7 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
             this.handlePickerEvent(event);
         },
         handleEvent : function (event) {
-            if (event.target.type === 'color') {
+            if (event.target.getAttribute('type') === 'color') {
                 this.handleColorEvent(event);
             } else {
                 this.handlePickerEvent(event);

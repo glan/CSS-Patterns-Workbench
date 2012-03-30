@@ -128,7 +128,7 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 spawnEvent.initUIEvent('gradient_update', true, true, window, 1);
                 document.dispatchEvent(spawnEvent);
             }
-            if (event.type !== 'click' || event.target.type !== 'color') {
+            if (event.type !== 'click' || event.target.getAttribute('type') !== 'color') {
                 event.stopPropagation();
             }
         },
