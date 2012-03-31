@@ -44,10 +44,10 @@ define('models/Rect',['models/Length'], function (Length) {
     };
 
     function Rect(data) {
-        this.setLeft(new Length('px').parseLength(data.left));
-        this.setTop(new Length('px').parseLength(data.top));
-        this.setWidth(new Length('px').parseLength(data.width));
-        this.setHeight(new Length('px').parseLength(data.height));
+        this.setLeft(new Length({unit:'px'}).parseLength(data.left));
+        this.setTop(new Length({unit:'px'}).parseLength(data.top));
+        this.setWidth(new Length({unit:'px'}).parseLength(data.width));
+        this.setHeight(new Length({unit:'px'}).parseLength(data.height));
     }
 
     Rect.prototype = rect;

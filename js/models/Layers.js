@@ -63,6 +63,9 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
             this.reset(builder.parseCSS(css));
             //this.trigger('update');
         },
+        parseJSON : function (json) {
+            this.reset(json);
+        },
         reorder : function (neworder) {
             for(var i in neworder) {
                 this.getByCid(neworder[i]).attributes.order = i;
@@ -91,10 +94,10 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                 }
             });
             rect = new Rect({
-                left: new Length('px').parseLength(left + this.first().getRect().left.getUnit()),
-                top: new Length('px').parseLength(top + this.first().getRect().top.getUnit()),
-                width: new Length('px').parseLength((w - left) + this.first().getRect().width.getUnit()),
-                height: new Length('px').parseLength((h - top) + this.first().getRect().height.getUnit())
+                left: new Length({unit:'px'}).parseLength(left + this.first().getRect().left.getUnit()),
+                top: new Length({unit:'px'}).parseLength(top + this.first().getRect().top.getUnit()),
+                width: new Length({unit:'px'}).parseLength((w - left) + this.first().getRect().width.getUnit()),
+                height: new Length({unit:'px'}).parseLength((h - top) + this.first().getRect().height.getUnit())
             });
             return rect;
         },

@@ -2,8 +2,8 @@
  * © Glan Thomas 2012
  */
 
-define('views/LayerList', ['vendor/underscore', 'jquery', 'models/Layer', 'models/Layers', 'models/Direction', 'models/ColorStop', 'models/ColorStops', 'models/GradientLinear', 'models/GradientRadial', 'views/LayerListTools'], 
-function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, GradientLinear, GradientRadial, LayerListTools) {
+define('views/LayerList', ['vendor/underscore', 'jquery', 'models/Layer', 'models/Layers', 'models/Direction', 'models/ColorStop', 'models/ColorStops', 'models/Gradient', 'views/LayerListTools'],
+function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, Gradient, LayerListTools) {
     'use strict';
 
     function LayerList (layers) {
@@ -53,14 +53,15 @@ function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, GradientLinear,
         createDomLayer : function (layer) {
             var template = document.querySelector('#templates>.layer'),
                 cid = layer.cid,
+                image = layer.get('image'),
                 newLayer = template.cloneNode(true);
             newLayer.setAttribute('data-id',cid);
-            newLayer.querySelector('.info.name').innerHTML = layer.attributes.name;
-            newLayer.querySelector('.info.type').innerHTML = ((layer.attributes.image.repeating) ? 'repeating-' : '' ) + layer.attributes.image.name;
-            newLayer.querySelector('.enabled').checked = layer.attributes.enabled;
+            newLayer.querySelector('.info.name').innerHTML = layer.get('name');
+            newLayer.querySelector('.info.type').innerHTML = ((image.get('repeating')) ? 'repeating-' : '' ) + image.get('name');
+            newLayer.querySelector('.enabled').checked = layer.get('enabled');
             layer.bind('update', function() {
-                updatePreview(layer);
-                document.querySelector('.layer[data-id='+cid+'] .info.type').innerHTML = ((this.attributes.image.repeating) ? 'repeating-' : '' ) + this.attributes.image.name;
+                updatePreview(this);
+                document.querySelector('.layer[data-id='+cid+'] .info.type').innerHTML = ((this.get('image').get('repeating')) ? 'repeating-' : '' ) + this.get('image').get('name');
             });
             document.getElementById('layers').appendChild(newLayer);
             updatePreview(layer);
@@ -78,14 +79,14 @@ function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, GradientLinear,
                         self = this;
                         this.selectedLayers = new Layers();
                         this.layers.forEach(function(l) {
-                            if ((layer.attributes.order < first.attributes.order && l === layer) || (layer.attributes.order > first.attributes.order && l === first)) {
+                            if ((layer.get('order') < first.get('order') && l === layer) || (layer.get('order') > first.get('order') && l === first)) {
                                 ingroup = !ingroup;
                             }
                             if (ingroup) {
                                 self.selectedLayers.add(l);
                                 $(document.querySelector('.layer[data-id='+l.cid+']')).addClass('selected');
                             }
-                            if ((layer.attributes.order < first.attributes.order && l === first) || (layer.attributes.order > first.attributes.order && l === layer)) {
+                            if ((layer.get('order') < first.get('order') && l === first) || (layer.get('order') > first.get('order') && l === layer)) {
                                 ingroup = !ingroup;
                             }
                         });
@@ -112,7 +113,7 @@ function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, GradientLinear,
                 // Fire layer selected event
                 this.dispacheEvent('selection');
             } else if (domLayer && event.type === 'click' && event.target.className === 'enabled') {
-                layer.attributes.enabled = event.target.checked;
+                layer.set({'enabled' : event.target.checked});
                 this.layers.trigger('update');
             } else if (event.type === 'sortupdate') {
                 var newOrder = [];

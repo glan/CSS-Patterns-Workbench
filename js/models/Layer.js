@@ -26,10 +26,6 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
         getRepeat : function () {
             return this.attributes.repeat;
         },
-        setRepeat : function (repeat) {
-            this.attributes.repeat = repeat;
-            this.trigger('update');
-        },
         getRect : function () {
             var size, position;
             //show size
@@ -40,10 +36,10 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
             size = this.getSize().split(' ');
             position = (this.getPosition()) ? this.getPosition().split(' ') : [0,0];
             this.rect = new Rect({
-                left : new Length('px').parseLength(position[0]),
-                top : new Length('px').parseLength(position[1]),
-                width : new Length('px').parseLength(size[0]),
-                height : new Length('px').parseLength(size[1])
+                left : new Length({unit:'px'}).parseLength(position[0]),
+                top : new Length({unit:'px'}).parseLength(position[1]),
+                width : new Length({unit:'px'}).parseLength(size[0]),
+                height : new Length({unit:'px'}).parseLength(size[1])
             });
             return this.rect;
         },
@@ -53,12 +49,8 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
             this.attributes.position =  rect.getPosition();
             this.attributes.size = rect.getSize();
         },
-        setRepeating : function (repeating) {
-            this.attributes.image.repeating = repeating;
-            this.trigger('update');
-        },
         getRepeating : function () {
-            return this.attributes.image.repeating;
+            return this.attributes.image.attributes.repeating;
         },
         clone : function () {
             var clone = new this.constructor(this.attributes);

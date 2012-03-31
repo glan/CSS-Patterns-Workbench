@@ -71,6 +71,9 @@ define('models/Color', ['vendor/goog/color'], function (goog) {
     }
 
     Color.prototype = {
+        toJSON : function () {
+            return this.toString();
+        },
         toString : function (adjustments) {
             var color = '', hue, saturation, lightness;
 

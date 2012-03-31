@@ -66,6 +66,13 @@ define('models/ColorStops', ['vendor/backbone', 'models/ColorStop', 'models/Leng
         },
         comparator : function (layer) {
             return 1 * layer.attributes.order;
+        },
+        clone : function (layer) {
+            var clone = new ColorStops();
+            this.forEach(function (colorStop) {
+                clone.add(colorStop.clone());
+            });
+            return clone;
         }
     });
 

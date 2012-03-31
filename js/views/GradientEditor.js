@@ -112,7 +112,7 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 if (colorStop) {
                     colorStop.setColor(new Color(element.querySelector('input[type=color]').value));
                     if (element.querySelector('.stop').value !== '') {
-                        colorStop.setLength(new Length(element.querySelector('.unit').value).parseLength(element.querySelector('.stop').value + element.querySelector('.unit').value));
+                        colorStop.setLength(new Length({unit:element.querySelector('.unit').value}).parseLength(element.querySelector('.stop').value + element.querySelector('.unit').value));
                     } else {
                         colorStop.setLength(null);
                     }

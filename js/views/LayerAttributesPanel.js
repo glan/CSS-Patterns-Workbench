@@ -52,6 +52,7 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
     var layerAttributesPanel = {
         setData : function (layers, lockAspect) {
             var layer = layers.first(),
+                image = layer.get('image'),
                 rect = layers.getRect(),
                 radio;
 
@@ -70,7 +71,7 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
             document.getElementById('info_size_aspect_lock').checked = lockAspect;
             document.getElementById('info_size_aspect_lock').value = rect.getAspect();
 
-            document.getElementById('info_layer_composite').value = layer.attributes.composite;
+            document.getElementById('info_layer_composite').value = layer.get('composite');
             document.getElementById('info_layer_opacity').value = Math.round(layers.getOpacity() * 100);
             document.getElementById('info_layer_opacity_range').value = Math.round(layers.getOpacity() * 100);
 
@@ -81,42 +82,42 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
             if (layers.length > 1) {
                 document.getElementById('info-panel').className = 'multi';
             } else {
-                if (layer.attributes.image.name === 'radial-gradient') {
+                if (image.get('name') === 'radial-gradient') {
                     document.getElementById('info-panel').className = 'single radial';
 
-                    document.getElementById('info_radial_shape').value = layer.attributes.image.shape;
-                    document.getElementById('info_radial_size').value = layer.attributes.image.size;
+                    document.getElementById('info_radial_shape').value = image.get('shape');
+                    document.getElementById('info_radial_size').value = image.get('size');
 
-                    document.getElementById('info_radial_position_x').value = layer.attributes.image.getPosition().x.getValue();
-                    document.getElementById('info_radial_position_x_units').value =layer.attributes.image.getPosition().x.getUnit();
+                    document.getElementById('info_radial_position_x').value = image.getPosition().x.getValue();
+                    document.getElementById('info_radial_position_x_units').value = image.getPosition().x.getUnit();
 
-                    document.getElementById('info_radial_position_y').value = layer.attributes.image.getPosition().y.getValue();
-                    document.getElementById('info_radial_position_y_units').value = layer.attributes.image.getPosition().y.getUnit();
+                    document.getElementById('info_radial_position_y').value = image.getPosition().y.getValue();
+                    document.getElementById('info_radial_position_y_units').value = image.getPosition().y.getUnit();
 
-                    document.getElementById('info_radial_size_width').value = layer.attributes.image.width.getValue();
-                    document.getElementById('info_radial_size_width_units').value =layer.attributes.image.width.getUnit();
+                    document.getElementById('info_radial_size_width').value = image.get('width').getValue();
+                    document.getElementById('info_radial_size_width_units').value = image.get('width').getUnit();
 
-                    document.getElementById('info_radial_size_height').value = layer.attributes.image.height.getValue();
-                    document.getElementById('info_radial_size_height_units').value = layer.attributes.image.height.getUnit();
+                    document.getElementById('info_radial_size_height').value = image.get('height').getValue();
+                    document.getElementById('info_radial_size_height_units').value = image.get('height').getUnit();
 
-                } else if (layer.attributes.image.name === 'linear-gradient') {
+                } else if (image.get('name') === 'linear-gradient') {
                     document.getElementById('info-panel').className = 'single linear';
 
-                    radio = document.querySelector('#info_linear_direction_set input[value=\''+layer.attributes.image.direction.toString()+'\']');
+                    radio = document.querySelector('#info_linear_direction_set input[value=\''+image.get('direction').toString()+'\']');
                     if (radio)
                         radio.checked = true;
                     else
                         document.querySelector('#info_linear_direction_set input[type=radio].manual').checked = true;
-                    document.getElementById('info_linear_direction').value = layer.attributes.image.direction.getValue();
+                    document.getElementById('info_linear_direction').value = image.get('direction').getValue();
                 }
 
-                document.getElementById('info-hsl-hue-range').value = document.getElementById('info-hsl-hue').value = this.hue = ((180 - layer.attributes.hue) % 360) - 180;
-                document.getElementById('info-hsl-saturation-range').value = document.getElementById('info-hsl-saturation').value = this.saturation = layer.attributes.saturation;
-                document.getElementById('info-hsl-lightness-range').value = document.getElementById('info-hsl-lightness').value = this.lightness = layer.attributes.lightness;
+                document.getElementById('info-hsl-hue-range').value = document.getElementById('info-hsl-hue').value = this.hue = ((180 - layer.get('hue')) % 360) - 180;
+                document.getElementById('info-hsl-saturation-range').value = document.getElementById('info-hsl-saturation').value = this.saturation = layer.get('saturation');
+                document.getElementById('info-hsl-lightness-range').value = document.getElementById('info-hsl-lightness').value = this.lightness = layer.get('lightness');
 
                 document.getElementById('info_layer_stops').innerHTML = '';
 
-                this.gradientEditor.setData(layer.attributes.image.colorStops);
+                this.gradientEditor.setData(image.get('colorStops'));
             }
         },
 

@@ -8,14 +8,13 @@ require(['jquery',
 'views/Marquee',
 'views/LayerAttributesPanel',
 'views/Canvas',
-'views/Grid',
 'views/LayerList',
 'views/ColorPicker',
-'vendor/jquery-ui-1.8.14.custom.min', 'vendor/incrementable', 'vendor/prefixfree.min'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, Grid, LayerList, ColorPicker) {
+'vendor/jquery-ui-1.8.14.custom.min', 'vendor/incrementable', 'vendor/prefixfree.min'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, LayerList, ColorPicker) {
     'use strict';
     var layerList = new LayerList(new Layers()),
         canvas = new Canvas(document.getElementById('frame')),
-        grid = new Grid(canvas),
+        //grid = new Grid(canvas),
         marquee = new Marquee(canvas),
         infoPanel = new LayerAttributesPanel();
 
@@ -31,58 +30,72 @@ require(['jquery',
                 selectedLayer.setRect(event.rect);
                 marquee.lockAspect = event.aspectLock;
                 marquee.setRect(event.rect);
-                selectedLayer.setRepeating(event.repeating);
-                selectedLayer.setRepeat(event.repeat);
-                selectedLayer.attributes.opacity = event.opacity;
-                selectedLayer.attributes.composite = event.composite;
-                selectedLayer.attributes.image.colorStops = event.colorStops;
-                selectedLayer.attributes.image.position = event.image.position.x + ' ' + event.image.position.y;
-                selectedLayer.attributes.aspectLock = event.aspectLock;
-                selectedLayer.attributes.image.shape = event.image.shape;
-                selectedLayer.attributes.image.size = event.image.size;
-                selectedLayer.attributes.image.width = event.image.width;
-                selectedLayer.attributes.image.height = event.image.height;
-                if (selectedLayer.attributes.image.name === 'linear-gradient') {
-                    selectedLayer.attributes.image.direction = event.image.direction;
+
+                selectedLayer.set({
+                    repeat : event.repeat,
+                    opacity : event.opacity,
+                    composite : event.composite,
+                    hue : selectedLayer.get('hue') + event.hue,
+                    saturation : selectedLayer.get('saturation') + event.saturation,
+                    lightness : selectedLayer.get('lightness') + event.lightness,
+                    aspectLock : event.aspectLock
+                });
+
+                var imageData = {
+                    repeating : event.repeating,
+                    colorStops : event.colorStops,
                 }
-                selectedLayer.attributes.hue += event.hue;
-                selectedLayer.attributes.saturation += event.saturation;
-                selectedLayer.attributes.lightness += event.lightness;
+
+                if (selectedLayer.get('image').get('name') === 'linear-gradient') {
+                    imageData.direction = event.image.direction;
+                } else {
+                    imageData.position = event.image.position.x + ' ' + event.image.position.y;
+                    imageData.shape = event.image.shape;
+                    imageData.size = event.image.size;
+                    imageData.width = event.image.width;
+                    imageData.height = event.image.height;
+                }
+                selectedLayer.get('image').set(imageData);
+
                 // We need to trigger an update on the layer so that the color stop preview in the layerList can update.
                 selectedLayer.trigger('update');
             } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
                 selectedLayer.setRect(event.rect);
                 infoPanel.setData(layerList.selectedLayers, marquee.lockAspect);
+                selectedLayer.trigger('update');
             }
         } else {
             if (event.type === 'infopanel_update') {
-                //layerList.selectedLayers.setOpacity(event.opacity);
                 layerList.selectedLayers.forEach(function (layer) {
-                    layer.attributes.opacity = event.opacity;
-                    layer.attributes.hue += event.hue;
-                    layer.attributes.saturation += event.saturation;
-                    layer.attributes.lightness += event.lightness;
+                    layer.set({
+                        opacity : event.opacity,
+                        hue : layer.get('hue') + event.hue,
+                        saturation : layer.get('saturation') + event.saturation,
+                        lightness : layer.get('lightness') + event.lightness
+                    });
                     layer.trigger('update');
                 });
                 if (layerList.selectedLayers.length > 0) {
                     layerList.selectedLayers.setRect(event.rect);
+                    layerList.layers.trigger('update');
                 }
                 marquee.lockAspect = event.aspectLock;
                 marquee.setRect(event.rect);
             } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
                 layerList.selectedLayers.setRect(event.rect);
                 infoPanel.setData(layerList.selectedLayers, marquee.lockAspect);
+                layerList.layers.trigger('update');
             }
         }
-        layerList.layers.trigger('update');
     }
 
     layerList.layers.bind('update', function() {
+        console.log(JSON.stringify(layerList.layers.toJSON()));
         canvas.render(layerList.layers.toString(true));
-        grid.setData(layerList.layers);
-        if (document.getElementById('update-grid').checked) {
-            grid.showGrid();
-        }
+        //grid.setData(layerList.layers);
+        //if (document.getElementById('update-grid').checked) {
+            //grid.showGrid();
+        //}
         if (!document.querySelector('#data:focus')) {
             document.getElementById('data').value = layerList.layers;
         }
@@ -107,10 +120,10 @@ require(['jquery',
         grid.setColor(new Color(document.getElementById('grid-color').value));
         grid.snapto = (document.getElementById('snap-to-grid').checked);
         marquee.setHitTest(function (xy) { return grid.hitTest(xy); });
-        if (document.getElementById('show-grid').checked)
-            grid.showGrid();
-        else
-            grid.hideGrid();
+        //if (document.getElementById('show-grid').checked)
+            //grid.showGrid();
+        //else
+            //grid.hideGrid();
     });
 
     document.addEventListener('color_input', function (event) {

@@ -25,6 +25,9 @@ define('models/Direction', function () {
         },
         getValue : function () {
             return parseInt(this.value);
+        },
+        toJSON : function () {
+            return this.toString();
         }
     }
 

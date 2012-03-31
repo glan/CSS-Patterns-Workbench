@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/GradientRadial','models/ColorStops', 'models/ColorStop','models/Color','models/Length', 'models/Direction', 'models/Composite'], function(regex, GradientLinear, GradientRadial, ColorStops, ColorStop, Color, Length, Direction, Composite) {
+define('util/builder', ['util/regexp', 'models/Gradient','models/ColorStops', 'models/ColorStop','models/Color','models/Length', 'models/Direction'], function(regex, Gradient, ColorStops, ColorStop, Color, Length, Direction) {
     "use strict";
 
     var colorStopSelect = RegExp.create('({{color}})\\s*({{length}})?', {
@@ -17,7 +17,7 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
             if (colorStopData[0] !== 'undefined') {
                 colorStops.add({
                     color : new Color(colorStopData[1]),
-                    length : (typeof colorStopData[2] !== 'undefined') ? new Length('%').parseLength(colorStopData[2]) : null,
+                    length : (typeof colorStopData[2] !== 'undefined') ? new Length({unit:'%'}).parseLength(colorStopData[2]) : null,
                     order : i++
                 });
             }
@@ -65,7 +65,7 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
 
                 layer = {
                     size : sizes[layers.length % sizes.length],
-                    composite : new Composite(composites[layers.length % composites.length]),
+                    composite : composites[layers.length % composites.length] || 'source-over',
                     order : layers.length,
                     opacity : 1,
                     enabled : true,
@@ -76,15 +76,32 @@ define('util/builder', ['util/regexp', 'models/GradientLinear', 'models/Gradient
                 };
 
                 if (gradient[1] === 'repeating-linear-gradient' || gradient[1] === 'linear-gradient') {
-                    colorStops = parseColorStops(gradient[3]);
-                    repeating = (gradient[1] === 'repeating-linear-gradient');
-                    layer.image = new GradientLinear('linear-gradient', repeating, new Direction(gradient[2]), colorStops);
+                    layer.image = new Gradient({
+                        name : 'linear-gradient',
+                        repeating : (gradient[1] === 'repeating-linear-gradient'),
+                        direction : new Direction(gradient[2]),
+                        colorStops : parseColorStops(gradient[3])
+                    });
+
                     layer.position = (positions) ? positions[layers.length % positions.length] : ((gradient[4]) ? gradient[4] : null);
                     layer.name = 'Linear ' + (layers.length + 1);
+
                 } else if (gradient[5] === 'repeating-radial-gradient' || gradient[5] === 'radial-gradient') {
-                    colorStops = parseColorStops(gradient[10]);
-                    repeating = (gradient[5] === 'repeating-radial-gradient');
-                    layer.image = new GradientRadial('radial-gradient', repeating, gradient[6], gradient[7], gradient[8], gradient[9], colorStops);
+                    var shape = ''+gradient[8];
+                    var size = ''+gradient[9];
+
+                    layer.image = new Gradient({
+                        name : 'radial-gradient',
+                        repeating : (gradient[5] === 'repeating-radial-gradient'),
+                        position : (gradient[6] && gradient[6] !== 'center') ? gradient[6] : '50% 50%',
+                        direction : gradient[7],
+                        width : new Length().parseLength(gradient[8]),
+                        height : new Length().parseLength(gradient[9]),
+                        size : size.match(/closest-side|closest-corner|farthest-side|farthest-corner|contain|cover/) || shape.match(/closest-side|closest-corner|farthest-side|farthest-corner|contain|cover/) || 'farthest-corner',
+                        shape : shape.match(/ellipse|circle/) || size.match(/ellipse|circle/) || 'ellipse',
+                        colorStops : parseColorStops(gradient[10])
+                    });
+
                     layer.position = (positions) ? positions[layers.length % positions.length] : ((gradient[11]) ? gradient[11] : null);
                     layer.name = 'Radial ' + (layers.length + 1);
                 }

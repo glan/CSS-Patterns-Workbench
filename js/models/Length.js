@@ -2,74 +2,46 @@
  * © Glan Thomas 2012
  */
 
-define('models/Length', function () {
+define('models/Length', ['vendor/backbone'], function (Backbone) {
     'use strict';
 
-    //[TODO] Regexp filter setValue and setUnit input
+    var regexp = /(-?[0-9]*\.?[0-9]+)(%|px|mm|cm|in|em|rem|en|ex|ch|vm|vw|vh)|(0)/;
+
     var length = {
-        regexp : /(-?[0-9]*\.?[0-9]+)(%|px|mm|cm|in|em|rem|en|ex|ch|vm|vw|vh)|(0)/,
         toString : function () {
             return  ((this.getValue() !== null) ? ((this.getValue() !== 0) ? Math.round(this.getValue() * 10000) / 10000 + this.getUnit() : '0') : '');
         },
         setValue : function (v) {
-            this.value = 1 * v;
+            this.set({'value': 1 * v});
         },
         setUnit : function (u) {
-            this.unit = u;
+            this.set({'unit': u});
         },
         getValue : function () {
-            return this.value;
+            return this.get('value');
         },
         getUnit : function () {
-            return this.unit;
+            return this.get('unit');
         },
         parseLength : function (str) {
-            var result = (''+str).match(this.regexp);
+            var result = (''+str).match(regexp);
             if (result && result[0] === '0') {
-                this.value = 0;
+                this.setValue(0);
             } else if (result && result[1] && result[2]) {
-                this.value = 1 * result[1];
-                this.unit = result[2];
+                this.setValue(1 * result[1]);
+                this.setUnit(result[2]);
             }
             return this;
         },
         normalize : function (len) {
             if (this.unit === '%') {
-                return this.value / 100;
+                return this.getValue() / 100;
             }
             else {
-                return this.value / len;
+                return this.getValue() / len;
             }
         }
     };
 
-    function Length(units) {
-        this.unit =  units;
-        this.value = null;
-    }
-
-    Length.prototype = length;
-
-    return Length;
+    return Backbone.Model.extend(length);
 });
-
-/*
-    Tests:
-    console.log(new Length().toString() === '0');
-    console.log(new Length('').toString() === '0');
-    console.log(new Length('x').toString() === '0');
-    console.log(new Length('2').toString() === '0');
-    console.log(new Length('-1').toString() === '0');
-    console.log(new Length('0').toString() === '0');
-    console.log(new Length(0).toString() === '0');
-    console.log(new Length(1).toString() === '0');
-    console.log(new Length(-1).toString() === '0');
-    console.log(new Length('1.0').toString() === '0');
-    console.log(new Length('1.000px').toString() === '1px');
-    console.log(new Length('.0001px').toString() === '0.0001px');
-    console.log(new Length('0.0001px').toString() === '0.0001px');
-    console.log(new Length('-20px').toString() === '-20px');
-    console.log(new Length('5.5em').toString() === '5.5em');
-    console.log(new Length('10%').toString() === '10%');
-    console.log(new Length('1x%').toString() === '0');
-*/
