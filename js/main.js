@@ -133,7 +133,7 @@ require(['jquery',
     }
 
     layerList.layers.bind('update', function() {
-        console.log(JSON.stringify(layerList.layers.toJSON()));
+        //console.log(JSON.stringify(layerList.layers.toJSON()));
         canvas.render(layerList.layers.toString(true));
         //grid.setData(layerList.layers);
         //if (document.getElementById('update-grid').checked) {
