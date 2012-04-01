@@ -238,6 +238,14 @@ require(['jquery',
 
     document.getElementById('data').onselectstart = function (event) { event.stopPropagation(); };
 
+    $('#top-bar>.app-name').bind('click', function () {
+        $('#about').fadeIn();
+    });
+
+    $('#about').bind('click', function () {
+        $('#about').fadeOut();
+    });
+
     document.onselectstart = function () { return false; };
 
     function loadGistFromHash() {
