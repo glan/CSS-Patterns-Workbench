@@ -228,9 +228,6 @@ require(['jquery',
             document.getElementById('data').blur();
     });
 
-    layerList.layers.parseCSS(document.getElementById('data').textContent);
-    document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
-
     window.colorPicker = new ColorPicker();
     window.colorPicker.updateColors();
 
@@ -243,6 +240,39 @@ require(['jquery',
 
     document.onselectstart = function () { return false; };
 
-    $(document.body).addClass('ready');
+    function loadGistFromHash() {
+        $('#loading').fadeIn();
+        if (document.location.hash) {
+            var gistId = document.location.hash.substr(1),
+                url = 'https://gist.github.com/'+gistId+'.js',
+                actualDocumentDotWrite = document.write;
+            // Who uses document.write anyway ;)
+            document.write = function (x) {
+                var ele = document.createElement('div');
+                ele.innerHTML = x;
+                if (ele.textContent !== '') {
+                    try {
+                        layerList.layers.parseCSS(ele.textContent);
+                        document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+                    } catch (e) {
+                        alert("Error parsing gist '" + gistId + "'");
+                    }
+                    $(document.body).addClass('ready');
+                    $('#loading').fadeOut();
+                    document.write = actualDocumentDotWrite;
+                }
+            }
+            // Would be nice .fail actually worked.
+            $.getScript(url).fail(function () { alert("Unable to fetch gist '" + gistId + "'"); });
+        } else {
+            layerList.layers.reset();
+            $(document.body).addClass('ready');
+            $('#loading').fadeOut();
+        }
+    }
+
+    $(window).bind('hashchange', loadGistFromHash);
+
+    loadGistFromHash();
 
 });

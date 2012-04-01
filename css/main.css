@@ -10,6 +10,22 @@ body {
     list-style: none;
 }
 
+#loading {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 20px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 4px;
+    margin: -50px -90px;
+    color: #EEE;
+    text-align: center;
+    padding: 40px;
+    z-index: 400;
+}
+
 select {
     position: relative;
     margin: 0;
@@ -65,15 +81,19 @@ input[type=number] {
 
 #frame {
     position: absolute;
+    display: none;
     left: 280px;
     top: 50px;
     right: 220px;
     bottom: 160px;
+    box-align: center;
+    box-pack: center;
+    box-align: center;
+    box-pack: center;
+}
+
+.ready #frame {
     display: box;
-    box-align: center;
-    box-pack: center;
-    box-align: center;
-    box-pack: center;
 }
 
 #frame .back {
@@ -128,6 +148,7 @@ input[type='color'].active {
 
 #top-bar {
     position: absolute;
+    display: none;
     top : 0;
     left: 0;
     right: 0;
@@ -140,6 +161,10 @@ input[type='color'].active {
     color: #EEE;
     z-index: 300;
     text-shadow: 0 -1px 0 #333;
+}
+
+.ready #top-bar {
+    display: block;
 }
 
 #top-bar>* {
