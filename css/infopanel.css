@@ -10,7 +10,6 @@
     box-orient: vertical;
     background: #444;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    transition: all 0.2s ease-in;
     font-size: 10px;
     border-right: 1px solid #282828;
     display: none;
