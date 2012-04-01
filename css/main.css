@@ -177,17 +177,18 @@ input[type='color'].active {
     text-transform: uppercase;
     display: inline ;
     float: left;
-    font-family: "Arial Black";
+    font-family: 'Michroma', sans-serif;
     font-size: 18px;
     margin: -5px 0 0 0;
+    font-weight: bold;
     background: -webkit-radial-gradient(ellipse, rgba(0,0,0,0) 60%,rgba(0,0,0,1)),
                 -webkit-radial-gradient(50% 1202px, circle, #990 1180px,  #330 1190px,  #AAF 1190px, #FFF 1200px);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-style: italic;
-    -webkit-text-stroke: 1px rgba(255,255,255,0.7);
+    -webkit-text-stroke: 1px rgba(255,255,255,0.5);
     padding: 0 2px;
-    text-shadow: 0 0 6px rgba(255,255,255,0.4);
+    text-shadow: none;
 }
 
 #top-bar>#size-bytes {
