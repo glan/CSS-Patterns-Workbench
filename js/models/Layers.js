@@ -70,7 +70,7 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                 }
                 css.push(string);
             }
-            if (repeatList.length > 0 && !(repeatList.length == 1 && repeatList[0] == 'repeat')) {
+            if (repeatList.length > 0 && !(repeatList.length == 1 && repeatList[0].value == 'repeat')) {
                 string = '';
                 if (html) {
                     string = '<pre>' +
@@ -86,7 +86,7 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                 }
                 css.push(string);
             }
-            if (compositeList.length > 0 && !(compositeList.length == 1 && compositeList[0] == 'source-over')) {
+            if (compositeList.length > 0 && !(compositeList.length == 1 && compositeList[0].value == 'source-over')) {
                 string = '';
                 if (html) {
                     string = '<pre>' +
