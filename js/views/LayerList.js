@@ -115,12 +115,14 @@ function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, Gradient, Layer
             } else if (domLayer && event.type === 'click' && event.target.className === 'enabled') {
                 layer.set({'enabled' : event.target.checked});
                 this.layers.trigger('update');
+                this.dispacheEvent('update');
             } else if (event.type === 'sortupdate') {
                 var newOrder = [];
                 $("#layers .layer").each(function(e, ee) {
                     newOrder.push(ee.getAttribute('data-id'));
                 });
                 this.layers.reorder(newOrder);
+                this.dispacheEvent('update');
             }
         },
 

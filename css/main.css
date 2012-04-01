@@ -214,6 +214,7 @@ input[type='color'].active {
     -webkit-text-stroke: 1px rgba(255,255,255,0.5);
     padding: 0 2px;
     text-shadow: none;
+    cursor: pointer;
 }
 
 #top-bar>#size-bytes {
@@ -291,4 +292,25 @@ input[type='color'].active {
     position: absolute;
     border-right: 1px dotted rgba(255,255,255,0.4);
     z-index: 3;
+}
+
+#history-nav {
+    margin-left: 40px;
+    margin-top: -3px;
+}
+
+#history-nav button {
+    padding: 4px 5px 0 5px;
+    appearance: none;
+    color: #EEE;
+    text-shadow: 0 -1px 0 #111;
+    font-size: 16px;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+#history-nav button:active {
+    border: 1px solid #272727;
+    background: linear-gradient(-90deg, #333 1px, #404040 1px,#373737);
 }

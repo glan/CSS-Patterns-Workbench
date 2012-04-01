@@ -9,6 +9,8 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
         //$('#info-panel').unbind();
         document.getElementById('info-panel').addEventListener('input', this);
         document.getElementById('info-panel').addEventListener('change', this);
+        document.getElementById('info-panel').addEventListener('mousedown', this);
+        document.getElementById('info-panel').addEventListener('mouseup', this);
         document.addEventListener('gradient_update', this);
 
         document.getElementById('info_linear_direction').addEventListener('focus', function(event) {
@@ -127,6 +129,25 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
                 radio;
 
             spawnEvent.initUIEvent('infopanel_update', true, true, window, 1);
+
+            if (event.type === 'gradient_update') {
+                spawnEvent.dontSave = event.dontSave;
+            } else if (event.type === 'change' && event.target.type === 'number') {
+                return;
+            } else if (event.type === 'mousedown') {
+                this.mouseTarget = event.target;
+                this.mouseTargetValue = event.target.value;
+                return;
+            } else if (event.type === 'mouseup') {
+                if (this.mouseTarget && this.mouseTarget.type === 'range' && this.mouseTargetValue !== this.mouseTarget.value)
+                    spawnEvent.dontSave = false;
+                else
+                    return;
+            } else if (event.target.type === 'range') {
+                spawnEvent.dontSave = true;
+            } else {
+                spawnEvent.dontSave = this.dontSave;
+            }
 
             spawnEvent.aspectLock = document.getElementById('info_size_aspect_lock').checked;
             if (spawnEvent.aspectLock) {

@@ -17,7 +17,18 @@ require(['jquery',
         //grid = new Grid(canvas),
         marquee = new Marquee(canvas),
         infoPanel = new LayerAttributesPanel(),
-        mouseY;
+        mouseY,
+        history = [];
+
+    function undo() {
+        layerList.layers.models = history.pop();
+    }
+
+    function addToHistory() {
+        history.push(JSON.stringify(layerList.layers.toJSON()));
+        console.log(history.length);
+    }
+
 
     function dragtrayMove(event) {
         var height = mouseY - event.clientY;
@@ -49,8 +60,11 @@ require(['jquery',
 
     window.addEventListener('resize', resizeWindow);
 
+    document.getElementById('undo-button').addEventListener('click', undo);
+
     document.addEventListener('marquee_move', updateView);
     document.addEventListener('marquee_resize', updateView);
+    document.addEventListener('marquee_end', updateView);
     document.addEventListener('infopanel_update', updateView);
 
     function updateView(event) {
@@ -90,10 +104,15 @@ require(['jquery',
 
                 // We need to trigger an update on the layer so that the color stop preview in the layerList can update.
                 selectedLayer.trigger('update');
+                if (!event.dontSave) {
+                    addToHistory();
+                }
             } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
                 selectedLayer.setRect(event.rect);
                 infoPanel.setData(layerList.selectedLayers, marquee.lockAspect);
                 selectedLayer.trigger('update');
+            } else if (event.type === 'marquee_end') {
+                 addToHistory();
             }
         } else {
             if (event.type === 'infopanel_update') {
@@ -112,10 +131,15 @@ require(['jquery',
                 }
                 marquee.lockAspect = event.aspectLock;
                 marquee.setRect(event.rect);
+                if (!event.dontSave) {
+                    addToHistory();
+                }
             } else if (event.type === 'marquee_move' || event.type === 'marquee_resize') {
                 layerList.selectedLayers.setRect(event.rect);
                 infoPanel.setData(layerList.selectedLayers, marquee.lockAspect);
                 layerList.layers.trigger('update');
+            } else if (event.type === 'marquee_end') {
+                 addToHistory();
             }
         }
         document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
@@ -160,6 +184,10 @@ require(['jquery',
         updateCodeView();
     });
 
+    document.addEventListener('layerlist_update', function(event) {
+        addToHistory();
+    });
+
     document.getElementById('grid-options').addEventListener('change', function (event) {
         grid.setColor(new Color(document.getElementById('grid-color').value));
         grid.snapto = (document.getElementById('snap-to-grid').checked);
@@ -192,6 +220,7 @@ require(['jquery',
                 layerList.layers.reset();
             } else {
                 layerList.layers.parseCSS(document.getElementById('data').textContent);
+                addToHistory();
             }
             document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
             document.getElementById('background-color').value = layerList.layers.backgroundColor;
@@ -237,6 +266,8 @@ require(['jquery',
     canvas.setHeight(600);
 
     document.getElementById('data').onselectstart = function (event) { event.stopPropagation(); };
+
+    addToHistory();
 
     $('#top-bar>.app-name').bind('click', function () {
         $('#about').fadeIn();

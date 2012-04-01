@@ -63,6 +63,7 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
         document.getElementById('info_layer_stops').addEventListener('sort_move', this);
         document.getElementById('info_layer_stops').addEventListener('sort_stop', this);
         document.getElementById('info_layer_stops').addEventListener('sort_change', this);
+        //document.getElementById('info_layer_stops').addEventListener('blur', this);
     }
 
     var gradientEditor = {
@@ -78,6 +79,9 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
         handleEvent : function (event) {
             var spawnEvent = document.createEvent('UIEvents'),
                 colorStop, element;
+            spawnEvent.initUIEvent('gradient_update', true, true, window, 1);
+            spawnEvent.dontSave = true;
+
             if (event.type === 'sort_move') {
                 var height = (parseInt(window.getComputedStyle(document.getElementById('info_gradient_preview')).height)),
                     normalizedLengths = this.colorStops.getPositions(height),
@@ -91,23 +95,25 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 document.getElementById('pipe-b-' + cid).setAttribute('d', 'M0,'+ top +' Q15,' + (top) + ' 15,' + (top + (bottom - top)/2) +' T30,'+ bottom);
                 document.getElementById('pipe-a-' + cid).setAttribute('d', 'M0,'+ top +' Q15,' + (top) + ' 15,' + (top + (bottom - top)/2) +' T30,'+ bottom);
                 return;
-            }
-            if (event.type === 'sort_stop') {
-                this.updateGraph();
-                return;
-            }
-            if (event.type === 'sort_change') {
+            } else if (event.type === 'sort_stop') {
+                spawnEvent.dontSave = false;
+            } else if (event.type === 'sort_change') {
                 this.colorStops.reorder(getColorStopSortOrder());
-            }
-            if (event.target.id === 'info_add_colorstop') {
+            } else if (event.target.id === 'info_add_colorstop') {
                 this.colorStops.add({
                     color: new Color('transparent'),
                     length: null,
                     order: this.colorStops.last().attributes.order + 1
                 });
                 AddColorStopUIElement(this.colorStops.last());
+                spawnEvent.dontSave = false;
             } else if (event.type === 'color_input' || event.type === 'input' || event.type === 'change') {
                 element = event.target.parentElement;
+                if (event.type === 'color_input') 
+                    spawnEvent.dontSave = event.dontSave;
+                else {
+                    spawnEvent.dontSave = false;
+                }
                 colorStop = this.colorStops.getByCid(element.getAttribute('data-id'));
                 if (colorStop) {
                     colorStop.setColor(new Color(element.querySelector('input[type=color]').value));
@@ -122,10 +128,10 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 colorStop = this.colorStops.getByCid(element.getAttribute('data-id'));
                 this.colorStops.remove(colorStop);
                 element.parentNode.removeChild(element);
+                spawnEvent.dontSave = false;
             }
             this.updateGraph();
             if ((event.type !== 'change') || (event.target.className !== 'stop')) {
-                spawnEvent.initUIEvent('gradient_update', true, true, window, 1);
                 document.dispatchEvent(spawnEvent);
             }
             if (event.type !== 'click' || event.target.getAttribute('type') !== 'color') {

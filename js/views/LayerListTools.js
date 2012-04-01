@@ -50,6 +50,7 @@ define('views/LayerListTools', ['vendor/underscore', 'jquery', 'models/Layers', 
                 }
                 this.layerList.layers.trigger('update');
                 this.layerList.dispacheEvent('selection');
+                this.layerList.dispacheEvent('update');
             } else if (this.layerList.selectedLayers && event.type === 'click' && event.target.className === 'duplicate') {
                 var newLayers = new Layers();
                 this.layerList.selectedLayers.forEach(function(layer) {
@@ -65,6 +66,7 @@ define('views/LayerListTools', ['vendor/underscore', 'jquery', 'models/Layers', 
                     $('.layer[data-id='+layer.cid+']').addClass('selected');
                 });
                 this.layerList.dispacheEvent('selection');
+                this.layerList.dispacheEvent('update');
             } else if (event.type === 'mousedown' && event.target.id === 'pattern-add') {
                 $('#pattern-presets').toggleClass('show');
                 $('#pattern-add').toggleClass('active');
@@ -87,6 +89,7 @@ define('views/LayerListTools', ['vendor/underscore', 'jquery', 'models/Layers', 
                     $('.layer[data-id='+layer.cid+']').addClass('selected');
                 });
                 this.layerList.dispacheEvent('selection');
+                this.layerList.dispacheEvent('update');
                 event.target.value = '';
             }
         }

@@ -76,11 +76,14 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
         handlePickerEvent : function (event) {
             var spawnEvent = document.createEvent('UIEvents'),
                 mode, color;
+            spawnEvent.initUIEvent("color_input", true, true, window, 1);
+            spawnEvent.dontSave = true;
             switch (event.target.id) {
             case 'picker-button-cancel' :
                 this.targetInput.value = this.originalColor;
                 updateColorBackground(this.targetInput);
                 spawnEvent.initUIEvent("color_input", true, true, document.getElementById('info-panel'), 1);
+                spawnEvent.dontSave = true;
                 this.targetInput.dispatchEvent(spawnEvent);
                 this.targetInput.classList.remove('active');
                 $('#color-picker').fadeOut(100, function () { document.body.classList.remove('showpicker') });
@@ -90,6 +93,8 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
                 updateColorBackground(this.targetInput);
                 this.targetInput.classList.remove('active');
                 $('#color-picker').fadeOut(100, function () { document.body.classList.remove('showpicker') });
+                spawnEvent.dontSave = false;
+                this.targetInput.dispatchEvent(spawnEvent);
                 return;
             case 'picker-rgb-red-range' :
                 document.getElementById('picker-rgb-red').value = event.target.value;
@@ -248,7 +253,6 @@ define('views/ColorPicker', ['models/Color', 'vendor/goog/color'], function (Col
             this.targetInput.value = this.color;
             updateColorBackground(this.targetInput);
             document.getElementById('picker-text').value = this.color;
-            spawnEvent.initUIEvent("color_input", true, true, window, 1);
             this.targetInput.dispatchEvent(spawnEvent);
         }
     }

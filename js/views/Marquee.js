@@ -103,8 +103,11 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
                 case '40':
                     this.rect.getTop().setValue(1 * this.rect.getTop().getValue() + inc);
                     break;
+                default:
+                    return;
                 }
                 this.dispacheEvent('move');
+                this.dispacheEvent('end');
                 this.drawRect();
             }
         },
@@ -127,7 +130,7 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
 
         mouseup : function (event) {
             if (this.action) {
-                this.dispacheEvent(this.action+'end');
+                this.dispacheEvent('end');
                 this.action = false;
                 $(document.body).removeClass('resizing-' + this.actionType);
                 $(document.body).removeClass('moving');
