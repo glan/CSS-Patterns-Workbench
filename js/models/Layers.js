@@ -29,7 +29,7 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                     compositeList.push({ids: [x.cid], value: x.getComposite(html)});
                     repeatList.push({ids: [x.cid], value: x.getRepeat(html)});
                     if (html) {
-                        imageList.push('<span class="layer ' + x.cid + '">' + x.getImage(html) + ((x.getPosition(html)) ? ' ' + x.getPosition(html) : '') + '</span>');
+                        imageList.push('<span title="' + x.get('name') + '" class="layer ' + x.cid + '">' + x.getImage(html) + ((x.getPosition(html)) ? ' ' + x.getPosition(html) : '') + '</span>');
                     } else {
                         imageList.push(x.getImage(html) + ((x.getPosition(html)) ? ' ' + x.getPosition(html) : ''));
                     }
