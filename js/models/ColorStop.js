@@ -6,8 +6,11 @@ define('models/ColorStop', ['vendor/backbone', 'models/Color', 'models/Length'],
     'use strict';
 
     var colorStop = {
-        toString : function (adjustments) {
-            return this.getColor().toString(adjustments) + ((this.getLength()) ? ' ' + this.getLength() : '');
+        toString : function (adjustments, html) {
+            if (html)
+                return '<span class="colorstop '+this.cid+'">' + this.getColor().toString(adjustments, html) + '<span class="value">' + ((this.getLength()) ? ' ' + this.getLength() : '') + '</span></span>';
+            else
+                return this.getColor().toString(adjustments, html) + ((this.getLength()) ? ' ' + this.getLength() : '');
         },
         getLength : function () {
             return this.get('length');

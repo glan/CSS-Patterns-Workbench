@@ -6,19 +6,29 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
     "use strict";
 
     var Layer = {
-        getImage : function () {
+        getImage : function (html) {
             return this.attributes.image.toString( {
                 opacity : this.attributes.opacity,
                 hue : this.attributes.hue,
                 saturation : this.attributes.saturation,
                 lightness : this.attributes.lightness
-            });
+            }, html);
         },
         getSize : function () {
             return (this.attributes.size) ? this.attributes.size : null;
         },
-        getPosition : function () {
-            return (this.attributes.position) ? this.attributes.position : '';
+        getPosition : function (html) {
+            if (html) {
+                if (this.attributes.position) {
+                    return (this.attributes.position).split(' ').map(function(pos) {
+                        return '<span class="value">' + pos + '</span>';
+                    }).join(' ');
+                } else {
+                    return '';
+                }
+            } else {
+                return (this.attributes.position) ? this.attributes.position : '';
+            }
         },
         getComposite : function () {
             return this.attributes.composite;

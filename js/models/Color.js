@@ -74,7 +74,7 @@ define('models/Color', ['vendor/goog/color'], function (goog) {
         toJSON : function () {
             return this.toString();
         },
-        toString : function (adjustments) {
+        toString : function (adjustments, html) {
             var color = '', hue, saturation, lightness;
 
             adjustments = adjustments || {};
@@ -95,11 +95,20 @@ define('models/Color', ['vendor/goog/color'], function (goog) {
             switch (this.type) {
             case 'rgb' :
             case 'rgba' :
-                color = this.red + ',' + this.green + ',' + this.blue;
-                if (adjustments.opacity * this.alpha === 1) {
-                    color = 'rgb(' + color + ')';
+                if (html) {
+                    color = '<span class="value">' + this.red + '</span>,<span class="value">' + this.green + '</span>,<span class="value">' + this.blue + '</span>';
+                    if (adjustments.opacity * this.alpha === 1) {
+                        color = '<span class="keyword">rgb</span><span class="arguments">(' + color + ')</span>';
+                    } else {
+                        color = '<span class="keyword">rgba</span><span class="arguments">(' + color + ',<span class="value">' + (adjustments.opacity * this.alpha) + '</span>)</span>';
+                    }
                 } else {
-                    color = 'rgba(' + color + ',' + (adjustments.opacity * this.alpha) + ')';
+                    color = this.red + ',' + this.green + ',' + this.blue;
+                    if (adjustments.opacity * this.alpha === 1) {
+                        color = 'rgb(' + color + ')';
+                    } else {
+                        color = 'rgba(' + color + ',' + (adjustments.opacity * this.alpha) + ')';
+                    }
                 }
                 break;
             case 'hsl' :
@@ -122,14 +131,26 @@ define('models/Color', ['vendor/goog/color'], function (goog) {
                     lightness = Math.round(10000 * (this.lightness * ((100 + adjustments.lightness) / 100))) / 10000;
                 }
 
-                color = hue + ','
+                if (html) {
+                    color = '<span class="value">' + hue + '</span>,'
+                        + '<span class="value">'+((saturation < 0) ? 0 : ((saturation > 100) ? 100 : saturation)) + '%</span>,'
+                        + '<span class="value">'+((lightness < 0) ? 0 : ((lightness > 100) ? 100 : lightness)) + '%</span>'
+
+                    if (adjustments.opacity * this.alpha === 1) {
+                        color = '<span class="keyword">hsl</span><span class="arguments">(' + color + ')</span>';
+                    } else {
+                        color = '<span class="keyword">hsla</span><span class="arguments">(' + color + ',<span class="value">' + (adjustments.opacity * this.alpha) + '</span>)</span>';
+                    }
+                } else {
+                    color = hue + ','
                         + ((saturation < 0) ? 0 : ((saturation > 100) ? 100 : saturation)) + '%,'
                         + ((lightness < 0) ? 0 : ((lightness > 100) ? 100 : lightness)) + '%'
 
-                if (adjustments.opacity * this.alpha === 1) {
-                    color = 'hsl(' + color + ')';
-                } else {
-                    color = 'hsla(' + color + ',' + (adjustments.opacity * this.alpha) + ')';
+                    if (adjustments.opacity * this.alpha === 1) {
+                        color = 'hsl(' + color + ')';
+                    } else {
+                        color = 'hsla(' + color + ',' + (adjustments.opacity * this.alpha) + ')';
+                    }
                 }
 
                 break;

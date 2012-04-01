@@ -84,7 +84,7 @@ function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, Gradient, Layer
                             }
                             if (ingroup) {
                                 self.selectedLayers.add(l);
-                                $(document.querySelector('.layer[data-id='+l.cid+']')).addClass('selected');
+                                $(document.querySelector('#layers .layer[data-id='+l.cid+']')).addClass('selected');
                             }
                             if ((layer.get('order') < first.get('order') && l === first) || (layer.get('order') > first.get('order') && l === layer)) {
                                 ingroup = !ingroup;

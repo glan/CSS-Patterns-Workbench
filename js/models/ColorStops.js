@@ -7,10 +7,10 @@ define('models/ColorStops', ['vendor/backbone', 'models/ColorStop', 'models/Leng
 
     var ColorStops = Backbone.Collection.extend({
         model: ColorStop,
-        toString : function (adjustments) {
+        toString : function (adjustments, html) {
             var i = 0, out = '';
             for (i; i<this.length; i++) {
-                out += ((i!==0) ? ', ' : '') + this.models[i].toString(adjustments);
+                out += ((i!==0) ? ', ' : '') + this.models[i].toString(adjustments, html);
             }
             return out;
         },

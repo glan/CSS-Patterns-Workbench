@@ -2,57 +2,118 @@
  * © Glan Thomas 2012
  */
 
-define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer', 'models/Rect', 'models/Length', 'util/builder' ,'util/regexp'], function(Backbone, _, Layer, Rect, Length, builder, regex) {
+define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer', 'models/Rect', 'models/Length', 'models/Color', 'util/builder' ,'util/regexp'], function(Backbone, _, Layer, Rect, Length, Color, builder, regex) {
     "use strict";
 
-    function reduceCyclicCSS (list) {
+    function reduceCyclicCSSValues (list) {
         var i, cycleLength = 1;
         for(i = 1; i < list.length; i++) {
-            if ('' + list[i] !== '' + list[i%cycleLength]) {
+            if ('' + list[i].value !== '' + list[i%cycleLength].value) {
                 cycleLength = i+1;
             }
+        }
+        for(i = 1; i < list.length; i++) {
+            list[i%cycleLength].ids.push(list[i].ids.pop());
         }
         return list.slice(0,cycleLength);
     }
 
     var Layers = Backbone.Collection.extend({
         model: Layer,
-        toString : function (compress) {
-            var i, css = [], sizeList = [], compositeList = [], repeatList = [], imageList = [];
+        toString : function (compress, html) {
+            var i, string, css = [], sizeList = [], compositeList = [], repeatList = [], imageList = [];
 
             this.forEach(function (x) {
                 if (x.attributes.enabled) {
-                    sizeList.push(x.getSize());
-                    compositeList.push(x.getComposite());
-                    repeatList.push(x.getRepeat());
-                    imageList.push(x.getImage() + ((x.getPosition()) ? ' ' + x.getPosition() : ''));
+                    sizeList.push({ids: [x.cid], value: x.getSize(html)});
+                    compositeList.push({ids: [x.cid], value: x.getComposite(html)});
+                    repeatList.push({ids: [x.cid], value: x.getRepeat(html)});
+                    if (html) {
+                        imageList.push('<span class="layer ' + x.cid + '">' + x.getImage(html) + ((x.getPosition(html)) ? ' ' + x.getPosition(html) : '') + '</span>');
+                    } else {
+                        imageList.push(x.getImage(html) + ((x.getPosition(html)) ? ' ' + x.getPosition(html) : ''));
+                    }
                 }
             });
 
-            sizeList = reduceCyclicCSS(sizeList);
-            compositeList = reduceCyclicCSS(compositeList);
-            repeatList = reduceCyclicCSS(repeatList);
+            sizeList = reduceCyclicCSSValues(sizeList);
+            compositeList = reduceCyclicCSSValues(compositeList);
+            repeatList = reduceCyclicCSSValues(repeatList);
 
             if (imageList.length > 0) {
-                css.push('background: ' + imageList.join(',\n'));
+                string = '';
+                if (html) {
+                    string = '<pre>' +
+                    '<span class="property">background</span>' +
+                    ':<span class="arguments">' +
+                     imageList.join(',\n           ') +
+                     '</span>;</pre>';
+                } else {
+                    string = 'background: ' + imageList.join(',\n') + ';';
+                }
+
+                css.push(string);
             }
             if (sizeList.length > 0) {
-                css.push('background-size: ' + sizeList.join(', '));
+                string = '';
+                if (html) {
+                    string = '<pre>' +
+                    '<span class="property">background-size</span>' +
+                    ':<span class="arguments">';
+                    string += sizeList.map(function (size) { 
+                        return '<span class="layer ' + size.ids.join(' ') + '">' + size.value.split(' ').map(function (s) { return '<span class="value">'+s+'</span>'; }).join(' ') + '</span>';
+                    }).join(', ');
+                    string += '</span>;</pre>';
+                } else {
+                    sizeList = sizeList.map(function (size) { return size.value });
+                    string = 'background-size: ' + sizeList.join(', ') + ';\n';
+                }
+                css.push(string);
             }
             if (repeatList.length > 0 && !(repeatList.length == 1 && repeatList[0] == 'repeat')) {
-                css.push('background-repeat: ' + repeatList.join(', '));
+                string = '';
+                if (html) {
+                    string = '<pre>' +
+                    '<span class="property">background-repeat</span>' +
+                    ':<span class="arguments">';
+                    string += repeatList.map(function (repeat) { 
+                        return '<span class="keyword layer ' + repeat.ids.join(' ') + '">' + repeat.value + '</span>';
+                    }).join(', ');
+                    string += '</span>;</pre>';
+                } else {
+                    repeatList = repeatList.map(function (repeat) { return repeat.value });
+                    string = 'background-repeat: ' + repeatList.join(', ') + ';\n';
+                }
+                css.push(string);
             }
             if (compositeList.length > 0 && !(compositeList.length == 1 && compositeList[0] == 'source-over')) {
-                css.push('background-composite: ' + compositeList.join(', '));
+                string = '';
+                if (html) {
+                    string = '<pre>' +
+                    '<span class="property">background-composite</span>' +
+                    ':<span class="arguments">';
+                    string += compositeList.map(function (composite) { 
+                        return '<span class="keyword layer ' + composite.ids.join(' ') + '">' + composite.value + '</span>';
+                    }).join(', ');
+                    string += '</span>;</pre>';
+                } else {
+                    compositeList = compositeList.map(function (composite) { return composite.value });
+                    string = 'background-composite: ' + compositeList.join(', ') + ';\n';
+                }
+                css.push(string);
             }
             if (this.backgroundColor) {
-                css.push('background-color: ' + this.backgroundColor + ';');
+                if (html) {
+                    css.push('<pre><span class="property">background-color</span>: <span class="arguments">' + new Color(this.backgroundColor).toString([], true) + '</span>;</pre>');
+                } else {
+                    css.push('background-color: ' + this.backgroundColor + ';');
+                }
             }
 
             if (compress)
-                return css.join(';').replace(/(,|\:|\))\s*/g, "$1");
+                return css.join('').replace(/(,|\:|\))\s*/g, "$1");
             else
-                return css.join(';\n');
+                return css.join('\n');
         },
         parseCSS : function (css) {
             try {

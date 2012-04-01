@@ -17,6 +17,10 @@
     z-index: 5;
 }
 
+#info-panel .header {
+    width: 261px;
+}
+
 .ready #info-panel {
     display: box;
 }

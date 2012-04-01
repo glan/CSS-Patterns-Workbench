@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-require(['jquery', 
+require(['jquery',
 'models/Layers',
 'models/Color',
 'views/Marquee',
@@ -16,7 +16,38 @@ require(['jquery',
         canvas = new Canvas(document.getElementById('frame')),
         //grid = new Grid(canvas),
         marquee = new Marquee(canvas),
-        infoPanel = new LayerAttributesPanel();
+        infoPanel = new LayerAttributesPanel(),
+        mouseY;
+
+    function dragtrayMove(event) {
+        var height = mouseY - event.clientY;
+        height = (height > 9) ? height : 9;
+        document.getElementById('dragtray').style.height = (height) + 'px';
+        document.getElementById('frame').style.bottom = (height) + 'px';
+        resizeWindow();
+    }
+
+    function dragtrayEnd(event) {
+        document.removeEventListener('mousemove', dragtrayMove);
+        document.removeEventListener('mouseup', dragtrayEnd);
+    }
+
+    function resizeWindow() {
+        var height, top = $('#dragtray').position().top;
+        if (top < 23) {
+            height = $('#dragtray').height() + (top - 23);
+            document.getElementById('dragtray').style.height = (height) + 'px';
+            document.getElementById('frame').style.bottom = (height) + 'px';
+        }
+    }
+
+    document.querySelector('#dragtray .handle').addEventListener('mousedown', function(event) {
+        mouseY = event.clientY + parseInt(document.getElementById('dragtray').style.height);
+        document.addEventListener('mousemove', dragtrayMove);
+        document.addEventListener('mouseup', dragtrayEnd);
+    });
+
+    window.addEventListener('resize', resizeWindow);
 
     document.addEventListener('marquee_move', updateView);
     document.addEventListener('marquee_resize', updateView);
@@ -87,6 +118,18 @@ require(['jquery',
                 layerList.layers.trigger('update');
             }
         }
+        document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+        updateCodeView();
+    }
+
+    function updateCodeView() {
+        //if (!document.querySelector('#data:focus')) {
+            //document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+        //}
+        $('#data .layer').removeClass('selected');
+        layerList.selectedLayers.forEach(function (layer) {
+            $('#data .layer.' + layer.cid).addClass('selected');
+        });
     }
 
     layerList.layers.bind('update', function() {
@@ -96,9 +139,9 @@ require(['jquery',
         //if (document.getElementById('update-grid').checked) {
             //grid.showGrid();
         //}
-        if (!document.querySelector('#data:focus')) {
-            document.getElementById('data').value = layerList.layers;
-        }
+        document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+        updateCodeView();
+
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
         document.getElementById('size-bytes').innerHTML = layerList.layers.toString(true).length + ' bytes (W3C) / ' + PrefixFree.prefixCSS(layerList.layers.toString(true), true).length + ' bytes (prefixed)';
     });
@@ -114,6 +157,7 @@ require(['jquery',
             marquee.hideRect();
             infoPanel.hide();
         }
+        updateCodeView();
     });
 
     document.getElementById('grid-options').addEventListener('change', function (event) {
@@ -143,31 +187,59 @@ require(['jquery',
     });
 
     document.getElementById('data').addEventListener('keyup', function (event) {
-        if (event.target.value === '') {
-            layerList.layers.reset();
-        } else {
-            layerList.layers.parseCSS(event.target.value);
+        if (event.keyCode <= 13 || (event.keyCode >= 48 && event.keyCode <= 90) || event.keyCode >= 96) {
+            if (event.target.textContent === '') {
+                layerList.layers.reset();
+            } else {
+                layerList.layers.parseCSS(document.getElementById('data').textContent);
+            }
+            document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+            document.getElementById('background-color').value = layerList.layers.backgroundColor;
+            marquee.hideRect();
+            infoPanel.hide();
         }
-        document.getElementById('background-color').value = layerList.layers.backgroundColor;
-        marquee.hideRect();
-        infoPanel.hide();
     });
 
+    document.getElementById('data').addEventListener('click', function (event) {
+        var lay = $(event.target).closest('.layer');
+            layerList.selectedLayers = new Layers();
+        if (lay.length > 0) {
+            lay = lay.attr('class').split(' ');
+            $('#layers .layer.selected').removeClass('selected');
+            lay.forEach(function (cid) {
+                var layer = layerList.layers.getByCid(cid);
+                if (layer && !layerList.selectedLayers.getByCid(cid)) {
+                    layerList.selectedLayers.add(layer);
+                    $(document.querySelector('#layers .layer[data-id='+cid+']')).addClass('selected');
+                }
+            });
+            layerList.dispacheEvent('selection');
+        }
+    });
+
+    /*document.getElementById('data').addEventListener('blur', function (event) {
+        layerList.layers.parseCSS(document.getElementById('data').textContent);
+        document.getElementById('background-color').value = layerList.layers.backgroundColor;
+    });*/
+
     // Force blur on data text area
-    document.addEventListener('click', function (event) {
-        if (event.target.id !== 'data')
+    document.addEventListener('mousedown', function (event) {
+        if (!$(event.target).closest('#data').length)
             document.getElementById('data').blur();
     });
 
-    layerList.layers.parseCSS(document.getElementById('data').value);
+    layerList.layers.parseCSS(document.getElementById('data').textContent);
+    document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
 
     window.colorPicker = new ColorPicker();
     window.colorPicker.updateColors();
 
-    new Incrementable(document.getElementById('data'));
+    //new Incrementable(document.getElementById('data'));
 
     canvas.setWidth(800);
     canvas.setHeight(600);
+
+    document.getElementById('data').onselectstart = function (event) { event.stopPropagation(); };
 
     document.onselectstart = function () { return false; };
 

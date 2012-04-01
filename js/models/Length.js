@@ -8,8 +8,11 @@ define('models/Length', ['vendor/backbone'], function (Backbone) {
     var regexp = /(-?[0-9]*\.?[0-9]+)(%|px|mm|cm|in|em|rem|en|ex|ch|vm|vw|vh)|(0)/;
 
     var length = {
-        toString : function () {
-            return  ((this.getValue() !== null) ? ((this.getValue() !== 0) ? Math.round(this.getValue() * 10000) / 10000 + this.getUnit() : '0') : '');
+        toString : function (html) {
+            if (html)
+                return  ((this.getValue() !== null) ? ((this.getValue() !== 0) ? Math.round(this.getValue() * 10000) / 10000 + '<span class="unit">'+this.getUnit()+'</span>' : '0') : '');
+            else
+                return  ((this.getValue() !== null) ? ((this.getValue() !== 0) ? Math.round(this.getValue() * 10000) / 10000 + this.getUnit() : '0') : '');
         },
         setValue : function (v) {
             this.set({'value': 1 * v});

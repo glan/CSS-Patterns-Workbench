@@ -68,13 +68,12 @@ input[type=number] {
     left: 280px;
     top: 50px;
     right: 220px;
-    bottom: 40px;
+    bottom: 160px;
     display: box;
     box-align: center;
     box-pack: center;
     box-align: center;
     box-pack: center;
-    transition: all 0.2s linear;
 }
 
 #frame .back {
