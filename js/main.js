@@ -167,6 +167,7 @@ require(['jquery',
         updateCodeView();
 
         document.getElementById('background-color').value = layerList.layers.backgroundColor;
+        window.colorPicker.updateColors();
         document.getElementById('size-bytes').innerHTML = layerList.layers.toString(true).length + ' bytes (W3C) / ' + PrefixFree.prefixCSS(layerList.layers.toString(true), true).length + ' bytes (prefixed)';
     });
 
@@ -217,6 +218,7 @@ require(['jquery',
     document.getElementById('data').addEventListener('keyup', function (event) {
         if (event.keyCode <= 13 || (event.keyCode >= 48 && event.keyCode <= 90) || event.keyCode >= 96) {
             if (event.target.textContent === '') {
+                layerList.layers.backgroundColor = 'transparent';
                 layerList.layers.reset();
             } else {
                 layerList.layers.parseCSS(document.getElementById('data').textContent);
@@ -297,6 +299,8 @@ require(['jquery',
                         alert("Error parsing gist '" + gistId + "'");
                     }
                     $(document.body).addClass('ready');
+                    infoPanel.hide();
+                    marquee.hideRect();
                     $('#loading').fadeOut();
                     document.write = actualDocumentDotWrite;
                 }
@@ -304,6 +308,7 @@ require(['jquery',
             // Would be nice .fail actually worked.
             $.getScript(url).fail(function () { alert("Unable to fetch gist '" + gistId + "'"); });
         } else {
+            layerList.layers.backgroundColor = 'transparent';
             layerList.layers.reset();
             $(document.body).addClass('ready');
             $('#loading').fadeOut();
