@@ -310,6 +310,8 @@ require(['jquery',
         } else {
             layerList.layers.backgroundColor = 'transparent';
             layerList.layers.reset();
+            infoPanel.hide();
+            marquee.hideRect();
             $(document.body).addClass('ready');
             $('#loading').fadeOut();
         }
