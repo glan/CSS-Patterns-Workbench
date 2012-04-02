@@ -86,17 +86,22 @@ require(['jquery',
     }
 
     function addToHistory() {
-        var historyPos = 1 * window.localStorage.getItem('history_pos') || 0;
-        window.localStorage.setItem('history_' + (historyPos), JSON.stringify({layers: layerList.layers.toJSON(), backgroundColor: '' + layerList.layers.backgroundColor}));
-        window.localStorage.setItem('history_pos', (historyPos + 1));
-        window.localStorage.setItem('history_length', (historyPos + 1));
+        var historyPos = 1 * window.localStorage.getItem('history_pos') || 0,
+            data = JSON.stringify({layers: layerList.layers.toJSON(), backgroundColor: '' + layerList.layers.backgroundColor});
 
-        if (historyPos > 0) {
-            $('#undo-button').attr("disabled", false);
-        } else {
-            $('#undo-button').attr("disabled", true);
+        // Only if the data has actually been updated
+        if (window.localStorage.getItem('history_' + (historyPos - 1)) != data) {
+            window.localStorage.setItem('history_' + (historyPos), data);
+            window.localStorage.setItem('history_pos', (historyPos + 1));
+            window.localStorage.setItem('history_length', (historyPos + 1));
+
+            if (historyPos > 0) {
+                $('#undo-button').attr("disabled", false);
+            } else {
+                $('#undo-button').attr("disabled", true);
+            }
+            $('#redo-button').attr("disabled", true);
         }
-        $('#redo-button').attr("disabled", true);
     }
 
     document.addEventListener('keydown', function(event) {
