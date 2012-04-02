@@ -2,7 +2,7 @@
  * © Glan Thomas 2012
  */
 
-define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer', 'models/Rect', 'models/Length', 'models/Color', 'util/builder' ,'util/regexp'], function(Backbone, _, Layer, Rect, Length, Color, builder, regex) {
+define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer', 'models/Rect', 'models/Length', 'models/Gradient', 'models/ColorStops', 'models/ColorStop', 'models/Color', 'models/Direction', 'util/builder' ,'util/regexp'], function(Backbone, _, Layer, Rect, Length, Gradient, ColorStops, ColorStop, Color, Direction, builder, regex) {
     "use strict";
 
     function reduceCyclicCSSValues (list) {
@@ -125,7 +125,48 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
             //this.trigger('update');
         },
         parseJSON : function (json) {
-            this.reset(json);
+            var layers = [];
+            json = JSON.parse(json);
+            json.forEach(function (x) {
+                var layer,
+                    colorStops = new ColorStops(),
+                    i = 0;
+                x.image.colorStops.forEach( function (stop) {
+                    colorStops.add(new ColorStop({ 
+                        color: new Color(stop.color),
+                        length: new Length(stop.length),
+                        order: i++
+                    }));
+                });
+
+                layer = {
+                    name : x.name,
+                    order : x.order,
+                    size : x.size,
+                    composite : x.composite,
+                    opacity : x.opacity,
+                    enabled : x.enabled,
+                    hue : x.hue,
+                    saturation : x.saturation,
+                    lightness : x.lightness,
+                    repeat : x.repeat,
+                    position : x.position,
+                    image : new Gradient({
+                        name : x.image.name,
+                        repeating : x.image.repeating,
+                        position : x.image.position,
+                        direction : new Direction(x.image.direction),
+                        width : new Length(x.image.width),
+                        height : new Length(x.image.height),
+                        size : x.image.size,
+                        shape : x.image.shape,
+                        colorStops : colorStops
+                    })
+                };
+                layer.order = x.order;
+                layers.push(layer);
+            });
+            this.reset(layers);
         },
         reorder : function (neworder) {
             for(var i in neworder) {

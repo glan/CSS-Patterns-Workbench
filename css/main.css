@@ -310,7 +310,11 @@ input[type='color'].active {
     border-radius: 3px;
 }
 
-#history-nav button:active {
+#history-nav button:enabled:active {
     border: 1px solid #272727;
     background: linear-gradient(-90deg, #333 1px, #404040 1px,#373737);
+}
+
+#history-nav button:disabled {
+    opacity: 0.3;
 }

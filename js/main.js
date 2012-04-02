@@ -18,17 +18,49 @@ require(['jquery',
         marquee = new Marquee(canvas),
         infoPanel = new LayerAttributesPanel(),
         mouseY,
-        history = [];
+        history = [],
+        historyPos = 0;
 
     function undo() {
-        layerList.layers.models = history.pop();
+        if (historyPos > 0) {
+            layerList.layers.parseJSON(history[--historyPos]);
+            document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+            updateCodeView();
+            marquee.hideRect();
+            infoPanel.hide();
+            $('#redo-button').attr("disabled", false);
+        }
+
+        if (historyPos <= 0) {
+            $('#undo-button').attr("disabled", true);
+        }
+    }
+
+    function redo() {
+        if (historyPos < history.length - 1) {
+            layerList.layers.parseJSON(history[++historyPos]);
+            document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+            updateCodeView();
+            marquee.hideRect();
+            infoPanel.hide();
+            $('#undo-button').attr("disabled", false);
+        }
+        if (historyPos >= history.length - 1) {
+            $('#redo-button').attr("disabled", true);
+        }
     }
 
     function addToHistory() {
+        history = history.slice(0, historyPos+1);
         history.push(JSON.stringify(layerList.layers.toJSON()));
-        console.log(history.length);
+        historyPos = history.length - 1;
+        if (historyPos > 0) {
+            $('#undo-button').attr("disabled", false);
+        } else {
+            $('#undo-button').attr("disabled", true);
+        }
+        $('#redo-button').attr("disabled", true);
     }
-
 
     function dragtrayMove(event) {
         var height = mouseY - event.clientY;
@@ -61,6 +93,7 @@ require(['jquery',
     window.addEventListener('resize', resizeWindow);
 
     document.getElementById('undo-button').addEventListener('click', undo);
+    document.getElementById('redo-button').addEventListener('click', redo);
 
     document.addEventListener('marquee_move', updateView);
     document.addEventListener('marquee_resize', updateView);
@@ -269,8 +302,6 @@ require(['jquery',
 
     document.getElementById('data').onselectstart = function (event) { event.stopPropagation(); };
 
-    addToHistory();
-
     $('#top-bar>.app-name').bind('click', function () {
         $('#about').fadeIn();
     });
@@ -298,6 +329,7 @@ require(['jquery',
                     } catch (e) {
                         alert("Error parsing gist '" + gistId + "'");
                     }
+                    addToHistory();
                     $(document.body).addClass('ready');
                     infoPanel.hide();
                     marquee.hideRect();
@@ -310,6 +342,7 @@ require(['jquery',
         } else {
             layerList.layers.backgroundColor = 'transparent';
             layerList.layers.reset();
+            addToHistory();
             infoPanel.hide();
             marquee.hideRect();
             $(document.body).addClass('ready');
