@@ -17,13 +17,17 @@ require(['jquery',
         //grid = new Grid(canvas),
         marquee = new Marquee(canvas),
         infoPanel = new LayerAttributesPanel(),
-        mouseY,
-        history = [],
-        historyPos = 0;
+        mouseY;
+        //history = [],
+        //historyPos = 0;
 
     function undo() {
-        if (historyPos > 0) {
-            layerList.layers.parseJSON(history[--historyPos]);
+        var historyPos = 1 * window.localStorage.getItem('history_pos');
+        if (historyPos > 1) {
+
+            layerList.layers.parseJSON(window.localStorage.getItem('history_' + (historyPos - 2)));
+            window.localStorage.setItem('history_pos', (historyPos - 1));
+
             document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
             document.getElementById('background-color').value = layerList.layers.backgroundColor;
             window.colorPicker.updateColors();
@@ -32,15 +36,19 @@ require(['jquery',
             infoPanel.hide();
             $('#redo-button').attr("disabled", false);
         }
-
-        if (historyPos <= 0) {
+        if (historyPos <= 2) {
             $('#undo-button').attr("disabled", true);
         }
     }
 
     function redo() {
-        if (historyPos < history.length - 1) {
-            layerList.layers.parseJSON(history[++historyPos]);
+        var historyPos = 1 * window.localStorage.getItem('history_pos'),
+            historyLength = 1 * window.localStorage.getItem('history_length');
+
+        if (historyPos < historyLength) {
+            layerList.layers.parseJSON(window.localStorage.getItem('history_' + (historyPos)));
+            window.localStorage.setItem('history_pos', (historyPos + 1));
+
             document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
             document.getElementById('background-color').value = layerList.layers.backgroundColor;
             window.colorPicker.updateColors();
@@ -49,15 +57,40 @@ require(['jquery',
             infoPanel.hide();
             $('#undo-button').attr("disabled", false);
         }
-        if (historyPos >= history.length - 1) {
+        if (historyPos >= historyLength - 1) {
+            $('#redo-button').attr("disabled", true);
+        }
+    }
+
+    function loadFromHistory() {
+        var historyPos = 1 * window.localStorage.getItem('history_pos'),
+            historyLength = 1 * window.localStorage.getItem('history_length');
+
+        layerList.layers.parseJSON(window.localStorage.getItem('history_' + (historyPos - 1)));
+
+        document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+        document.getElementById('background-color').value = layerList.layers.backgroundColor;
+        window.colorPicker.updateColors();
+        updateCodeView();
+        marquee.hideRect();
+        infoPanel.hide();
+        $('#undo-button').attr("disabled", false);
+        $('#redo-button').attr("disabled", false);
+
+        if (historyPos <= 1) {
+            $('#undo-button').attr("disabled", true);
+        }
+        if (historyPos >= historyLength) {
             $('#redo-button').attr("disabled", true);
         }
     }
 
     function addToHistory() {
-        history = history.slice(0, historyPos+1);
-        history.push(JSON.stringify({layers: layerList.layers.toJSON(), backgroundColor: '' + layerList.layers.backgroundColor}));
-        historyPos = history.length - 1;
+        var historyPos = 1 * window.localStorage.getItem('history_pos') || 0;
+        window.localStorage.setItem('history_' + (historyPos), JSON.stringify({layers: layerList.layers.toJSON(), backgroundColor: '' + layerList.layers.backgroundColor}));
+        window.localStorage.setItem('history_pos', (historyPos + 1));
+        window.localStorage.setItem('history_length', (historyPos + 1));
+
         if (historyPos > 0) {
             $('#undo-button').attr("disabled", false);
         } else {
@@ -65,6 +98,16 @@ require(['jquery',
         }
         $('#redo-button').attr("disabled", true);
     }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode === 90 && event.metaKey) {
+            if (event.shiftKey) {
+                redo();
+            } else {
+                undo();
+            }
+        }
+    });
 
     function dragtrayMove(event) {
         var height = mouseY - event.clientY;
@@ -350,7 +393,13 @@ require(['jquery',
         } else {
             layerList.layers.backgroundColor = 'transparent';
             layerList.layers.reset();
-            addToHistory();
+
+            if (1 * window.localStorage.getItem('history_length') > 0) {
+                loadFromHistory();
+            } else {
+                addToHistory();
+            }
+
             infoPanel.hide();
             marquee.hideRect();
             $(document.body).addClass('ready');
