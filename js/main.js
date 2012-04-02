@@ -25,6 +25,8 @@ require(['jquery',
         if (historyPos > 0) {
             layerList.layers.parseJSON(history[--historyPos]);
             document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+            document.getElementById('background-color').value = layerList.layers.backgroundColor;
+            window.colorPicker.updateColors();
             updateCodeView();
             marquee.hideRect();
             infoPanel.hide();
@@ -40,6 +42,8 @@ require(['jquery',
         if (historyPos < history.length - 1) {
             layerList.layers.parseJSON(history[++historyPos]);
             document.getElementById('data').innerHTML = layerList.layers.toString(false, true);
+            document.getElementById('background-color').value = layerList.layers.backgroundColor;
+            window.colorPicker.updateColors();
             updateCodeView();
             marquee.hideRect();
             infoPanel.hide();
@@ -52,7 +56,7 @@ require(['jquery',
 
     function addToHistory() {
         history = history.slice(0, historyPos+1);
-        history.push(JSON.stringify(layerList.layers.toJSON()));
+        history.push(JSON.stringify({layers: layerList.layers.toJSON(), backgroundColor: '' + layerList.layers.backgroundColor}));
         historyPos = history.length - 1;
         if (historyPos > 0) {
             $('#undo-button').attr("disabled", false);
@@ -232,11 +236,15 @@ require(['jquery',
             //grid.hideGrid();
     });
 
-    document.addEventListener('color_input', function (event) {
+    document.getElementById('info-panel').addEventListener('color_input', function (event) {
         if (event.target.id === 'background-color') {
             document.getElementById('background-color').style.backgroundColor = document.getElementById('background-color').value;
             layerList.layers.backgroundColor = document.getElementById('background-color').value;
+            if (!event.dontSave) {
+                addToHistory();
+            }
             layerList.layers.trigger('update');
+            event.stopPropagation();
         }
     });
 

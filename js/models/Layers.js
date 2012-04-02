@@ -127,14 +127,14 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
         parseJSON : function (json) {
             var layers = [];
             json = JSON.parse(json);
-            json.forEach(function (x) {
+            json.layers.forEach(function (x) {
                 var layer,
                     colorStops = new ColorStops(),
                     i = 0;
                 x.image.colorStops.forEach( function (stop) {
                     colorStops.add(new ColorStop({ 
                         color: new Color(stop.color),
-                        length: new Length(stop.length),
+                        length: (stop.length) ? new Length(stop.length) : null,
                         order: i++
                     }));
                 });
@@ -166,6 +166,7 @@ define('models/Layers', ['vendor/backbone', 'vendor/underscore', 'models/Layer',
                 layer.order = x.order;
                 layers.push(layer);
             });
+            this.backgroundColor = json.backgroundColor;
             this.reset(layers);
         },
         reorder : function (neworder) {

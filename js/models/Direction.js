@@ -16,11 +16,13 @@ define('models/Direction', function () {
             value = 'bottom right';
         }
 
-        this.value = (typeof value !== 'undefined') ? value : '90deg';
+        this.value = (typeof value !== 'undefined') ? value : '';
     }
 
     Direction.prototype = {
         toString : function () {
+            if (this.value === 'deg')
+                return '';
             return this.value;
         },
         getValue : function () {

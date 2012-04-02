@@ -65,9 +65,9 @@ define('models/Gradient',['vendor/backbone', 'models/Length'], function (Backbon
 
         linearCSS : function (adjustments, html) {
             if (html)
-                return '<span class="keyword">' + ((this.get('repeating')) ? 'repeating-' : '') + this.get('name') + '</span><span class="arguments">(<span class="value">' + this.get('direction') + '</span>, ' + this.get('colorStops').toString(adjustments, html) + ')</span>';
+                return '<span class="keyword">' + ((this.get('repeating')) ? 'repeating-' : '') + this.get('name') + '</span><span class="arguments">(' + ((this.get('direction') !='') ? '<span class="value">' + this.get('direction') + '</span>, ' : '') + this.get('colorStops').toString(adjustments, html) + ')</span>';
             else
-                return ((this.get('repeating')) ? 'repeating-' : '') + this.get('name') + '(' + this.get('direction') + ', ' + this.get('colorStops').toString(adjustments) + ')';
+                return ((this.get('repeating')) ? 'repeating-' : '') + this.get('name') + '(' + ((this.get('direction') !='') ? this.get('direction') + ', ' : '') + this.get('colorStops').toString(adjustments) + ')';
         },
 
         toString : function (adjustments, html) {
