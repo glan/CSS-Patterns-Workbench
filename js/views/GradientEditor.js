@@ -5,6 +5,8 @@
 define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models/Color', 'models/Length'], function (ColorStops, ColorStop, Color, Length) {
     'use strict';
 
+    var activeColorStopElement = null;
+
     function AddColorStopUIElement(colorStop) {
         var template = document.querySelector('#templates>.colorstop'),
             newStop = template.cloneNode(true);
@@ -46,6 +48,7 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
         document.getElementById('info_layer_stops').addEventListener('input', this);
         document.getElementById('info_layer_stops').addEventListener('change', this);
         document.getElementById('info_layer_stops').addEventListener('click', this);
+        document.getElementById('info_layer_stops').addEventListener('mousedown', this);
 
         //document.getElementById('info_layer_stops').addEventListener('blur', this);
     }
@@ -65,12 +68,16 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 colorStop, element;
             spawnEvent.initUIEvent('gradient_update', true, true, window, 1);
             spawnEvent.dontSave = true;
-
-            if (event.type === 'sort') {
+            if (event.type === 'mousedown') {
+                // start sort
+                activeColorStopElement = $(event.target).closest('[data-id]');
+                return;
+            } else if (event.type === 'sort') {
                 var height = (parseInt(window.getComputedStyle(document.getElementById('info_gradient_preview')).height)),
                     normalizedLengths = this.colorStops.getPositions(height),
-                    top, bottom = (14 + parseInt(event.target.style.top)),
-                    cid = event.target.getAttribute('data-id');
+                    top, bottom = (14 + activeColorStopElement.position().top),
+                    cid = activeColorStopElement.attr('data-id');
+
                 for(var i=0; i<this.colorStops.length; i++) {
                     if (this.colorStops.models[i].cid == cid) {
                         top = normalizedLengths[i] * height;
@@ -92,7 +99,7 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 AddColorStopUIElement(this.colorStops.last());
                 spawnEvent.dontSave = false;
             } else if (event.type === 'color_input' || event.type === 'input' || event.type === 'change') {
-                element = event.target.parentElement;
+                element = $(event.target).closest('[data-id]')[0];
                 if (event.type === 'color_input') 
                     spawnEvent.dontSave = event.dontSave;
                 else {
