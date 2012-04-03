@@ -37,32 +37,16 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
         $("#info_layer_stops").sortable({cursor:'-webkit-grabbing', containment:'document', items: 'li', axis: 'y'});
         $("#info_layer_stops").disableSelection();
 
-        $('#info_layer_stops').bind("sort", function(event,ui) {
-            var spawnEvent = document.createEvent('UIEvents');
-            spawnEvent.initUIEvent("sort_move", true, true, window, 1);
-            ui.item[0].dispatchEvent(spawnEvent);
-        });
-
-        $('#info_layer_stops').bind("sortstop", function(event,ui) {
-            var spawnEvent = document.createEvent('UIEvents');
-            spawnEvent.initUIEvent("sort_stop", true, true, window, 1);
-            ui.item[0].dispatchEvent(spawnEvent);
-        });
-
-        $('#info-panel').bind("sortchange", function(event, ui) {
-            var spawnEvent = document.createEvent('UIEvents');
-            spawnEvent.initUIEvent("sort_change", true, true, window, 1);
-            ui.item[0].dispatchEvent(spawnEvent);
-        });
+        $('#info_layer_stops').bind("sort", this.handleEvent.bind(this));
+        $('#info_layer_stops').bind("sortstop", this.handleEvent.bind(this));
+        $('#info_layer_stops').bind("sortchange", this.handleEvent.bind(this));
 
         document.addEventListener('color_input', this);
 
         document.getElementById('info_layer_stops').addEventListener('input', this);
         document.getElementById('info_layer_stops').addEventListener('change', this);
         document.getElementById('info_layer_stops').addEventListener('click', this);
-        document.getElementById('info_layer_stops').addEventListener('sort_move', this);
-        document.getElementById('info_layer_stops').addEventListener('sort_stop', this);
-        document.getElementById('info_layer_stops').addEventListener('sort_change', this);
+
         //document.getElementById('info_layer_stops').addEventListener('blur', this);
     }
 
@@ -82,7 +66,7 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
             spawnEvent.initUIEvent('gradient_update', true, true, window, 1);
             spawnEvent.dontSave = true;
 
-            if (event.type === 'sort_move') {
+            if (event.type === 'sort') {
                 var height = (parseInt(window.getComputedStyle(document.getElementById('info_gradient_preview')).height)),
                     normalizedLengths = this.colorStops.getPositions(height),
                     top, bottom = (14 + parseInt(event.target.style.top)),
@@ -95,9 +79,9 @@ define('views/GradientEditor', ['models/ColorStops', 'models/ColorStop', 'models
                 document.getElementById('pipe-b-' + cid).setAttribute('d', 'M0,'+ top +' Q15,' + (top) + ' 15,' + (top + (bottom - top)/2) +' T30,'+ bottom);
                 document.getElementById('pipe-a-' + cid).setAttribute('d', 'M0,'+ top +' Q15,' + (top) + ' 15,' + (top + (bottom - top)/2) +' T30,'+ bottom);
                 return;
-            } else if (event.type === 'sort_stop') {
+            } else if (event.type === 'sortstop') {
                 spawnEvent.dontSave = false;
-            } else if (event.type === 'sort_change') {
+            } else if (event.type === 'sortchange') {
                 this.colorStops.reorder(getColorStopSortOrder());
             } else if (event.target.id === 'info_add_colorstop') {
                 this.colorStops.add({

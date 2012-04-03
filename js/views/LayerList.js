@@ -26,13 +26,7 @@ function (_, $, Layer, Layers, Direction, ColorStop, ColorStops, Gradient, Layer
         // capture layer deselection event
         document.getElementById('frame').addEventListener('mousedown', this);
 
-        document.getElementById('layers').addEventListener('sortupdate', this, true);
-        // Nasty jQuery events relay hack for catching sortupdate as a real UI event
-        $('#layers').parent().bind("sortupdate", function() {
-            var spawnEvent = document.createEvent('UIEvents');
-            spawnEvent.initUIEvent("sortupdate", false, false, window, 1);
-            document.getElementById('layers').dispatchEvent(spawnEvent);
-        });
+        $('#layers').parent().bind("sortupdate", this.handleEvent.bind(this));
 
         new LayerListTools(this);
 
