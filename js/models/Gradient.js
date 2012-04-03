@@ -27,7 +27,7 @@ define('models/Gradient',['vendor/backbone', 'models/Length'], function (Backbon
             if (html) {
                 if (this.attributes.position != '50% 50%')
                     css += ((css) ? ' ' : '') + this.get('position').split(' ').map(function (pos) { return '<span class="value">' + pos + '</span>' }).join(' ');
-                if (this.attributes.direction)
+                if (this.attributes.direction && this.attributes.direction != '')
                     css += ((css) ? ' ' : '') + this.get('direction');
 
                 css += (css) ? ', ' : '';
@@ -40,6 +40,7 @@ define('models/Gradient',['vendor/backbone', 'models/Length'], function (Backbon
                 } else if (this.get('width') != '' && this.get('height') != '') {
                     css += ((css) ? '' : this.get('position') + ', ') + '<span class="value">' + this.get('width') + '</span> <span class="value">' + this.get('height') + '</span>, ';
                 }
+
                 css += this.get('colorStops').toString(adjustments, html);
                 return '<span class="keyword">' + ((this.get('repeating')) ? 'repeating-' : '') + this.get('name') + '</span><span class="arguments">(' + css + ')</span>';
             } else {

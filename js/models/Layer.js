@@ -19,7 +19,7 @@ define('models/Layer', ['vendor/backbone', 'models/Rect', 'models/Length'], func
         },
         getPosition : function (html) {
             if (html) {
-                if (this.attributes.position) {
+                if (this.attributes.position && this.attributes.position != ' ') {
                     return (this.attributes.position).split(' ').map(function(pos) {
                         return '<span class="value">' + pos + '</span>';
                     }).join(' ');

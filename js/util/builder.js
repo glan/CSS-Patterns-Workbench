@@ -87,18 +87,20 @@ define('util/builder', ['util/regexp', 'models/Gradient','models/ColorStops', 'm
                     layer.name = 'Linear ' + (layers.length + 1);
 
                 } else if (gradient[5] === 'repeating-radial-gradient' || gradient[5] === 'radial-gradient') {
-                    var shape = ''+gradient[8];
-                    var size = ''+gradient[9];
+                    var shape = ''+gradient[8],
+                        size = ''+gradient[9],
+                        width = new Length().parseLength(gradient[8]),
+                        height = new Length().parseLength(gradient[9]);
 
                     layer.image = new Gradient({
                         name : 'radial-gradient',
                         repeating : (gradient[5] === 'repeating-radial-gradient'),
                         position : (gradient[6] && gradient[6] !== 'center') ? gradient[6] : '50% 50%',
                         direction : gradient[7],
-                        width : new Length().parseLength(gradient[8]),
-                        height : new Length().parseLength(gradient[9]),
+                        width : width,
+                        height : height,
                         size : size.match(/closest-side|closest-corner|farthest-side|farthest-corner|contain|cover/) || shape.match(/closest-side|closest-corner|farthest-side|farthest-corner|contain|cover/) || 'farthest-corner',
-                        shape : shape.match(/ellipse|circle/) || size.match(/ellipse|circle/) || 'ellipse',
+                        shape : shape.match(/ellipse|circle/) || size.match(/ellipse|circle/) || ((width + height) ? '' : 'ellipse'),
                         colorStops : parseColorStops(gradient[10])
                     });
 
