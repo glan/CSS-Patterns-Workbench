@@ -322,8 +322,8 @@ require(['jquery',
 
     document.getElementById('data').addEventListener('click', function (event) {
         var lay = $(event.target).closest('.layer');
-            layerList.selectedLayers = new Layers();
         if (lay.length > 0) {
+            layerList.selectedLayers = new Layers();
             lay = lay.attr('class').split(' ');
             $('#layers .layer.selected').removeClass('selected');
             lay.forEach(function (cid) {
