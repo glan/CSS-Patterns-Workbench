@@ -10,6 +10,7 @@ require(['jquery',
 'views/Canvas',
 'views/LayerList',
 'views/ColorPicker',
+/*'views/InputNumber',*/
 'vendor/jquery-ui-1.8.14.custom.min', 'vendor/incrementable', 'vendor/prefixfree.min'], function($, Layers, Color, Marquee, LayerAttributesPanel, Canvas, LayerList, ColorPicker) {
     'use strict';
     var layerList = new LayerList(new Layers()),
@@ -22,8 +23,9 @@ require(['jquery',
         //historyPos = 0;
 
     function undo() {
-        var historyPos = 1 * window.localStorage.getItem('history_pos');
-        if (historyPos > 1) {
+        var historyPos = 1 * window.localStorage.getItem('history_pos'),
+            historyStart = 1 * window.localStorage.getItem('history_start') || 1;
+        if (historyPos > historyStart) {
 
             layerList.layers.parseJSON(window.localStorage.getItem('history_' + (historyPos - 2)));
             window.localStorage.setItem('history_pos', (historyPos - 1));
@@ -85,13 +87,29 @@ require(['jquery',
         }
     }
 
+    function dropHistoryChunk() {
+        var i,
+            historyPos = 1 * window.localStorage.getItem('history_pos'),
+            historyStart = 1 * window.localStorage.getItem('history_start') || 1;
+        for(i=historyStart; i<historyStart + 200 && i< historyPos; i++) {
+            window.localStorage.removeItem('history_' + i);
+        }
+        window.localStorage.setItem('history_start', i);
+    }
+
     function addToHistory() {
         var historyPos = 1 * window.localStorage.getItem('history_pos') || 0,
             data = JSON.stringify({layers: layerList.layers.toJSON(), backgroundColor: '' + layerList.layers.backgroundColor});
 
         // Only if the data has actually been updated
         if (window.localStorage.getItem('history_' + (historyPos - 1)) != data) {
-            window.localStorage.setItem('history_' + (historyPos), data);
+            try {
+                window.localStorage.setItem('history_' + (historyPos), data);
+            } catch (e) {
+                dropHistoryChunk();
+                addToHistory();
+                return;
+            }
             window.localStorage.setItem('history_pos', (historyPos + 1));
             window.localStorage.setItem('history_length', (historyPos + 1));
 
@@ -413,6 +431,8 @@ require(['jquery',
     }
 
     $(window).bind('hashchange', loadGistFromHash);
+
+   // new InputNumber();
 
     loadGistFromHash();
 
