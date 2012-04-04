@@ -21,7 +21,7 @@ define('models/Length', ['vendor/backbone'], function (Backbone) {
             this.set({'unit': u});
         },
         getValue : function () {
-            return this.get('value') || null;
+            return (typeof this.get('value') === 'number') ? this.get('value') : null;
         },
         getUnit : function () {
             return this.get('unit');
