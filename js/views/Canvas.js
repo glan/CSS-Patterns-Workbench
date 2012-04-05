@@ -57,6 +57,13 @@ define('views/Canvas', function () {
             ' repeating-linear-gradient(top, #333 '+ (hh-1) +'px, #333 '+ (hh) +'px, #555 '+ (hh) +'px, #555 '+ (hh+1) +'px, transparent '+ (hh+1) +'px, transparent '+ (hh+9) +'px),'+
             ' repeating-linear-gradient(top, #333 '+ (hh-1) +'px, #333 '+ (hh) +'px, #555 '+ (hh) +'px, #555 '+ (hh+1) +'px, transparent '+ (hh+1) +'px, transparent '+ (hh+49) +'px)');
             document.getElementById('left-rule').style.minHeight = h + 'px';
+        },
+        // These getters are allways in px
+        getWidth : function() {
+            return parseInt(this.domElement.parentNode.style.width);
+        },
+        getHeight : function() {
+            return parseInt(this.domElement.parentNode.style.height);
         }
     }
 

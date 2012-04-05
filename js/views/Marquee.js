@@ -20,6 +20,7 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
 
     function Marquee(canvas) {
         canvas.getDomElement().insertAdjacentHTML('beforeend', template);
+        this.canvas = canvas;
         this.domElement = document.getElementById('size-helper');
         this.domElement.style.display = 'none';
         this.visible = false;
@@ -43,10 +44,12 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
         },
 
         drawRect : function () {
-            this.domElement.style.left = this.rect.getLeft().toString();
-            this.domElement.style.top = this.rect.getTop().toString();
-            this.domElement.style.width = this.rect.getWidth().toString();
-            this.domElement.style.height = this.rect.getHeight().toString();
+            var localRect = this.rect.denormalize(this.canvas.getWidth(), this.canvas.getHeight());
+            this.domElement.style.left = localRect.getLeft().toString();
+            this.domElement.style.top = localRect.getTop().toString();
+            this.domElement.style.width = localRect.getWidth().toString();
+            this.domElement.style.height = localRect.getHeight().toString();
+
             clearTimeout(this.timeout);
             document.getElementById('ants').className = 'animate';
             // Stop the ants from marching after 30 seconds to save CPU cycles.
@@ -113,7 +116,7 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
         },
 
         mousedown : function (event) {
-            this.initRect = new Rect(this.rect);
+            this.initRect = this.rect.denormalize(this.canvas.getWidth(), this.canvas.getHeight());
             this.startX = event.x;
             this.startY = event.y;
             if (event.target.id === 'size-helper' || event.target.id === 'ants' ) {
@@ -139,10 +142,11 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
 
         mousemove : function (event) {
             // [TODO] deal with rects which % rather than px
-            var x = this.rect.getLeft().getValue(), 
-                y = this.rect.getTop().getValue(), 
-                w = this.rect.getWidth().getValue(), 
-                h = this.rect.getHeight().getValue(), 
+            var normRect, newRect = this.rect.denormalize(this.canvas.getWidth(), this.canvas.getHeight()),
+                x = newRect.getLeft().getValue(),
+                y = newRect.getTop().getValue(),
+                w = newRect.getWidth().getValue(),
+                h = newRect.getHeight().getValue(),
                 dx = event.x - this.startX,
                 dy = event.y - this.startY,
                 checkHeight = false, 
@@ -153,19 +157,25 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
             if (this.action === 'move') {
                 x = this.initRect.getLeft().getValue() + dx;
                 y = this.initRect.getTop().getValue() + dy;
-                
-                
+
                 obj = this.hitTest({x:x,y:y});
                 x = obj.x;
                 y = obj.y;
                 
-                this.rect.getLeft().setValue(x);
-                this.rect.getTop().setValue(y);
+                newRect.getLeft().setValue(x);
+                newRect.getTop().setValue(y);
+
+                normRect = newRect.normalize(this.canvas.getWidth(), this.canvas.getHeight());
+
+                this.rect.setLeft((this.rect.getLeft().getUnit() === '%') ? normRect.getLeft() : newRect.getLeft());
+                this.rect.setTop((this.rect.getTop().getUnit() === '%') ? normRect.getTop() : newRect.getTop());
+
+                //console.log(this.rect);
                 this.dispacheEvent('move');
             } else if (this.action === 'resize') {
                 w = this.initRect.getWidth().getValue();
                 h = this.initRect.getHeight().getValue();
-    
+
                 switch (this.actionType) {
                     case 'se-resize' :
                         w = w + dx;
@@ -205,7 +215,7 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
                         checkWidth = true;
                     break;
                 }
-    
+
                 if (checkHeight) {
                     h = h - dy;
                     if (h<1) {
@@ -283,15 +293,22 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
                 w = (w>1) ? w : 1;
                 h = (h>1) ? h : 1;
                 
-                this.rect.getLeft().setValue(x);
-                this.rect.getTop().setValue(y);
-                this.rect.getWidth().setValue(w);
-                this.rect.getHeight().setValue(h);
+                newRect.getLeft().setValue(x);
+                newRect.getTop().setValue(y);
+                newRect.getWidth().setValue(w);
+                newRect.getHeight().setValue(h);
+
+                normRect = newRect.normalize(this.canvas.getWidth(), this.canvas.getHeight());
+                this.rect.setLeft((this.rect.getLeft().getUnit() === '%') ? normRect.getLeft() : newRect.getLeft());
+                this.rect.setTop((this.rect.getTop().getUnit() === '%') ? normRect.getTop() : newRect.getTop());
+                this.rect.setWidth((this.rect.getWidth().getUnit() === '%') ? normRect.getWidth() : newRect.getWidth());
+                this.rect.setHeight((this.rect.getHeight().getUnit() === '%') ? normRect.getHeight() : newRect.getHeight());
+
                 this.dispacheEvent('resize');
             }
             this.drawRect();
         },
-        
+
         dispacheEvent : function (name) {
             var spawnEvent = document.createEvent('UIEvents');
             spawnEvent.initUIEvent("marquee_" + name, true, true, this.domElement, 1);
@@ -299,7 +316,7 @@ define('views/Marquee', ['models/Rect'], function (Rect) {
             document.dispatchEvent(spawnEvent);
         }
     }
-    
+
     Marquee.prototype = marquee;
     return Marquee;
 });

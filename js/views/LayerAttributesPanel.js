@@ -7,6 +7,7 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
 
     function LayerAttributesPanel() {
         //$('#info-panel').unbind();
+
         document.getElementById('info-panel').addEventListener('input', this);
         document.getElementById('info-panel').addEventListener('change', this);
         document.getElementById('info-panel').addEventListener('mousedown', this);
@@ -126,7 +127,10 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
         handleEvent : function (event) {
             // We need to suppress change events for the colorstop field since these should only use input
             var spawnEvent = document.createEvent('UIEvents'),
-                radio;
+                radio, canvas = document.getElementById('canvas'),
+                width = parseInt(canvas.parentNode.style.width),
+                height = parseInt(canvas.parentNode.style.height),
+                denormalRect, normalRect, newRect;
 
             spawnEvent.initUIEvent('infopanel_update', true, true, window, 1);
 
@@ -158,12 +162,47 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
                 }
             }
 
-            spawnEvent.rect = new Rect({
-                width: ((document.getElementById('info_size_width').value > 0) ? document.getElementById('info_size_width').value : 1) + document.getElementById('info_size_width_unit').value,
-                height: ((document.getElementById('info_size_height').value > 0) ? document.getElementById('info_size_height').value : 1) + document.getElementById('info_size_height_unit').value,
-                left: document.getElementById('info_position_x').value + document.getElementById('info_position_x_unit').value,
-                top: document.getElementById('info_position_y').value + document.getElementById('info_position_y_unit').value
+            var unit_x = document.getElementById('info_position_x_unit').value,
+                unit_y = document.getElementById('info_position_y_unit').value,
+                unit_w = document.getElementById('info_size_width_unit').value,
+                unit_h = document.getElementById('info_size_height_unit').value;
+
+            if (event.type === 'change' && event.target.id === 'info_position_x_unit') {
+                unit_x = (event.target.value === 'px') ? '%' : 'px';
+            } else if (event.type === 'change' && event.target.id === 'info_position_y_unit') {
+                unit_y = (event.target.value === 'px') ? '%' : 'px';
+            } else if (event.type === 'change' && event.target.id === 'info_size_width_unit') {
+                unit_w = (event.target.value === 'px') ? '%' : 'px';
+            } else if (event.type === 'change' && event.target.id === 'info_size_height_unit') {
+                unit_h = (event.target.value === 'px') ? '%' : 'px';
+            }
+
+            newRect = new Rect({
+                width: ((document.getElementById('info_size_width').value > 0) ? document.getElementById('info_size_width').value : 1) + unit_w,
+                height: ((document.getElementById('info_size_height').value > 0) ? document.getElementById('info_size_height').value : 1) + unit_h,
+                left: document.getElementById('info_position_x').value + unit_x,
+                top: document.getElementById('info_position_y').value + unit_y
             });
+
+            denormalRect = newRect.denormalize(width, height);
+            normalRect = newRect.normalize(width, height);
+
+            if (event.type === 'change' && event.target.id === 'info_position_x_unit') {
+                newRect.setLeft(((event.target.value === 'px') ? denormalRect : normalRect).getLeft());
+            } else if (event.type === 'change' && event.target.id === 'info_position_y_unit') {
+                newRect.setTop(((event.target.value === 'px') ? denormalRect : normalRect).getTop());
+            } else if (event.type === 'change' && event.target.id === 'info_size_width_unit') {
+                newRect.setWidth(((event.target.value === 'px') ? denormalRect : normalRect).getWidth());
+            } else if (event.type === 'change' && event.target.id === 'info_size_height_unit') {
+                newRect.setHeight(((event.target.value === 'px') ? denormalRect : normalRect).getHeight());
+            }
+
+            document.getElementById('info_position_x').value = newRect.getLeft().getValue();
+            document.getElementById('info_position_y').value = newRect.getTop().getValue();
+            document.getElementById('info_size_width').value = newRect.getWidth().getValue();
+            document.getElementById('info_size_height').value = newRect.getHeight().getValue();
+
+            spawnEvent.rect = newRect;
 
             if (!spawnEvent.aspectLock) {
                 document.getElementById('info_size_aspect_lock').value = spawnEvent.rect.getAspect();
@@ -176,10 +215,57 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
 
             spawnEvent.image = {};
             spawnEvent.image.position = {};
-            spawnEvent.image.position.x = new Length().parseLength(document.getElementById('info_radial_position_x').value + document.getElementById('info_radial_position_x_units').value);
-            spawnEvent.image.position.y = new Length().parseLength(document.getElementById('info_radial_position_y').value + document.getElementById('info_radial_position_y_units').value);
+
+
+
+            unit_x = document.getElementById('info_radial_position_x_units').value,
+            unit_y = document.getElementById('info_radial_position_y_units').value,
+            unit_w = document.getElementById('info_radial_size_width_units').value,
+            unit_h = document.getElementById('info_radial_size_height_units').value;
+
+            if (event.type === 'change' && event.target.id === 'info_radial_position_x_units') {
+                unit_x = (event.target.value === 'px') ? '%' : 'px';
+            } else if (event.type === 'change' && event.target.id === 'info_radial_position_y_units') {
+                unit_y = (event.target.value === 'px') ? '%' : 'px';
+            } else if (event.type === 'change' && event.target.id === 'info_radial_size_width_units') {
+                unit_w = (event.target.value === 'px') ? '%' : 'px';
+            } else if (event.type === 'change' && event.target.id === 'info_radial_size_height_units') {
+                unit_h = (event.target.value === 'px') ? '%' : 'px';
+            }
+
+            width = denormalRect.getWidth().getValue();
+            height = denormalRect.getHeight().getValue();
+
+            var newNewRect = new Rect({
+                left : document.getElementById('info_radial_position_x').value + unit_x,
+                top : document.getElementById('info_radial_position_y').value + unit_y,
+                width : document.getElementById('info_radial_size_width').value + unit_w,
+                height : document.getElementById('info_radial_size_height').value + unit_h
+            });
+
+            denormalRect = newNewRect.denormalize(width, height);
+            normalRect = newNewRect.normalize(width, height);
+
+            if (event.type === 'change' && event.target.id === 'info_radial_position_x_units') {
+                newNewRect.setLeft(((event.target.value === 'px') ? denormalRect : normalRect).getLeft());
+            } else if (event.type === 'change' && event.target.id === 'info_radial_position_y_units') {
+                newNewRect.setTop(((event.target.value === 'px') ? denormalRect : normalRect).getTop());
+            } else if (event.type === 'change' && event.target.id === 'info_radial_size_width_unit') {
+                newNewRect.setWidth(((event.target.value === 'px') ? denormalRect : normalRect).getWidth());
+            } else if (event.type === 'change' && event.target.id === 'info_radial_size_height_unit') {
+                newNewRect.setHeight(((event.target.value === 'px') ? denormalRect : normalRect).getHeight());
+            }
+
+            document.getElementById('info_radial_position_x').value = newNewRect.getLeft().getValue();
+            document.getElementById('info_radial_position_y').value = newNewRect.getTop().getValue();
+            document.getElementById('info_radial_size_width').value = newNewRect.getWidth().getValue();
+            document.getElementById('info_radial_size_height').value = newNewRect.getHeight().getValue();
+
+
             spawnEvent.image.shape = document.getElementById('info_radial_shape').value;
             spawnEvent.image.size = document.getElementById('info_radial_size').value;
+            spawnEvent.image.position.x = new Length().parseLength(document.getElementById('info_radial_position_x').value + document.getElementById('info_radial_position_x_units').value);
+            spawnEvent.image.position.y = new Length().parseLength(document.getElementById('info_radial_position_y').value + document.getElementById('info_radial_position_y_units').value);
             spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
             spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
 
