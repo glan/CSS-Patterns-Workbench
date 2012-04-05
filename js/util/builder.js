@@ -48,6 +48,8 @@ define('util/builder', ['util/regexp', 'models/Gradient','models/ColorStops', 'm
             } catch (e) {
                 repeats = [];
             }
+            repeats.shift(); // remove the first as we don't want to match the 'repeat' in background-repeat
+
             try {
                 composites = cssString.match(regex.backgroundComposites)[0].match(/clear|copy|destination-atop|destination-in|destination-out|destination-over|highlight|plus-darker|plus-lighter|source-atop|source-in|source-out|source-over|xor/g);
             } catch (e) {
@@ -72,7 +74,7 @@ define('util/builder', ['util/regexp', 'models/Gradient','models/ColorStops', 'm
                     hue : 0,
                     saturation : 0,
                     lightness : 0,
-                    repeat : repeats[layers.length % repeats.length + 1] || 'repeat' // +1 as we don't want to match the 'repeat' in background-repeat
+                    repeat : repeats[layers.length % repeats.length] || 'repeat'
                 };
 
                 if (gradient[1] === 'repeating-linear-gradient' || gradient[1] === 'linear-gradient') {
