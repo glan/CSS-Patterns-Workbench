@@ -124,6 +124,7 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
             }
         },
 
+        // PLEASE CLEAN FUNCTION THIS UP
         handleEvent : function (event) {
             // We need to suppress change events for the colorstop field since these should only use input
             var spawnEvent = document.createEvent('UIEvents'),
@@ -218,9 +219,9 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
 
 
 
-            unit_x = document.getElementById('info_radial_position_x_units').value,
-            unit_y = document.getElementById('info_radial_position_y_units').value,
-            unit_w = document.getElementById('info_radial_size_width_units').value,
+            unit_x = document.getElementById('info_radial_position_x_units').value;
+            unit_y = document.getElementById('info_radial_position_y_units').value;
+            unit_w = document.getElementById('info_radial_size_width_units').value;
             unit_h = document.getElementById('info_radial_size_height_units').value;
 
             if (event.type === 'change' && event.target.id === 'info_radial_position_x_units') {
@@ -239,8 +240,15 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
             var newNewRect = new Rect({
                 left : document.getElementById('info_radial_position_x').value + unit_x,
                 top : document.getElementById('info_radial_position_y').value + unit_y,
-                width : document.getElementById('info_radial_size_width').value + unit_w,
-                height : document.getElementById('info_radial_size_height').value + unit_h
+                width : 0,
+                height : 0
+            });
+
+            var newNewRect2 = new Rect({
+                left : document.getElementById('info_radial_size_width').value + unit_w,
+                top : document.getElementById('info_radial_size_height').value + unit_h,
+                width : 0,
+                height : 0
             });
 
             denormalRect = newNewRect.denormalize(width, height);
@@ -250,24 +258,31 @@ define('views/LayerAttributesPanel', ['models/Rect', 'models/Length', 'models/Di
                 newNewRect.setLeft(((event.target.value === 'px') ? denormalRect : normalRect).getLeft());
             } else if (event.type === 'change' && event.target.id === 'info_radial_position_y_units') {
                 newNewRect.setTop(((event.target.value === 'px') ? denormalRect : normalRect).getTop());
-            } else if (event.type === 'change' && event.target.id === 'info_radial_size_width_unit') {
-                newNewRect.setWidth(((event.target.value === 'px') ? denormalRect : normalRect).getWidth());
-            } else if (event.type === 'change' && event.target.id === 'info_radial_size_height_unit') {
-                newNewRect.setHeight(((event.target.value === 'px') ? denormalRect : normalRect).getHeight());
+            }
+
+            denormalRect = newNewRect2.denormalize(width, height);
+            normalRect = newNewRect2.normalize(width, height);
+
+            if (event.type === 'change' && event.target.id === 'info_radial_size_width_units') {
+                newNewRect2.setLeft(((event.target.value === 'px') ? denormalRect : normalRect).getLeft());
+            } else if (event.type === 'change' && event.target.id === 'info_radial_size_height_units') {
+                newNewRect2.setTop(((event.target.value === 'px') ? denormalRect : normalRect).getTop());
             }
 
             document.getElementById('info_radial_position_x').value = newNewRect.getLeft().getValue();
             document.getElementById('info_radial_position_y').value = newNewRect.getTop().getValue();
-            document.getElementById('info_radial_size_width').value = newNewRect.getWidth().getValue();
-            document.getElementById('info_radial_size_height').value = newNewRect.getHeight().getValue();
-
+            document.getElementById('info_radial_size_width').value = newNewRect2.getLeft().getValue();
+            document.getElementById('info_radial_size_height').value = newNewRect2.getTop().getValue();
 
             spawnEvent.image.shape = document.getElementById('info_radial_shape').value;
             spawnEvent.image.size = document.getElementById('info_radial_size').value;
-            spawnEvent.image.position.x = new Length().parseLength(document.getElementById('info_radial_position_x').value + document.getElementById('info_radial_position_x_units').value);
-            spawnEvent.image.position.y = new Length().parseLength(document.getElementById('info_radial_position_y').value + document.getElementById('info_radial_position_y_units').value);
-            spawnEvent.image.width = new Length().parseLength(document.getElementById('info_radial_size_width').value + document.getElementById('info_radial_size_width_units').value);
-            spawnEvent.image.height = new Length().parseLength(document.getElementById('info_radial_size_height').value + document.getElementById('info_radial_size_height_units').value);
+            spawnEvent.image.position.x = newNewRect.getLeft();
+            spawnEvent.image.position.y = newNewRect.getTop();
+            spawnEvent.image.width = newNewRect2.getLeft();
+            spawnEvent.image.height = newNewRect2.getTop();
+
+            //spawnEvent.image.width = newNewRect.getWidth();
+            //spawnEvent.image.height = newNewRect.getHeight();
 
             spawnEvent.hue = this.hue - (1 * document.getElementById('info-hsl-hue').value);
             this.hue = 1 * document.getElementById('info-hsl-hue').value;
