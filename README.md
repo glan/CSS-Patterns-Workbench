@@ -10,3 +10,5 @@ Examples
 Notes
 -----
 The # (location hash) points to a github gist which will automatically be loaded into the composer when opened. You can create your own gists and then share them by added their ID after the #.
+
+You can also paste CSS code directly into the *Live CSS Code* view. All of the patterns on http://lea.verou.me/css3patterns/ should parse fine.
