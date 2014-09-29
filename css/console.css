@@ -4,7 +4,7 @@
     height: 160px;
     z-index: 5;
     padding-top: 8px;
-    background: linear-gradient(top, transparent, rgba(0,0,0,0.3));
+    background: -webkit-linear-gradient(top, transparent, rgba(0,0,0,0.3));
     background-size: 8px 8px;
     background-repeat: repeat-x;
     display: none;
@@ -18,7 +18,7 @@
     height: 7px;
     margin-right: 1px;
     border-top: 1px #555 solid;
-    background-image: linear-gradient(top, #333 0, #333 1px, #777 1px, #777 2px, #333 2px, #333 3px, #777 3px, #777 4px);
+    background-image: -webkit-linear-gradient(top, #333 0, #333 1px, #777 1px, #777 2px, #333 2px, #333 3px, #777 3px, #777 4px);
     background-repeat: no-repeat;
     background-size: 25px 4px;
     background-position: 50% 1px;

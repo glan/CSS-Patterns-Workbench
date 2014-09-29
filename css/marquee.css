@@ -11,8 +11,8 @@
     top: 0;
     bottom: 0;
     right: 0;
-    background: repeating-linear-gradient(45deg, black, black 5px, rgba(255,255,255,0.7) 5px, rgba(255,255,255,0.7) 10px);
-    mask-image: linear-gradient(left, #000 0, #000 1px, rgba(0,0,0,0) 1px), linear-gradient(right, #000 0, #000 1px, rgba(0,0,0,0) 1px), linear-gradient(top, #000 0, #000 1px, rgba(0,0,0,0) 1px),linear-gradient(bottom, #000 0, #000 1px, rgba(0,0,0,0) 1px);
+    background: -webkit-repeating-linear-gradient(45deg, black, black 5px, rgba(255,255,255,0.7) 5px, rgba(255,255,255,0.7) 10px);
+    mask-image: -webkit-linear-gradient(left, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(right, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(top, #000 0, #000 1px, rgba(0,0,0,0) 1px),-webkit-linear-gradient(bottom, #000 0, #000 1px, rgba(0,0,0,0) 1px);
 }
 
 #size-helper>#ants.animate {

@@ -37,10 +37,10 @@ function endMovePicker(event) {
 
 function updateColorBackground(element) {
     element.setAttribute('style',
-        PrefixFree.prefixCSS(' background: linear-gradient(' + element.value +
+        PrefixFree.prefixCSS('background: -webkit-linear-gradient(' + element.value +
             ',' + element.value + '),' +
-            'linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),' +
-            'linear-gradient(45deg, #CCC 25%, #FFF 25%, #FFF 75%, #CCC 75%, #CCC);' +
+            '-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),' +
+            '-webkit-linear-gradient(45deg, #CCC 25%, #FFF 25%, #FFF 75%, #CCC 75%, #CCC);' +
             'background-size: 10px 10px; background-position: 0 0, 5px 5px;')
     );
 }
@@ -233,14 +233,14 @@ ColorPicker.prototype = {
         }
 
         document.getElementById('picker-rgb-red-preview').style.background =
-            PrefixFree.prefixCSS(' linear-gradient(0deg,' +
+            PrefixFree.prefixCSS(' -webkit-linear-gradient(left,' +
                 'rgb(0,' + document.getElementById('picker-rgb-green').value +
                 ',' + document.getElementById('picker-rgb-blue').value + '),' +
                 'rgb(255,' + document.getElementById('picker-rgb-green').value +
                 ',' + document.getElementById('picker-rgb-blue').value + '))');
 
         document.getElementById('picker-rgb-green-preview').style.background =
-            PrefixFree.prefixCSS(' linear-gradient(0deg,' +
+            PrefixFree.prefixCSS(' -webkit-linear-gradient(left,' +
                 'rgb(' + document.getElementById('picker-rgb-red').value +
                 ',0,' + document.getElementById('picker-rgb-blue').value + '),' +
                 'rgb(' + document.getElementById('picker-rgb-red').value +
@@ -248,7 +248,7 @@ ColorPicker.prototype = {
                 '))');
 
         document.getElementById('picker-rgb-blue-preview').style.background =
-            PrefixFree.prefixCSS(' linear-gradient(0deg,' +
+            PrefixFree.prefixCSS(' -webkit-linear-gradient(left,' +
                 'rgb(' + document.getElementById('picker-rgb-red').value + ',' +
                 document.getElementById('picker-rgb-green').value + ',0),' +
                 'rgb(' + document.getElementById('picker-rgb-red').value + ',' +
@@ -280,13 +280,13 @@ ColorPicker.prototype = {
         }
 
         document.getElementById('picker-hsl-lightness-preview').style.background =
-            PrefixFree.prefixCSS(' linear-gradient(0deg,' + lightnessStops +
+            PrefixFree.prefixCSS(' -webkit-linear-gradient(left,' + lightnessStops +
                 ')');
         document.getElementById('picker-hsl-saturation-preview').style.background =
-            PrefixFree.prefixCSS(' linear-gradient(0deg,' + saturationStops +
+            PrefixFree.prefixCSS(' -webkit-linear-gradient(left,' + saturationStops +
                 ')');
         document.getElementById('picker-hsl-hue-preview').style.background =
-            PrefixFree.prefixCSS(' linear-gradient(0deg,' + hueStops + ')');
+            PrefixFree.prefixCSS(' -webkit-linear-gradient(left,' + hueStops + ')');
 
         this.color = 'rgba(' + document.getElementById('picker-rgb-red').value +
             ',' +
@@ -295,10 +295,10 @@ ColorPicker.prototype = {
             document.getElementById('picker-alpha').value / 100 + ')';
 
         document.getElementById('picker-alpha-preview').style.backgroundImage =
-            PrefixFree.prefixCSS(' linear-gradient(0deg, transparent, ' + this.color +
+            PrefixFree.prefixCSS(' -webkit-linear-gradient(left, transparent, ' + this.color +
                 '),' +
-                'linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),' +
-                'linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC)'
+                '-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),' +
+                '-webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC)'
         );
 
         document.querySelector('#color-picker .new').style.backgroundColor =

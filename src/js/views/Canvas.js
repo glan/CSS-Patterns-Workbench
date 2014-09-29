@@ -44,16 +44,16 @@ var canvas = {
         var ww = Math.round(((50 - (w/2)) % 50)) - 25;
         this.domElement.parentNode.style.width = w + 'px';
         document.getElementById('top-rule').style.backgroundImage = PrefixFree.prefixCSS(
-        ' repeating-linear-gradient(left, #333 '+ (ww-1) +'px, #333 '+ (ww) +'px, #555 '+ (ww) +'px, #555 '+ (ww+1) +'px, transparent '+ (ww+1) +'px, transparent '+ (ww+9) +'px),'+
-        ' repeating-linear-gradient(left, #333 '+ (ww-1) +'px, #333 '+ (ww) +'px, #555 '+ (ww) +'px, #555 '+ (ww+1) +'px, transparent '+ (ww+1) +'px, transparent '+ (ww+49) +'px)');
+        ' -webkit-repeating-linear-gradient(left, #333 '+ (ww-1) +'px, #333 '+ (ww) +'px, #555 '+ (ww) +'px, #555 '+ (ww+1) +'px, transparent '+ (ww+1) +'px, transparent '+ (ww+9) +'px),'+
+        ' -webkit-repeating-linear-gradient(left, #333 '+ (ww-1) +'px, #333 '+ (ww) +'px, #555 '+ (ww) +'px, #555 '+ (ww+1) +'px, transparent '+ (ww+1) +'px, transparent '+ (ww+49) +'px)');
         document.getElementById('top-rule').style.minWidth = w + 'px';
     },
     setHeight : function (h) {
         var hh = Math.round(((50 - (h/2)) % 50)) - 25;
         this.domElement.parentNode.style.height = h + 'px';
         document.getElementById('left-rule').style.backgroundImage = PrefixFree.prefixCSS(
-        ' repeating-linear-gradient(top, #333 '+ (hh-1) +'px, #333 '+ (hh) +'px, #555 '+ (hh) +'px, #555 '+ (hh+1) +'px, transparent '+ (hh+1) +'px, transparent '+ (hh+9) +'px),'+
-        ' repeating-linear-gradient(top, #333 '+ (hh-1) +'px, #333 '+ (hh) +'px, #555 '+ (hh) +'px, #555 '+ (hh+1) +'px, transparent '+ (hh+1) +'px, transparent '+ (hh+49) +'px)');
+        ' -webkit-repeating-linear-gradient(top, #333 '+ (hh-1) +'px, #333 '+ (hh) +'px, #555 '+ (hh) +'px, #555 '+ (hh+1) +'px, transparent '+ (hh+1) +'px, transparent '+ (hh+9) +'px),'+
+        ' -webkit-repeating-linear-gradient(top, #333 '+ (hh-1) +'px, #333 '+ (hh) +'px, #555 '+ (hh) +'px, #555 '+ (hh+1) +'px, transparent '+ (hh+1) +'px, transparent '+ (hh+49) +'px)');
         document.getElementById('left-rule').style.minHeight = h + 'px';
     },
     // These getters are allways in px

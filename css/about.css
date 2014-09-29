@@ -23,15 +23,15 @@
     border-left: 2px solid #333;
     border-right: 2px solid #555;
     border-bottom: 2px solid #555;
-    background: linear-gradient(-109deg, hsl(-120,100%,50%), hsl(-120,100%,50%) 13%, hsla(-360,0%,0%,0) 0) -100px 100px,
-    linear-gradient(71deg, hsl(-120,100%,50%), hsl(-120,100%,50%) 13%, hsla(-360,0%,0%,0) 0) 0 -66px,
-    linear-gradient(-109deg, hsl(-240,100%,25%), hsl(-240,100%,25%) 13%, hsla(-360,0%,0%,0) 0) -100px 133px,
-    linear-gradient(71deg, hsl(-240,100%,25%), hsl(-240,100%,25%) 13%, hsla(-360,0%,0%,0) 0) 0 -33px,
-    linear-gradient(-109deg, hsl(0,100%,50%), hsl(0,100%,50%) 12.5%, hsla(0,0%,0%,0) 0) -100px 167px,
-    linear-gradient(71deg, hsl(0,100%,50%), hsl(0,100%,50%) 13%, hsla(0,0%,0%,0) 0) 0 0,
-    linear-gradient(left, hsl(180,100%,50%) 12.5%, hsl(300,100%,50%) 12.5%, hsl(300,100%,50%) 25%, hsl(60,100%,50%) 25%, hsl(60,100%,50%) 37.5%, hsl(0,0%,0%) 37.5%, hsl(0,0%,0%) 50%, hsla(0,0%,0%,0) 50%) 0 0,
-    linear-gradient(top, hsl(0,100%,50%) 16.666%, hsl(120,100%,25%) 16.666%, hsl(120,100%,25%) 33.333%, hsl(240,100%,50%) 33.333%, hsl(240,100%,50%) 50%, hsla(0,0%,0%,0) 50%) 100px 0,
-    linear-gradient(right, hsl(180,100%,50%) 12.5%, hsl(300,100%,50%) 12.5%, hsl(300,100%,50%) 25%, hsl(60,100%,50%) 25%, hsl(60,100%,50%) 37.5%, hsl(0,0%,0%) 37.5%) 0 100px;
+    background: -webkit-linear-gradient(-109deg, hsl(-120,100%,50%), hsl(-120,100%,50%) 13%, hsla(-360,0%,0%,0) 0) -100px 100px,
+    -webkit-linear-gradient(71deg, hsl(-120,100%,50%), hsl(-120,100%,50%) 13%, hsla(-360,0%,0%,0) 0) 0 -66px,
+    -webkit-linear-gradient(-109deg, hsl(-240,100%,25%), hsl(-240,100%,25%) 13%, hsla(-360,0%,0%,0) 0) -100px 133px,
+    -webkit-linear-gradient(71deg, hsl(-240,100%,25%), hsl(-240,100%,25%) 13%, hsla(-360,0%,0%,0) 0) 0 -33px,
+    -webkit-linear-gradient(-109deg, hsl(0,100%,50%), hsl(0,100%,50%) 12.5%, hsla(0,0%,0%,0) 0) -100px 167px,
+    -webkit-linear-gradient(71deg, hsl(0,100%,50%), hsl(0,100%,50%) 13%, hsla(0,0%,0%,0) 0) 0 0,
+    -webkit-linear-gradient(left, hsl(180,100%,50%) 12.5%, hsl(300,100%,50%) 12.5%, hsl(300,100%,50%) 25%, hsl(60,100%,50%) 25%, hsl(60,100%,50%) 37.5%, hsl(0,0%,0%) 37.5%, hsl(0,0%,0%) 50%, hsla(0,0%,0%,0) 50%) 0 0,
+    -webkit-linear-gradient(top, hsl(0,100%,50%) 16.666%, hsl(120,100%,25%) 16.666%, hsl(120,100%,25%) 33.333%, hsl(240,100%,50%) 33.333%, hsl(240,100%,50%) 50%, hsla(0,0%,0%,0) 50%) 100px 0,
+    -webkit-linear-gradient(right, hsl(180,100%,50%) 12.5%, hsl(300,100%,50%) 12.5%, hsl(300,100%,50%) 25%, hsl(60,100%,50%) 25%, hsl(60,100%,50%) 37.5%, hsl(0,0%,0%) 37.5%) 0 100px;
     background-size: 200px 200px, 200px 200px, 200px 200px, 200px 200px, 200px 200px, 200px 200px, 200px 100px, 100px 200px, 200px 100px;
     background-color: transparent;
 }
@@ -63,11 +63,11 @@
     right: 0;
     bottom: 0;
     overflow: hidden;
-    mask-image: linear-gradient(top, rgba(0,0,0,0), #000 10%, #000 90%,  rgba(0,0,0,0));
+    mask-image: -webkit-linear-gradient(top, rgba(0,0,0,0), #000 10%, #000 90%,  rgba(0,0,0,0));
 }
 
 #about .info .scrolling .content {
-    animation: scrolling 30s infinite;
+    animation: scrolling 32s infinite;
     animation-timing-function: linear;
 }
 
@@ -85,5 +85,5 @@
 
 @keyframes scrolling {
 	0%   { transform: translateY(140px); }
-	100% { transform: translateY(-260px); }
+	100% { transform: translateY(-360px); }
 }

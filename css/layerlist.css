@@ -92,8 +92,8 @@
     top: 4px;
     left: 38px;
     background-color : #FFF;
-    background-image : linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
     background-size : 8px 8px;
     background-position : 0 0, 4px 4px;
 }
@@ -177,7 +177,7 @@
     height: 22px;
     border-top: 1px solid #282828;
     border-bottom: 1px solid #282828;
-    background: linear-gradient(#4a4a4a 1px, #3b3b3b 1px, #373737);
+    background: -webkit-linear-gradient(#4a4a4a 1px, #3b3b3b 1px, #373737);
     color: #CCC;
     display: box;
     box-orient: horizontal;
@@ -275,8 +275,8 @@
 
 #pattern-presets .trans {
     background-color : #FFF;
-    background-image : linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
-                       linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+    background-image : -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC),
+                       -webkit-linear-gradient(45deg, #CCC 25%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
     background-size : 8px 8px;
     background-position : 0 0, 4px 4px;
 }

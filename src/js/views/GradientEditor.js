@@ -153,7 +153,7 @@ proto.updateGraph = function () {
         ii++;
     });
     document.getElementById('stop-graph').innerHTML = '<svg width="30px" xmlns="http://www.w3.org/2000/svg" version="1.1">' + svg + '</svg>';
-    document.getElementById('info_gradient_preview').style.background = PrefixFree.prefixCSS(' linear-gradient(-90deg,'+this.colorStops.getNormallizedColorStops(height).toString()+')');
+    document.getElementById('info_gradient_preview').style.background = PrefixFree.prefixCSS(' linear-gradient(180deg,'+this.colorStops.getNormallizedColorStops(height).toString()+')');
 };
 
 module.exports = GradientEditor;
