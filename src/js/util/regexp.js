@@ -48,7 +48,7 @@ regex.length = RegExp.create('{{number}}{{unit}}|0', {
     unit: /%|px|mm|cm|in|em|rem|en|ex|ch|vm|vw|vh/
 });
 
-regex.direction = RegExp.create('^(?:{{keyword}}|{{number}}deg|0)$', {
+regex.direction = RegExp.create('^(?:to {{keyword}}|{{number}}deg|0)$', {
     keyword: regex.keyword,
     number: regex.number
 });
@@ -69,15 +69,14 @@ regex.colorStop = RegExp.create('(?:{{color}})\\s*(?:{{length}})?', {
 
 //var regex_linearGradient = RegExp.create('-webkit-repeating-linear-gradient\\(\\s*(?:({{direction}})\\s*,)?\\s*({{colorstop}}\\s*(?:,\\s*{{colorstop}}\\s*)+)\\)', {
 
-regex.linearGradient = RegExp.create('(?:-webkit-)?({{linearGradient}})\\(\\s*(?:({{direction}})\\s*,)?\\s*({{colorstop}}\\s*(?:,\\s*{{colorstop}}\\s*)+)\\)\\s*({{position}})?', {
+regex.linearGradient = RegExp.create('?({{linearGradient}})\\(\\s*(?:({{direction}})\\s*,)?\\s*({{colorstop}}\\s*(?:,\\s*{{colorstop}}\\s*)+)\\)\\s*({{position}})?', {
     direction: regex.direction,
     colorStop: regex.colorStop,
     position : regex.position,
     linearGradient : /repeating-linear-gradient|linear-gradient/
 }, 'g');
 
-regex.radialGradient = RegExp.create('(?:-webkit-)?({{radialGradient}})\\(\\s*(?:({{position}})?\\s*({{direction}})?\\s*,)?\\s*(?:({{shape}}|{{size}}|{{length}})?\\s*({{shape}}|{{size}}|{{length}})?\\s*,)?\\s*({{colorstop}}\\s*(?:,\\s*{{colorstop}}\\s*)+)\\)\\s*({{position}})?', {
-    direction: regex.direction,
+regex.radialGradient = RegExp.create('?({{radialGradient}})\\(\\s*(?:({{shape}}|{{size}}|{{length}})?\\s*({{shape}}|{{size}}|{{length}})?\\s*,)?\\s*(?:({{position}})?\\s*({{position}})?\\s*,)?\\s*({{colorstop}}\\s*(?:,\\s*{{colorstop}}\\s*)+)\\)\\s*({{position}})?', {
     colorStop: regex.colorStop,
     position : regex.position,
     length : regex.length,

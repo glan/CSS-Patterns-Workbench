@@ -312,7 +312,7 @@ var marquee = {
 
     dispacheEvent : function (name) {
         var spawnEvent = document.createEvent('UIEvents');
-        spawnEvent.initUIEvent("marquee_" + name, true, true, this.domElement, 1);
+        spawnEvent.initUIEvent("marquee_" + name, true, true, window, 1);
         spawnEvent.rect = this.rect;
         document.dispatchEvent(spawnEvent);
     }

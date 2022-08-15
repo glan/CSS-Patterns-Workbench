@@ -2,7 +2,7 @@
  * © Glan Thomas 2012-2014
  */
 'use strict';
-var $ = require('jquery'),
+var //$ = require('jquery'),
     Layers = require('./models/Layers'),
     Color = require('./models/Color'),
     Marquee = require('./views/Marquee'),
@@ -14,8 +14,8 @@ var $ = require('jquery'),
     /*'views/InputNumber',*/
     //Incrementable = './vendor/Incrementable',
 
-require('jquery-ui');
-require('./vendor/prefixfree.min.js');
+// require('jquery-ui');
+// require('./vendor/prefixfree.min.js');
 
 var layerList = new LayerList(new Layers()),
     canvas = new Canvas(document.getElementById('frame')),
@@ -275,7 +275,7 @@ layerList.layers.bind('update', function() {
 
     document.getElementById('background-color').value = layerList.layers.backgroundColor;
     window.colorPicker.updateColors();
-    document.getElementById('size-bytes').innerHTML = layerList.layers.toString(true).length + ' bytes (W3C) / ' + PrefixFree.prefixCSS(layerList.layers.toString(true), true).length + ' bytes (prefixed)';
+    document.getElementById('size-bytes').innerHTML = layerList.layers.toString(true).length + ' bytes';
 });
 
 document.addEventListener('layerlist_selection', function(event) {

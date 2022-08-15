@@ -4,7 +4,7 @@
 'use strict';
 
 var _ = require('underscore'),
-    $ = require('jquery'),
+    // $ = require('jquery'),
     Layer = require('../models/Layer'),
     Layers = require('../models/Layers'),
     Direction = require('../models/Direction'),
@@ -40,7 +40,7 @@ function LayerList (layers) {
  }
 
  function updatePreview(layer) {
-    var css = PrefixFree.prefixCSS('background:'+layer.getImage() + ';');
+    var css = 'background:'+layer.getImage() + ';';
     document.querySelector('.layer[data-id='+layer.cid+'] .preview').setAttribute('style', css);
 }
 

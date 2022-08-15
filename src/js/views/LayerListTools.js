@@ -26,7 +26,7 @@ function LayerListTools (layerList) {
         trans.className = 'trans';
         option.className = 'preset';
         option.setAttribute('data-value', pattern);
-        option.setAttribute('style', PrefixFree.prefixCSS(layers.toString()));
+        option.setAttribute('style', layers.toString());
         trans.appendChild(option);
         presetsList.appendChild(trans);
     });

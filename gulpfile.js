@@ -11,11 +11,6 @@ var argv = require('yargs').argv,
   sourcemaps = require('gulp-sourcemaps'),
   template = require('gulp-template');
 
-// Group tasks ==============================================================
-
-gulp.task('default', ['watch', 'connect', 'dev']);
-gulp.task('dev', ['browserify-dev', 'less-dev', 'template-dev']);
-gulp.task('prod', ['browserify-prod', 'less-prod', 'template-prod']);
 
 // JSHint task =================================================================
 
@@ -120,3 +115,9 @@ gulp.task('reload', function () {
   gulp.src('index.html')
     .pipe(connect.reload());
 });
+
+// Group tasks ==============================================================
+
+gulp.task('dev',  gulp.series('browserify-dev', 'less-dev', 'template-dev'));
+gulp.task('prod',  gulp.series('browserify-prod', 'less-prod', 'template-prod'));
+gulp.task('default', gulp.series('watch', 'connect', 'dev'));

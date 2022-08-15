@@ -4,14 +4,22 @@
 'use strict';
 
 function Direction(value) {
-    if (value === 'left top') {
-        value = 'top left';
-    } else if (value === 'right top') {
-        value = 'right left';
-    } else if (value === 'left bottom') {
-        value = 'bottom left';
-    } else if (value === 'right bottom') {
-        value = 'bottom right';
+    if (value === 'to left') {
+        value = 'to left';
+    } else if (value === 'to right') {
+        value = 'to right';
+    } else if (value === 'to bottom') {
+        value = 'to bottom';
+    } else if (value === 'to top') {
+        value = 'to top';
+    } else if (value === 'to left top') {
+        value = 'to top left';
+    } else if (value === 'to right top') {
+        value = 'to right left';
+    } else if (value === 'to left bottom') {
+        value = 'to bottom left';
+    } else if (value === 'to right bottom') {
+        value = 'to bottom right';
     }
 
     this.value = (typeof value !== 'undefined') ? value : '';

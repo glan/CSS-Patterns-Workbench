@@ -1,49 +1,57 @@
 #dragtray {
-    position: absolute;
-    left: 261px; bottom: 0; right: 220px;
-    height: 160px;
-    z-index: 5;
-    padding-top: 8px;
-    background: -webkit-linear-gradient(top, transparent, rgba(0,0,0,0.3));
-    background-size: 8px 8px;
-    background-repeat: repeat-x;
-    display: none;
+  position: absolute;
+  left: 261px;
+  bottom: 0;
+  right: 220px;
+  height: 160px;
+  z-index: 5;
+  padding-top: 8px;
+  background: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.3));
+  background-size: 8px 8px;
+  background-repeat: repeat-x;
+  display: none;
 }
 
 .ready #dragtray {
-    display: block;
+  display: block;
 }
 
 #dragtray .handle {
-    height: 7px;
-    margin-right: 1px;
-    border-top: 1px #555 solid;
-    background-image: -webkit-linear-gradient(top, #333 0, #333 1px, #777 1px, #777 2px, #333 2px, #333 3px, #777 3px, #777 4px);
-    background-repeat: no-repeat;
-    background-size: 25px 4px;
-    background-position: 50% 1px;
-    background-color: #444;
-    cursor: ns-resize;
+  height: 7px;
+  margin-right: 1px;
+  border-top: 1px #555 solid;
+  background-image: -webkit-linear-gradient(top, #333 0, #333 1px, #777 1px, #777 2px, #333 2px, #333 3px, #777 3px, #777 4px);
+  background-repeat: no-repeat;
+  background-size: 25px 4px;
+  background-position: 50% 1px;
+  background-color: #444;
+  cursor: ns-resize;
 }
 
 #data {
-    position: absolute;
-    left: 0; top: 39px; right: 1px; bottom: 0;
-    color: #999;
-    padding: 10px; outline: none;
-    transition: all 0.2s linear;
-    border: none;
-    border-top: 1px solid #222;
+  position: absolute;
+  left: 0;
+  top: 39px;
+  right: 1px;
+  bottom: 0;
+  color: #999;
+  padding: 10px;
+  outline: none;
+  transition: all 0.2s linear;
+  border: none;
+  border-top: 1px solid #222;
 
-    font-family: monaco, monospace;
-    overflow-y: scroll;
-    font-size: 10px;
-    text-shadow: 0 -1px 0 #000;
-    background-color: rgba(50,50,50,0.95);
+  font-family: monaco, monospace;
+  overflow-y: scroll;
+  font-size: 10px;
+  text-shadow: 0 -1px 0 #000;
+  background-color: rgba(50, 50, 50, 0.95);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 #data pre {
-    font-family: monaco, monospace;
+  font-family: monaco, monospace;
 }
 
 /*#data:focus {
@@ -51,39 +59,39 @@
 }*/
 
 #data .property {
-    color: #E77;
+  color: #E77;
 }
 
 #data .arguments {
-    color: #999;
+  color: #999;
 }
 
 #data .value {
-    color: #99F;
+  color: #99F;
 }
 
 #data .keyword {
-    color: #6A6;
+  color: #6A6;
 }
 
 #data .unit {
-    color: #FFF;
+  color: #FFF;
 }
 
 #data .layer {
-    padding: 1px 4px;
-    border-radius: 2px;
-    cursor: pointer;
+  padding: 1px 4px;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
 #data .layer.selected {
-    background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 #data .colorstop.selected {
-    background: #FFF;
+  background: #FFF;
 }
 
 #data ::selection {
-    background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
 }

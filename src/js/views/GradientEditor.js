@@ -3,8 +3,7 @@
  */
 'use strict';
 
-var $ = require('jquery'),
-    ColorStops = require('../models/ColorStops'),
+var  ColorStops = require('../models/ColorStops'),
     ColorStop = require('../models/ColorStop'),
     Color = require('../models/Color'),
     Length = require('../models/Length');
@@ -47,7 +46,7 @@ function GradientEditor() {
     $('#info_layer_stops').bind("sortstop", this.handleEvent.bind(this));
     $('#info_layer_stops').bind("sortchange", this.handleEvent.bind(this));
 
-    document.addEventListener('color_input', this);
+    // document.addEventListener('color_input', this);
 
     document.getElementById('info_layer_stops').addEventListener('input', this);
     document.getElementById('info_layer_stops').addEventListener('change', this);
@@ -106,11 +105,11 @@ proto.handleEvent = function (event) {
         spawnEvent.dontSave = false;
     } else if (event.type === 'color_input' || event.type === 'input' || event.type === 'change') {
         element = $(event.target).closest('[data-id]')[0];
-        if (event.type === 'color_input')
-            spawnEvent.dontSave = event.dontSave;
-        else {
-            spawnEvent.dontSave = false;
-        }
+        // if (event.type === 'color_input')
+        //     spawnEvent.dontSave = event.dontSave;
+        // else {
+        //     spawnEvent.dontSave = false;
+        // }
         colorStop = this.colorStops.get({ cid: element.getAttribute('data-id') });
         if (colorStop) {
             colorStop.setColor(new Color(element.querySelector('input[type=color]').value));
@@ -153,7 +152,8 @@ proto.updateGraph = function () {
         ii++;
     });
     document.getElementById('stop-graph').innerHTML = '<svg width="30px" xmlns="http://www.w3.org/2000/svg" version="1.1">' + svg + '</svg>';
-    document.getElementById('info_gradient_preview').style.background = PrefixFree.prefixCSS(' linear-gradient(180deg,'+this.colorStops.getNormallizedColorStops(height).toString()+')');
+    // console.log('linear-gradient('+this.colorStops.getNormallizedColorStops(height).toString()+')');
+    document.getElementById('info_gradient_preview').style.background = 'linear-gradient('+this.colorStops.getNormallizedColorStops(height).toString()+')';
 };
 
 module.exports = GradientEditor;
