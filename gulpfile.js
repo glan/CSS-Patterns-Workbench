@@ -99,14 +99,14 @@ gulp.task('connect', function () {
 // Watch task ==================================================================
 
 gulp.task('watch', function () {
-  gulp.watch(['./src/templates/**/*.html'], [
-    'template-dev'
-  ]);
-  gulp.watch(['./src/**/*.js', './src/**/*.hbs'], [
-    'browserify-dev'
-  ]);
-  gulp.watch('./src/**/*.less', ['less-dev']);
-  gulp.watch(['./index.html', './dist/*.*'], ['reload']);
+  gulp.watch(['./src/templates/**/*.html'],
+    gulp.series('template-dev')
+  );
+  gulp.watch(['./src/**/*.js', './src/**/*.hbs'],
+    gulp.series('browserify-dev')
+  );
+  gulp.watch('./src/**/*.less', gulp.series('less-dev'));
+  gulp.watch(['./index.html', './dist/*.*'], gulp.series('reload'));
 });
 
 // Live reload task ============================================================
@@ -118,6 +118,6 @@ gulp.task('reload', function () {
 
 // Group tasks ==============================================================
 
-gulp.task('dev',  gulp.series('browserify-dev', 'less-dev', 'template-dev'));
-gulp.task('prod',  gulp.series('browserify-prod', 'less-prod', 'template-prod'));
-gulp.task('default', gulp.series('watch', 'connect', 'dev'));
+gulp.task('dev', gulp.series('browserify-dev', 'less-dev', 'template-dev'));
+gulp.task('prod', gulp.series('browserify-prod', 'less-prod', 'template-prod'));
+gulp.task('default', gulp.parallel('watch', 'connect', 'browserify-dev'));
