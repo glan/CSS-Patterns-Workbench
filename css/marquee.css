@@ -1,51 +1,53 @@
 #size-helper {
-    position: absolute;
-    left: 0;
-    top: 0;
-    cursor: -webkit-grab;
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: grab;
 }
 
 #size-helper>#ants {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    background: repeating-linear-gradient(45deg, black, black 5px, rgba(255,255,255,0.7) 5px, rgba(255,255,255,0.7) 10px);
-    mask-image: linear-gradient(left, #000 0, #000 1px, rgba(0,0,0,0) 1px), linear-gradient(right, #000 0, #000 1px, rgba(0,0,0,0) 1px), linear-gradient(top, #000 0, #000 1px, rgba(0,0,0,0) 1px),linear-gradient(bottom, #000 0, #000 1px, rgba(0,0,0,0) 1px);
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: repeating-linear-gradient(45deg, black, black 5px, rgba(255, 255, 255, 0.7) 5px, rgba(255, 255, 255, 0.7) 10px);
+  mask-image: linear-gradient(left, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(right, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(top, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(bottom, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px);
+  mask-image: linear-gradient(left, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(right, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(top, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(bottom, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px);
 }
 
 #size-helper>#ants.animate {
-    animation-duration: 0.5s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    animation-name: march;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: march;
 }
 
 @keyframes march {
-    from {
-        background-position-x: 14px;
-    }
-    to {
-        background-position-x: 0;
-    }
+  from {
+    background-position-x: 14px;
+  }
+
+  to {
+    background-position-x: 0;
+  }
 }
 
 .moving * {
-    cursor: -webkit-grabbing !important;
+  cursor: -webkit-grabbing !important;
 }
 
 .moving {
-    cursor: -webkit-grabbing;
+  cursor: -webkit-grabbing;
 }
 
 .resize-helper {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: #000;
-    border: 1px solid rgba(255,255,255,0.7);
-    margin: -3px;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  margin: -3px;
 }
 
 /*#resize-helper {
@@ -60,76 +62,83 @@
 }*/
 
 #resize-helper-nw {
-    left: 0;
-    top: 0;
-    cursor: nwse-resize;
+  left: 0;
+  top: 0;
+  cursor: nwse-resize;
 }
 
 #resize-helper-ne {
-    top: 0;
-    right: 0;
-    cursor: nesw-resize;
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
 }
 
 #resize-helper-sw {
-    bottom: 0;
-    left: 0;
-    cursor: nesw-resize;
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
 }
 
 #resize-helper-se {
-    bottom: 0;
-    right: 0;
-    cursor: nwse-resize;
+  bottom: 0;
+  right: 0;
+  cursor: nwse-resize;
 }
 
 
 #resize-helper-n {
-    left: 50%;
-    top: 0;
-    cursor: ns-resize;
+  left: 50%;
+  top: 0;
+  cursor: ns-resize;
 }
 
 #resize-helper-e {
-    top: 50%;
-    right: 0;
-    cursor: ew-resize;
+  top: 50%;
+  right: 0;
+  cursor: ew-resize;
 }
 
 #resize-helper-s {
-    bottom: 0;
-    left: 50%;
-    cursor: ns-resize;
+  bottom: 0;
+  left: 50%;
+  cursor: ns-resize;
 }
 
 #resize-helper-w {
-    top: 50%;
-    left: 0;
-    cursor: ew-resize;
+  top: 50%;
+  left: 0;
+  cursor: ew-resize;
 }
 
 
 .resizing-nw-resize * {
-    cursor: nwse-resize !important;
+  cursor: nwse-resize !important;
 }
+
 .resizing-ne-resize * {
-    cursor: nesw-resize !important;
+  cursor: nesw-resize !important;
 }
+
 .resizing-sw-resize * {
-    cursor: nesw-resize !important;
+  cursor: nesw-resize !important;
 }
+
 .resizing-se-resize * {
-    cursor: nwse-resize !important;
+  cursor: nwse-resize !important;
 }
+
 .resizing-n-resize * {
-    cursor: ns-resize !important;
+  cursor: ns-resize !important;
 }
+
 .resizing-w-resize * {
-    cursor: ew-resize !important;
+  cursor: ew-resize !important;
 }
+
 .resizing-s-resize * {
-    cursor: ns-resize !important;
+  cursor: ns-resize !important;
 }
+
 .resizing-e-resize * {
-    cursor: ew-resize !important;
+  cursor: ew-resize !important;
 }
