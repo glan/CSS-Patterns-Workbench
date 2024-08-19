@@ -1,27 +1,27 @@
 <style>
-  #x:after {
+#x:after {
     position: absolute;
     top: 0;
     bottom: 0;
-    content: 'x';
+    content : 'x';
     display: block;
 
     background-image: -webkit-repeating-linear-gradient(45deg, black 0px, black 3px, #FFF 3px, #FFF 6px, black 6px);
     /*border: 10px solid #ccc;*/
-    -webkit-mask-image: -webkit-linear-gradient(0deg, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px), -webkit-linear-gradient(90deg, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px), -webkit-linear-gradient(180deg, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px), -webkit-linear-gradient(270deg, #000 0, #000 1px, rgba(0, 0, 0, 0) 1px);
+    -webkit-mask-image: -webkit-linear-gradient(0deg, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(90deg, #000 0, #000 1px, rgba(0,0,0,0) 1px), -webkit-linear-gradient(180deg, #000 0, #000 1px, rgba(0,0,0,0) 1px),-webkit-linear-gradient(270deg, #000 0, #000 1px, rgba(0,0,0,0) 1px);
     -webkit-animation-duration: 0.4s;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-name: march;
-  }
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-name: march;
+}
 
-  #x {
+#x {
     width: 200px;
     height: 150px;
     display: block;
-  }
+}
 
-  #x>div {
+#x>div {
     position: relative;
     width: 200px;
     height: 150px;
@@ -29,22 +29,21 @@
     left: 50px;
     top: 50px;
     position: absolute;
-    -webkit-background-composite: source-out;
-  }
+    -webkit-background-composite:source-out;
+}
 
-  @-webkit-keyframes march {
-    from {
-      background-position-x: 8px;
-    }
+@-webkit-keyframes march {
+	from {
+		background-position-x: 8px;
+	}
+	to {
+		background-position-x: 0;
+	}
+}
 
-    to {
-      background-position-x: 0;
-    }
-  }
 </style>
 <div style="background: green">
-  <div id="x">
-    xxxxxxxxx
-    <div>fdfdsdfdf</div>
-  </div>
+<div id="x">
+xxxxxxxxx<div>fdfdsdfdf</div>
+</div>
 </div>

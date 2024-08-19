@@ -1,396 +1,381 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>CSS Background Composer</title>
-  <meta name="description"
-    content="Complete multilayered CSS3 gradient / pattern editor. Allows for the creation of complex CSS compositions using layers of gradients. Also parse and edit existing CSS background gradient compositions." />
-  <meta name="author" content="Glan Thomas" />
-  <link href="http://fonts.googleapis.com/css?family=Michroma" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/console.css" />
-  <link rel="stylesheet" href="css/infopanel.css" />
-  <link rel="stylesheet" href="css/layerlist.css" />
-  <link rel="stylesheet" href="css/marquee.css" />
-  <link rel="stylesheet" href="css/picker.css" />
-  <link rel="stylesheet" href="css/about.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CSS Background Composer</title>
+    <meta name="description" content="Complete multilayered CSS3 gradient / pattern editor. Allows for the creation of complex CSS compositions using layers of gradients. Also parse and edit existing CSS background gradient compositions."/>
+    <meta name="author" content="Glan Thomas"/>
+    <link href="http://fonts.googleapis.com/css?family=Michroma" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/console.css"/>
+    <link rel="stylesheet" href="css/infopanel.css"/>
+    <link rel="stylesheet" href="css/layerlist.css"/>
+    <link rel="stylesheet" href="css/marquee.css"/>
+    <link rel="stylesheet" href="css/picker.css"/>
+    <link rel="stylesheet" href="css/about.css"/>
 </head>
-
 <body>
-  <div id="frame" style="bottom:300px;"></div>
+<div id="frame" style="bottom:300px;"></div>
 
-  <div id="top-bar">
+<div id="top-bar">
     <div class="app-name">Background Composer</div>
     <div id="grid-options" style="display:none;">
-      <label for="show-grid">Show grid</label><input type="checkbox" id="show-grid" />
-      <label for="snap-to-grid">snap to</label><input type="checkbox" id="snap-to-grid" />
-      <label for="update-grid">auto update</label><input type="checkbox" id="update-grid" />
-      <label for="grid-color">color</label><input type="color" id="grid-color" value="lightblue" />
+        <label for="show-grid">Show grid</label><input type="checkbox" id="show-grid" />
+        <label for="snap-to-grid">snap to</label><input type="checkbox" id="snap-to-grid" />
+        <label for="update-grid">auto update</label><input type="checkbox" id="update-grid" />
+        <label for="grid-color">color</label><input type="color" id="grid-color" value="lightblue"/>
     </div>
     <div id="history-nav">
-      <button id="undo-button" title="Undo ⌘Z" disabled="disabled">↩</button>
-      <button id="redo-button" title="Redo ⇧⌘Z" disabled="disabled">↪</button>
+        <button id="undo-button" title="Undo ⌘Z" disabled="disabled">↩</button>
+        <button id="redo-button" title="Redo ⇧⌘Z" disabled="disabled">↪</button>
     </div>
     <div id="size-bytes">
     </div>
-  </div>
+</div>
 
-  <div id="info-panel">
+<div id="info-panel">
     <fieldset>
-      <heading class="header">
-        <span class="name">Properties</span>
-      </heading>
-      <ul class="canvas">
-        <li>
-          <label for="canvas-width">Width</label><input type="number" id="canvas-width" value="800" min="1" />px
-        </li>
-        <li>
-          <label for="canvas-height">Height</label><input type="number" id="canvas-height" value="600" min="1" />px
-        </li>
-      </ul>
-      <ul class="canvas">
-        <li>
-          <label for="background-color">Color</label><input type="color" id="background-color" />
-        </li>
-      </ul>
-      <ul class="single">
-        <li>
-          <label for="info_layer_composite">Composite</label>
-          <span class="select"><select id="info_layer_composite" class="composite info">
-              <option>clear</option>
-              <option>copy</option>
-              <option>destination-atop</option>
-              <option>destination-in</option>
-              <option>destination-out</option>
-              <option>destination-over</option>
-              <option>highlight</option>
-              <option>plus-darker</option>
-              <option>plus-lighter</option>
-              <option>source-atop</option>
-              <option>source-in</option>
-              <option>source-out</option>
-              <option>source-over</option>
-              <option>xor</option>
-            </select></span>
-        </li>
-      </ul>
-      <ul class="single multi ranges">
-        <li>
-          <label for="info_layer_opacity">Opacity</label>
-          <input id="info_layer_opacity_range" type="range" min="0" max="100" />
-          <input id="info_layer_opacity" type="number" min="0" max="100" />%
-        </li>
-      </ul>
-      <ul class="single">
-        <li>
-          <label for="info_repeat">Repeat</label>
-          <span class="select"><select id="info_repeat">
-              <option>repeat</option>
-              <option>repeat-x</option>
-              <option>repeat-y</option>
-              <option>no-repeat</option>
-            </select></span><label for="info_repeating">Repeating</label>
-          <input id="info_repeating" type="checkbox" />
-        </li>
-      </ul>
-      <ul class="single multi">
-        <li>
-          <label for="info_position_x">x</label>
-          <input id="info_position_x" type="number" />
-          <span class="select"><select id="info_position_x_unit">
-              <option>%</option>
-              <option>px</option>
-            </select></span>
-        </li>
-        <li>
-          <label for="info_position_y">y</label>
-          <input id="info_position_y" type="number" />
-          <span class="select"><select id="info_position_y_unit">
-              <option>%</option>
-              <option>px</option>
-            </select></span>
-        </li>
-      </ul>
-      <ul class="single multi">
-        <li>
-          <label for="info_size_width">Width</label>
-          <input id="info_size_width" type="number" min="1" />
-          <span class="select"><select id="info_size_width_unit">
-              <option>%</option>
-              <option>px</option>
-            </select></span>
-        </li>
-        <li class="constrain"><input type="checkbox" id="info_size_aspect_lock" /></li>
-        <li>
-          <label for="info_size_height">Height</label>
-          <input id="info_size_height" type="number" min="1" />
-          <span class="select"><select id="info_size_height_unit">
-              <option>%</option>
-              <option>px</option>
-            </select></span>
-        </li>
-      </ul>
+        <heading class="header">
+            <span class="name">Properties</span>
+        </heading>
+        <ul class="canvas">
+            <li>
+                <label for="canvas-width">Width</label><input type="number" id="canvas-width" value="800" min="1" />px
+            </li>
+            <li>
+                <label for="canvas-height">Height</label><input type="number" id="canvas-height" value="600" min="1" />px
+            </li>
+        </ul>
+        <ul class="canvas">
+            <li>
+                <label for="background-color">Color</label><input type="color" id="background-color"/>
+            </li>
+        </ul>
+        <ul class="single">
+            <li>
+                <label for="info_layer_composite">Composite</label>
+                <span class="select"><select id="info_layer_composite" class="composite info">
+                    <option>clear</option>
+                    <option>copy</option>
+                    <option>destination-atop</option>
+                    <option>destination-in</option>
+                    <option>destination-out</option>
+                    <option>destination-over</option>
+                    <option>highlight</option>
+                    <option>plus-darker</option>
+                    <option>plus-lighter</option>
+                    <option>source-atop</option>
+                    <option>source-in</option>
+                    <option>source-out</option>
+                    <option>source-over</option>
+                    <option>xor</option>
+                </select></span>
+            </li>
+        </ul>
+        <ul class="single multi ranges">
+            <li>
+                <label for="info_layer_opacity">Opacity</label>
+                <input id="info_layer_opacity_range" type="range" min="0" max="100"/>
+                <input id="info_layer_opacity" type="number" min="0" max="100"/>%
+            </li>
+        </ul>
+        <ul class="single">
+            <li>
+                <label for="info_repeat">Repeat</label>
+                <span class="select"><select id="info_repeat">
+                    <option>repeat</option>
+                    <option>repeat-x</option>
+                    <option>repeat-y</option>
+                    <option>no-repeat</option>
+                </select></span><label for="info_repeating">Repeating</label>
+                <input id="info_repeating" type="checkbox"/>
+            </li>
+        </ul>
+        <ul class="single multi">
+            <li>
+                <label for="info_position_x">x</label>
+                <input id="info_position_x" type="number" />
+                <span class="select"><select id="info_position_x_unit">
+                    <option>%</option>
+                    <option>px</option>
+                </select></span>
+            </li>
+            <li>
+                <label for="info_position_y">y</label>
+                <input id="info_position_y" type="number" />
+                <span class="select"><select id="info_position_y_unit">
+                    <option>%</option>
+                    <option>px</option>
+                </select></span>
+            </li>
+        </ul>
+        <ul class="single multi">
+            <li>
+                <label for="info_size_width">Width</label>
+                <input id="info_size_width" type="number" min="1" />
+                <span class="select"><select id="info_size_width_unit">
+                    <option>%</option>
+                    <option>px</option>
+                </select></span>
+            </li>
+            <li class="constrain"><input type="checkbox" id="info_size_aspect_lock"/></li>
+            <li>
+                <label for="info_size_height">Height</label>
+                <input id="info_size_height" type="number" min="1" />
+                <span class="select"><select id="info_size_height_unit">
+                    <option>%</option>
+                    <option>px</option>
+                </select></span>
+            </li>
+        </ul>
     </fieldset>
     <fieldset class="radial-options single">
-      <heading class="header"><span class="name">Radial Options</span></heading>
-      <ul>
-        <li>
-          <label for="info_radial_position_x">x</label>
-          <input id="info_radial_position_x" type="number" />
-          <span class="select"><select id="info_radial_position_x_units">
-              <option>%</option>
-              <option>px</option>
-            </select></span>
-        </li>
-        <li>
-          <label for="info_radial_position_y">y</label>
-          <input id="info_radial_position_y" type="number" />
-          <span class="select"><select id="info_radial_position_y_units">
-              <option>%</option>
-              <option>px</option>
-            </select></span>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <label for="info_radial_shape">shape</label>
-          <span class="select"><select id="info_radial_shape">
-              <option value="circle">circle</option>
-              <option value="ellipse">ellipse</option>
-              <option value="">…</option>
-            </select></span>
-          <span class="select"><select id="info_radial_size">
-              <option>closest-side</option>
-              <option>closest-corner</option>
-              <option>farthest-side</option>
-              <option>farthest-corner</option>
-            </select></span>
-        </li>
-        <li>
-          <label for="info_radial_size_width">width</label>
-          <input id="info_radial_size_width" type="number" />
-          <span class="select"><select id="info_radial_size_width_units">
-              <option>%</option>
-              <option>px</option>
-            </select></span>
-        </li>
-        <li>
-          <label for="info_radial_size_height">height</label>
-          <input id="info_radial_size_height" type="number" />
-          <span class="select"><select id="info_radial_size_height_units">
-              <option>%</option>
-              <option>px</option>
-            </select></span>
-        </li>
-      </ul>
+        <heading class="header"><span class="name">Radial Options</span></heading>
+        <ul>
+            <li>
+                <label for="info_radial_position_x">x</label>
+                <input id="info_radial_position_x" type="number"/>
+                <span class="select"><select id="info_radial_position_x_units">
+                    <option>%</option>
+                    <option>px</option>
+                </select></span>
+            </li>
+            <li>
+                <label for="info_radial_position_y">y</label>
+                <input id="info_radial_position_y" type="number"/>
+                <span class="select"><select id="info_radial_position_y_units">
+                    <option>%</option>
+                    <option>px</option>
+                </select></span>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <label for="info_radial_shape">shape</label>
+                <span class="select"><select id="info_radial_shape">
+                    <option value="circle">circle</option>
+                    <option value="ellipse">ellipse</option>
+                    <option value="">…</option>
+                </select></span>
+                <span class="select"><select id="info_radial_size">
+                    <option>closest-side</option>
+                    <option>closest-corner</option>
+                    <option>farthest-side</option>
+                    <option>farthest-corner</option>
+                </select></span>
+            </li>
+             <li>
+                <label for="info_radial_size_width">width</label>
+                <input id="info_radial_size_width" type="number"/>
+                <span class="select"><select id="info_radial_size_width_units">
+                    <option>%</option>
+                    <option>px</option>
+                </select></span>
+            </li>
+            <li>
+                <label for="info_radial_size_height">height</label>
+                <input id="info_radial_size_height" type="number"/>
+                <span class="select"><select id="info_radial_size_height_units">
+                    <option>%</option>
+                    <option>px</option>
+                </select></span>
+            </li>
+        </ul>
     </fieldset>
     <fieldset class="linear-options single">
-      <heading class="header"><span class="name">Linear Options</span></heading>
-      <ul>
-        <li id="info_linear_direction_set">
-          <label for="info_linear_direction_set">direction</label>
-          <div class="direction">
-            <input type="radio" name="direction" value="to top left" class="top left" />
-            <input type="radio" name="direction" value="to top" class="top center" />
-            <input type="radio" name="direction" value="to top right" class="top right" />
-            <input type="radio" name="direction" value="to left" class="middle left" />
-            <input type="radio" name="direction" value="to right" class="middle right" />
-            <input type="radio" name="direction" value="to bottom left" class="bottom left" />
-            <input type="radio" name="direction" value="to bottom" class="bottom center" />
-            <input type="radio" name="direction" value="to bottom right" class="bottom right" />
-            <input type="radio" name="direction" value="" class="manual" />
-            <div class="deg"><input id="info_linear_direction" type="number" />˚</div>
-          </div>
-        </li>
-      </ul>
+        <heading class="header"><span class="name">Linear Options</span></heading>
+        <ul>
+            <li id="info_linear_direction_set">
+                <label for="info_linear_direction_set">direction</label>
+                <div class="direction">
+                    <input type="radio" name="direction" value="top left" class="top left"/>
+                    <input type="radio" name="direction" value="top" class="top center"/>
+                    <input type="radio" name="direction" value="top right" class="top right"/>
+                    <input type="radio" name="direction" value="left" class="middle left"/>
+                    <input type="radio" name="direction" value="right" class="middle right"/>
+                    <input type="radio" name="direction" value="bottom left" class="bottom left"/>
+                    <input type="radio" name="direction" value="bottom" class="bottom center"/>
+                    <input type="radio" name="direction" value="bottom right" class="bottom right"/>
+                    <input type="radio" name="direction" value="" class="manual"/>
+                    <div class="deg"><input id="info_linear_direction" type="number"/>˚</div>
+                </div>
+            </li>
+        </ul>
     </fieldset>
     <fieldset class="hsl-adjustment single multi">
-      <heading class="header"><span class="name">HSL Adjustment</span></heading>
-      <ul class="ranges">
-        <li><label for="info-hsl-hue">Hue</label>
-          <input id="info-hsl-hue-range" type="range" min="-180" max="180" />
-          <input id="info-hsl-hue" type="number" min="-180" max="180" />˚
-        </li>
-      </ul>
-      <ul class="ranges">
-        <li>
-          <label for="info-hsl-saturation">Saturation</label>
-          <input id="info-hsl-saturation-range" type="range" min="-100" max="100" />
-          <input id="info-hsl-saturation" type="number" min="-100" max="100" />%
-        </li>
-      </ul>
-      <ul class="ranges">
-        <li>
-          <label for="info-hsl-lightness">Lightness</label>
-          <input id="info-hsl-lightness-range" type="range" min="-100" max="100" />
-          <input id="info-hsl-lightness" type="number" min="-100" max="100" />%
-        </li>
-      </ul>
+        <heading class="header"><span class="name">HSL Adjustment</span></heading>
+        <ul class="ranges">
+            <li><label for="info-hsl-hue">Hue</label>
+                <input id="info-hsl-hue-range" type="range" min="-180" max="180"/>
+                <input id="info-hsl-hue" type="number" min="-180" max="180"/>˚
+            </li>
+        </ul><ul class="ranges">
+            <li>
+                <label for="info-hsl-saturation">Saturation</label>
+                <input id="info-hsl-saturation-range" type="range" min="-100" max="100"/>
+                <input id="info-hsl-saturation" type="number" min="-100" max="100"/>%
+            </li>
+        </ul><ul class="ranges">
+            <li>
+                <label for="info-hsl-lightness">Lightness</label>
+                <input id="info-hsl-lightness-range" type="range" min="-100" max="100"/>
+                <input id="info-hsl-lightness" type="number" min="-100" max="100"/>%
+            </li>
+        </ul>
     </fieldset>
     <fieldset class="color-stops-options single">
-      <heading class="header">
-        <span class="name">Color Stops</span>
-        <button id="info_add_colorstop">✚</button>
-      </heading>
-      <div style="overflow: scroll; position: absolute; top: 24px; bottom: 0; left: 0; right: 0;">
-        <table cellpadding="0" cellspacing="0" style="width:100%;">
-          <tr class="color_stop_view">
-            <td style="width:30px" class="color_stop_preview_back">
-              <div id="info_gradient_preview"></div>
-            </td>
-            <td style="width:30px" id="stop-graph"></td>
-            <td class="" id="info_layer_stops"></td>
-          </tr>
-        </table>
-      </div>
+        <heading class="header">
+            <span class="name">Color Stops</span>
+            <button id="info_add_colorstop">✚</button>
+        </heading>
+        <div style="overflow: scroll; position: absolute; top: 24px; bottom: 0; left: 0; right: 0;">
+            <table cellpadding="0" cellspacing="0" style="width:100%;">
+                 <tr class="color_stop_view">
+                    <td style="width:30px" class="color_stop_preview_back"><div id="info_gradient_preview"></div></td>
+                    <td style="width:30px" id="stop-graph"></td>
+                    <td class="" id="info_layer_stops"></td>
+                </tr>
+            </table>
+        </div>
     </fieldset>
-  </div>
+</div>
 
-  <div id="right-bar">
-    <heading class="header" id="layer-man-tools">
-      <span class="name">Layers</span>
-      <button id="pattern-add">✚ ▾</button>
-      <div id="pattern-presets"></div>
-      <button class="duplicate">❐</button>
-      <button class="remove">✖</button>
+<div id="right-bar">
+    <heading  class="header" id="layer-man-tools">
+        <span class="name">Layers</span>
+        <button id="pattern-add">✚ ▾</button>
+        <div id="pattern-presets"></div>
+        <button class="duplicate">❐</button>
+        <button class="remove">✖</button>
     </heading>
     <div id="layers"></div>
-  </div>
+</div>
 
-  <div id="dragtray" style="height:300px;">
+<div id="dragtray" style="height:300px;">
     <div class="handle"></div>
     <heading class="header"><span class="name">Live CSS Code</span></heading>
     <div id="data" contenteditable="true"></div>
-  </div>
+</div>
 
-  <div id="color-picker">
+<div id="color-picker">
     <heading class="header"><span class="name">Color Picker</span></heading>
     <div class="content">
-      <div class="preview color">
-        <div class="original"></div>
-        <div class="new"></div>
-      </div>
-      <div class="color-inputs">
-        <ul class="ranges">
-          <li><label for="picker-rgb-red">Red</label>
-            <div id="picker-rgb-red-preview" class="grad"></div>
-            <input id="picker-rgb-red-range" type="range" min="0" max="255" />
-            <input id="picker-rgb-red" type="number" min="0" max="255" />
-          </li>
-          <li>
-            <label for="picker-rgb-green">Green</label>
-            <div id="picker-rgb-green-preview" class="grad"></div>
-            <input id="picker-rgb-green-range" type="range" min="0" max="255" />
-            <input id="picker-rgb-green" type="number" min="0" max="255" />
-          </li>
-          <li>
-            <label for="picker-rgb-blue">Blue</label>
-            <div id="picker-rgb-blue-preview" class="grad"></div>
-            <input id="picker-rgb-blue-range" type="range" min="0" max="255" />
-            <input id="picker-rgb-blue" type="number" min="0" max="255" />
-          </li>
-          <li style="margin-top: 25px;">
-            <input type="text" id="picker-text" />
-          </li>
-        </ul>
-        <ul class="ranges">
-          <li><label for="picker-hsl-hue">Hue</label>
-            <div id="picker-hsl-hue-preview" class="grad"></div>
-            <input id="picker-hsl-hue-range" type="range" min="0" max="360" />
-            <input id="picker-hsl-hue" type="number" min="0" max="360" />˚
-          </li>
-          <li>
-            <label for="picker-hsl-saturation">Saturation</label>
-            <div id="picker-hsl-saturation-preview" class="grad"></div>
-            <input id="picker-hsl-saturation-range" type="range" min="0" max="100" />
-            <input id="picker-hsl-saturation" type="number" min="0" max="100" />%
-          </li>
-          <li>
-            <label for="picker-hsl-lightness">Lightness</label>
-            <div id="picker-hsl-lightness-preview" class="grad"></div>
-            <input id="picker-hsl-lightness-range" type="range" min="0" max="100" />
-            <input id="picker-hsl-lightness" type="number" min="0" max="100" />%
-          </li>
-          <li style="margin-top: 30px;">
-            <label for="picker-alpha">Alpha</label>
-            <div id="picker-alpha-preview" class="grad color"></div>
-            <input id="picker-alpha-range" type="range" min="0" max="100" />
-            <input id="picker-alpha" type="number" min="0" max="100" />
-          </li>
-        </ul>
-      </div>
-      <div class="buttons">
-        <button id="picker-button-ok">OK</button>
-        <button id="picker-button-cancel">Cancel</button>
-      </div>
+        <div class="preview color">
+            <div class="original"></div>
+            <div class="new"></div>
+        </div>
+        <div class="color-inputs">
+            <ul class="ranges">
+                <li><label for="picker-rgb-red">Red</label>
+                    <div id="picker-rgb-red-preview" class="grad"></div>
+                    <input id="picker-rgb-red-range" type="range" min="0" max="255"/>
+                    <input id="picker-rgb-red" type="number" min="0" max="255"/>
+                </li>
+                <li>
+                    <label for="picker-rgb-green">Green</label>
+                    <div id="picker-rgb-green-preview" class="grad"></div>
+                    <input id="picker-rgb-green-range" type="range" min="0" max="255"/>
+                    <input id="picker-rgb-green" type="number" min="0" max="255"/>
+                </li>
+                <li>
+                    <label for="picker-rgb-blue">Blue</label>
+                    <div id="picker-rgb-blue-preview" class="grad"></div>
+                    <input id="picker-rgb-blue-range" type="range" min="0" max="255"/>
+                    <input id="picker-rgb-blue" type="number" min="0" max="255"/>
+                </li>
+                <li style="margin-top: 25px;">
+                    <input type="text" id="picker-text"/>
+                </li>
+            </ul>
+            <ul class="ranges">
+                <li><label for="picker-hsl-hue">Hue</label>
+                    <div id="picker-hsl-hue-preview" class="grad"></div>
+                    <input id="picker-hsl-hue-range" type="range" min="0" max="360"/>
+                    <input id="picker-hsl-hue" type="number" min="0" max="360"/>˚
+                </li>
+                <li>
+                    <label for="picker-hsl-saturation">Saturation</label>
+                    <div id="picker-hsl-saturation-preview" class="grad"></div>
+                    <input id="picker-hsl-saturation-range" type="range" min="0" max="100"/>
+                    <input id="picker-hsl-saturation" type="number" min="0" max="100"/>%
+                </li>
+                <li>
+                    <label for="picker-hsl-lightness">Lightness</label>
+                    <div id="picker-hsl-lightness-preview" class="grad"></div>
+                    <input id="picker-hsl-lightness-range" type="range" min="0" max="100"/>
+                    <input id="picker-hsl-lightness" type="number" min="0" max="100"/>%
+                </li>
+                <li style="margin-top: 30px;">
+                    <label for="picker-alpha">Alpha</label>
+                    <div id="picker-alpha-preview" class="grad color"></div>
+                    <input id="picker-alpha-range" type="range" min="0" max="100"/>
+                    <input id="picker-alpha" type="number" min="0" max="100"/>
+                </li>
+            </ul>
+        </div>
+        <div class="buttons">
+            <button id="picker-button-ok">OK</button>
+            <button id="picker-button-cancel">Cancel</button>
+        </div>
     </div>
-  </div>
+</div>
 
-  <div id="about" style="display:none;">
+<div id="about" style="display:none;">
     <div class="logo"></div>
     <div class="info">
-      <h1>Gradient Shop Pro</h1>
-      <h2>Version 3.0</h2>
-      <h3>Licensed to: Everybody</h3>
-      <div class="scrolling">
-        <dl class="content">
-          <dt>Created By</dt>
-          <dd>Glan Thomas</dd>
-          <dt>Libraries Used</dt>
-          <dd>Backbone.js, Underscore.js, jQuery, jQueryUI, Google Closure Library, PrefixFree</dd>
-          <dt>Special Thanks to (v3)</td>
-          <dd>Harper and Emeline Thomas, as well as Bennett Feely</dd>
-          <dt>Special Thanks to (v2)</td>
-          <dd>Leslie Dutton and Blake the Puggle</dd>
-          <dt>Special Thanks to (v1)</td>
-          <dd>Andrew Hedges, James Isaacs, Rudi Psenicnik, Lea Verou and Tab Atkins</dd>
-          <dd>No images were harmed in the making of this app</dd>
-          <dd>© Glan Thomas 2012-2022</dd>
-          </ul>
-      </div>
+        <h1>Gradient Shop Pro</h1>
+        <h2>Version 1.0</h2>
+        <h3>Licensed to: Everybody</h3>
+        <div class="scrolling">
+            <dl class="content">
+                <dt>Created By</dt>
+                <dd>Glan Thomas</dd>
+                <dt>Libraries Used</dt>
+                <dd>RequireJS, Backbone.js, Underscore.js, jQuery, jQueryUI, Google Closure Library, PrefixFree</dd>
+                <dt>Special Thanks to</td>
+                <dd>Jade Thomas, Andrew Hedges, James Isaacs, Rudi Psenicnik, Lea Verou, Nicole Sullivan, Tab Atkins and Buddy</dd>
+                <dd>No images were harmed in the making of this app</dd>
+            </ul>
+        </div>
     </div>
-  </div>
+</div>
 
-  <div id="loading">Loading…</div>
+<div id="loading">Loading…</div>
 
-  <div id="templates">
+<div id="templates">
     <div class="layer">
-      <input type="checkbox" class="enabled" />
-      <div class="preview"></div>
-      <div class="info">
-        <div class="info name">Layer Name</div>
-        <div class="info type">Layer Type</div>
-      </div>
+        <input type="checkbox" class="enabled"/>
+        <div class="preview"></div>
+        <div class="info">
+            <div class="info name">Layer Name</div>
+            <div class="info type">Layer Type</div>
+        </div>
     </div>
     <li class="colorstop">
-      <input type="color" class="color" />@<input class="stop" type="number" min="0" />
-      <span class="select">
-        <select class="unit">
-          <option>%</option>
-          <option>px</option>
-        </select>
-      </span>
-      <button class="remove"></button>
+        <input type="color" class="color"/>@<input class="stop" type="number" min="0"/>
+        <span class="select">
+            <select class="unit">
+                <option>%</option>
+                <option>px</option>
+            </select>
+        </span>
+        <button class="remove"></button>
     </li>
-  </div>
+</div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="./dist/main.dev.js"></script>
+<script type="text/javascript" data-main="js/main" src="js/vendor/require-jquery.js"></script>
 
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-30146492-1']);
-    _gaq.push(['_trackPageview']);
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30146492-1']);
+  _gaq.push(['_trackPageview']);
 
-    (function () {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
 
 </body>
-
 </html>
