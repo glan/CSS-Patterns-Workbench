@@ -182,7 +182,7 @@
 }
 
 #picker-hsl-hue-preview {
-    background: linear-gradient(90px,
+    background: linear-gradient(0deg,
         hsl(0, 100%, 50%) 0%,
         hsl(30, 100%, 50%) 8.363%,
         hsl(60, 100%, 50%) 16.666%,
